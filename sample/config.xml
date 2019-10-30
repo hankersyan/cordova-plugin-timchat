@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="io.hankers.tim01" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>TIM01</name>
+    <description>
+        A sample Apache Cordova application that responds to the deviceready event.
+    </description>
+    <author email="dev@cordova.apache.org" href="http://cordova.io">
+        Apache Cordova Team
+    </author>
+    <content src="index.html" />
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+        <resource-file src="../TUIKitFace.bundle" />
+        <resource-file src="../TUIKitResource.bundle" />
+		    <config-file parent="NSCameraUsageDescription" target="*-Info.plist">
+		        <string>需要使用相机</string>
+		    </config-file>
+		    <config-file parent="NSMicrophoneUsageDescription" target="*-Info.plist">
+		        <string>需要录音</string>
+		    </config-file>
+		    <config-file parent="NSPhotoLibraryUsageDescription" target="*-Info.plist">
+		        <string>需要上传照片</string>
+		    </config-file>
+    </platform>
+</widget>

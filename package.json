@@ -1,0 +1,41 @@
+{
+  "name": "cordova-plugin-timchat",
+  "version": "4.0.1",
+  "description": "Cordova plugin of tencent im chat",
+  "cordova": {
+    "id": "cordova-plugin-timchat",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hankersyan/cordova-plugin-timchat.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android",
+    "cordova:plugin",
+    "im",
+    "chat"
+  ],
+  "engines": {
+    "cordovaDependencies": {
+      "7.0.0": {
+        "cordova-android": ">=6.3.0"
+      },
+      "7.1.0": {
+        "cordova-android": ">=6.3.0",
+        "cordova": ">=7.1.0"
+      }
+    }
+  },
+  "author": "hankersyan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hankersyan/cordova-plugin-timchat/issues"
+  },
+  "homepage": "https://github.com/hankersyan/cordova-plugin-timchat#readme"
+}
