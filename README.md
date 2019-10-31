@@ -12,10 +12,10 @@ cordova install cordova-plugin-timchat
 #### Run sample
 run './create-tim.sh' in sample directory, and setup.
 
-![Image](./sample/demo1.jpg)
-![Image](./sample/demo2.jpg)
-![Image](./sample/demo3.jpg)
-![Image](./sample/demo4.jpg)
+![cordova](sample/demo1.jpg?raw=true "cordova")
+![opening](sample/demo2.jpg?raw=true "opening")
+![opened](sample/demo3.jpg?raw=true "opened")
+![send message](sample/demo4.jpg?raw=true "send message")
 
 #### XCode setup for iOS
 
