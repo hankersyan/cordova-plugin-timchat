@@ -12,10 +12,7 @@ cordova install cordova-plugin-timchat
 #### Run sample
 run './create-tim.sh' in sample directory, and setup.
 
-![cordova](https://meehealth.oss-cn-shanghai.aliyuncs.com/tim/demo1.jpg "cordova")
-![opening](https://meehealth.oss-cn-shanghai.aliyuncs.com/tim/demo2.jpg "opening")
-![opened](https://meehealth.oss-cn-shanghai.aliyuncs.com/tim/demo3.jpg "opened")
-![send message](https://meehealth.oss-cn-shanghai.aliyuncs.com/tim/demo4.jpg "send message")
+![call timchat from cordova](https://meehealth.oss-cn-shanghai.aliyuncs.com/tim/3eyau6.gif "call timchat from cordova")
 
 #### XCode setup for iOS
 
