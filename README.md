@@ -30,26 +30,26 @@ run './create-tim.sh' in sample directory, and setup.
 #### Usage
 
 ```javascript
-  TIMChat.initTIM({										// 初始化+登陆
-          sdkAppId: 0,								// 腾讯云申请的APP ID
-          userId: myUserId,
-          userSig: userSigFromServer, // 自己服务器计算好的userSig，参见腾讯云文档
-          busiId: 0										// 腾讯云IM消息推送ID
-      },
-      function() {
-          console.log('login result: success');
-          if (friendId.startsWith('@')) {
-              TIMChat.chatWithGroupId({		// 群聊
-                  groupId: friendId
-              }, function() { console.log('group ok'); }, function() { console.log('group fail'); });
-          } else {
-              TIMChat.chatWithUserId({		// 单聊
-                  userId: friendId,
-                  remark: '',
-                  avatar: ''
-              }, function() { console.log('user ok'); }, function() { console.log('user fail'); });
-          }
-      },
-      function() { console.log('login result: failure'); }
-  );
+TIMChat.initTIM({						// 初始化+登陆
+        sdkAppId: 0,				// 腾讯云申请的APP ID
+        userId: myUserId,
+        userSig: userSigFromServer, // 自己服务器计算好的userSig，参见腾讯云文档
+        busiId: 0						// 腾讯云IM消息推送ID
+    },
+    function() {
+        console.log('login result: success');
+        if (friendId.startsWith('@')) {
+            TIMChat.chatWithGroupId({		// 群聊
+                groupId: friendId
+            }, function() { console.log('group ok'); }, function() { console.log('group fail'); });
+        } else {
+            TIMChat.chatWithUserId({		// 单聊
+                userId: friendId,
+                remark: '',
+                avatar: ''
+            }, function() { console.log('user ok'); }, function() { console.log('user fail'); });
+        }
+    },
+    function() { console.log('login result: failure'); }
+);
 ```
