@@ -29,6 +29,7 @@ run './create-tim.sh' in sample directory, and setup.
 
 #### Usage
 
+```javascript
   TIMChat.initTIM({										// 初始化+登陆
           sdkAppId: 0,								// 腾讯云申请的APP ID
           userId: myUserId,
@@ -51,3 +52,4 @@ run './create-tim.sh' in sample directory, and setup.
       },
       function() { console.log('login result: failure'); }
   );
+```
