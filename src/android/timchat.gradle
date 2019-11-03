@@ -1,0 +1,22 @@
+repositories{
+    jcenter()
+    maven {url 'http://developer.huawei.com/repo/'}
+    flatDir{
+        dirs 'src/main/libs'
+    }
+}
+
+dependencies {
+    implementation 'com.tencent.imsdk:tuikit:4.5.111'
+    implementation "com.android.support:appcompat-v7:27.1.1"
+    implementation "com.android.support:multidex:1.0.1"
+    implementation "org.bouncycastle:bcpkix-jdk15on:1.59"
+    implementation "com.huawei.android.hms:push:2.6.3.301"
+    implementation "com.huawei.android.hms:base:2.6.3.301"
+    implementation "com.meizu.flyme.internet:push-internal:3.6.+@aar"
+    implementation "com.tencent.bugly:crashreport:latest.release"
+    implementation "com.tencent.bugly:nativecrashreport:latest.release"
+
+    implementation (name:'timc-release', ext:'aar')
+}
+

@@ -1,6 +1,6 @@
 cordova create tim01 io.hankers.tim01 TIM01
 cd tim01
-cordova platform add ios android
+cordova platform add ios
 cordova plugin add cordova-plugin-device
 cordova plugin add cordova-plugin-timchat --searchpath ../..
 cp -r ../www .
