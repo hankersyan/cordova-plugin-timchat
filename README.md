@@ -24,8 +24,9 @@ android/iOS
 6. 红包
 
 #### 安装
+
 cordova plugin add https://github.com/hankersyan/cordova-plugin-timchat.git
-cordova plugin add cordova-plugin-timchat (稍后发布至npmjs)
+
 
 #### 例子
 运行sample目录下的 './create-tim.sh', 并进行IDE的设置.
@@ -44,6 +45,12 @@ cordova plugin add cordova-plugin-timchat (稍后发布至npmjs)
 
 #### Android studio 设置 
 1. 根 build.gradle 里设置 defaultMinSdkVersion=21 
+2. AndroidManifest.xml 里增加推送设置，注意替换YOUR.PACKAGE.NAME
+    <permission
+        android:name="<YOUR.PACKAGE.NAME>.permission.MIPUSH_RECEIVE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="<YOUR.PACKAGE.NAME>.permission.MIPUSH_RECEIVE" />
+
 
 #### 用法
 
@@ -52,20 +59,23 @@ TIMChat.initTIM({						// 初始化+登陆
         sdkAppId: 0,				// 腾讯云申请的APP ID
         userId: myUserId,
         userSig: userSigFromServer, // 自己服务器计算好的userSig，参见腾讯云文档
-        busiId: 0						// 腾讯云IM消息推送ID
+        busiId: 0,						// 腾讯云IM提供的iOS推送 busiID
+        xmPushBusiId: 0,			// 腾讯云IM提供的小米推送 busiID
+        xmPushAppId: "",			// 小米推送提供的APPID
+        xmPushAppKey: "",			// 小米推送提供的APPKEY
+        hwPushBusiId: 0,			// 腾讯云IM提供的华为推送 busiID
+        hwPushAppId: ""				// 华为推送提供的APPID
     },
     function() {
         console.log('login result: success');
         if (friendId.startsWith('@')) {
             TIMChat.chatWithGroupId({		// 群聊
                 groupId: friendId
-            }, function() { console.log('group ok'); }, function() { console.log('group fail'); });
+            }, function() { console.log('chatWithGroupId ok'); }, function() { console.log('chatWithGroupId fail'); });
         } else {
             TIMChat.chatWithUserId({		// 单聊
-                userId: friendId,
-                remark: '',
-                avatar: ''
-            }, function() { console.log('user ok'); }, function() { console.log('user fail'); });
+                userId: friendId
+            }, function() { console.log('chatWithUserId ok'); }, function() { console.log('chatWithUserId fail'); });
         }
     },
     function() { console.log('login result: failure'); }

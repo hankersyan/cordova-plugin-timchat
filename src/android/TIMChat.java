@@ -53,12 +53,20 @@ public class TIMChat extends CordovaPlugin {
 //                    int busiId = arg.getInt("busiId");
                     String userId = arg.getString("userId");
                     String userSig = arg.getString("userSig");
+                    long xmPushBusiId = arg.has("xmPushBusiId") ? arg.getLong("xmPushBusiId") : 0;
+                    String xmPushAppId = arg.has("xmPushAppId") ? arg.getString("xmPushAppId") : "";
+                    String xmPushAppKey = arg.has("xmPushAppKey") ? arg.getString("xmPushAppKey") : "";
+                    long hwPushBusiId = arg.has("hwPushBusiId") ? arg.getLong("hwPushBusiId") : 0;
+                    String hwPushAppId = arg.has("hwPushAppId") ? arg.getString("hwPushAppId") : "";
                     String secretKey = arg.has("secretKey") ? arg.getString("secretKey") : "";
 //                    userSig = GlobalApp.generateUserSigForTest(sdkAppId, userId, secretKey);
                     cordova.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            GlobalApp.init(cordova.getActivity().getApplication(), sdkAppId, secretKey);
+                            GlobalApp.init(cordova.getActivity().getApplication(), sdkAppId,
+                            	xmPushBusiId, xmPushAppId, xmPushAppKey,
+                            	hwPushBusiId, hwPushAppId,
+                            	secretKey);
                             GlobalApp.login(userId, userSig, new GlobalApp.Callback() {
                                 @Override
                                 public void onError(int i, String s) {

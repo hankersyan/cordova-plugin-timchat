@@ -49,11 +49,11 @@ var app = {
         if (window.cordova.platformId == "ios") {
             myId.value = "hankers";
             friendId.value = "@TGS#1I2NWTBG3";
-            userSigFromServer = 'eAEtzE0PgiAYB-DvwrXmHggx3TzU1s1btnm1QHlyMAasnK3vnpOuv--Lh7TNNQty6p1DSSrKASjPS073WxLRqFXzgnHKxKFMGnAkFcFInezyZh4u*gbvx7ncTcVihGG6s3fb6*XJ1KmTYzvWJA3V7NCvhwL4ESDZS-n1jGXw76BUNuKAG*veTsoH8v0BZsQylA__';
+            userSigFromServer = "eJwtzEELgjAYxvHvsnPIu*nQCV0k6FBSpFB0szb1RVxjmonRd0*mx*f3wP9L8mPmDcqSmDAPyMZtlEr3WKLjutCNst16dbIpjEFJYhoA0ICLgC6PGg1aNTvnnAHAoj22zkKfipD6Yq1gNZffanfmGTI2WEiqU5nuy*eQv*x97C9p8rgdWj19Ir*ertGW-P6-vTMF";
         } else {
             myId.value = "yan"
             friendId.value = "@TGS#1I2NWTBG3";
-            userSigFromServer = 'eAGrVgrxCdYrTslOLCjITFGyMjQxMDA0MbU0MdQBy5Rk5qYCRU3NjUyMzC3MoKLFmelKVkqFme4mpsl56ZnBfmY*QeHlEQFpHk4BMfoF2mGhgWEx*ua*4TmpTok*AZVVpRa2ShADUysKMouARpoZmFgYGEDEylKLgMYZ6RlA1WSmpOaVZKZlgoUrE-OUagHE-zDN';
+            userSigFromServer = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwpWJeVDh4pTsxIKCzBQlK0MTAwNDE1NLE0OITGpFQWZRKlDc1NTUyMDAACJakpkLFjM3NrQ0NzK2gJqSmQ401SIwvTjcv8okL9mvssg7O8*r3CUgMb3EN9832M8yrNLc0NjUo7jCKD01Rt-RVqkWAPIpMUE_";
         }
 
         console.log('1, userId=' + myId.value);
@@ -64,7 +64,12 @@ var app = {
                     sdkAppId: 1400145941,
                     userId: myId.value,
                     userSig: userSigFromServer,
-                    busiId: 12742
+                    busiId: 16144,
+                    xmPushBusiId: 7685,
+                    xmPushAppId: "2882303761518228064",
+                    xmPushAppKey: "5531822835064",
+                    hwPushBusiId: 0,
+                    hwPushAppId: ""
                 },
                 function() {
                     console.log('login result: success');
