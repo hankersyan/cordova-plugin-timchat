@@ -46,10 +46,12 @@ cordova plugin add https://github.com/hankersyan/cordova-plugin-timchat.git
 #### Android studio 设置 
 1. 根 build.gradle 里设置 defaultMinSdkVersion=21 
 2. AndroidManifest.xml 里增加推送设置，注意替换YOUR.PACKAGE.NAME
+```html
     <permission
         android:name="<YOUR.PACKAGE.NAME>.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
     <uses-permission android:name="<YOUR.PACKAGE.NAME>.permission.MIPUSH_RECEIVE" />
+```
 
 
 #### 用法
