@@ -19,6 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 #define sdkBusiId         12742
 #define BUGLY_APP_ID      @"e965e5d928"
 
+@protocol ChatDelegate<NSObject>
+- (void)didChatClosed:(NSString*)convId;
+@end
+
 @interface TIMChatDelegate : NSObject
 {
 }
@@ -38,6 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didReceiveRemoteNotification:(NSDictionary *)userInfo;
 - (BOOL)openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
 - (BOOL)handleOpenURL:(NSURL *)url;
+- (NSString*)getLoginUser;
+- (void)autoLogin:(NSString*)userId completion:(void(^)(int code, NSString* msg))completion;
 
 //进入登录界面
 //- (void)enterLoginUI;
@@ -70,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 //- (void)pushToChatViewControllerWith:(id)user;
 - (void)chatWithUserId:(NSString*)userId remark:(NSString*)remark avatar:(NSString*)avatar;
 - (void)chatWithGroupId:(NSString*)groupId;
-
+- (void)setChatDelegate:(id)chatDelegate;
 
 @end
 

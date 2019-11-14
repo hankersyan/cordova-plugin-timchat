@@ -11,6 +11,10 @@
 #import <timc/TIMChatDelegate.h>
 #import "AppDelegate.h"
 
+@interface CDVTIMChat(ChatDelegate)
+
+@end
+
 @implementation CDVTIMChat
 
 - (void)initTIM:(CDVInvokedUrlCommand *)command {
@@ -23,6 +27,7 @@
     NSString *userSig = params[@"userSig"];
     NSData *deviceToken = [(AppDelegate*)[[UIApplication sharedApplication] delegate] deviceToken];
     
+    [[TIMChatDelegate sharedDelegate] setChatDelegate:self];
     [[TIMChatDelegate sharedDelegate] initTIM:sdkAppId userId:userId userSig:userSig busiId:busiId deviceToken:deviceToken completion:^(int code, NSString * _Nonnull msg) {
         NSMutableDictionary* resultDic = [NSMutableDictionary dictionary];
         
@@ -63,6 +68,12 @@
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDic];
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+-(void)didChatClosed:(NSString*)convId
+{
+    NSLog(@"CDVTIMChat::didChatClosed, %@", convId);
+    [self.commandDelegate evalJs:[NSString stringWithFormat:@"didChatClosed('%@')", convId]];
 }
 
 @end
