@@ -35,8 +35,8 @@ cordova plugin add https://github.com/hankersyan/cordova-plugin-timchat.git
 
 #### XCode 设置
 
-1. 移除并重新引用 "timc.framework"
-2. 在 build phase 里增加 "run script"，shell项内容设置为 "../../../sign.sh"
+1. 移除并重新引用 "timc.framework"，并增加引用 timc.framework/Frameworks/ImSDK.framework
+2. 在 build phase 里增加 "run script"，shell项内容设置为 "../../plugins/cordova-plugin-timchat/sample/sign.sh"，注意修改相对路径
 3. 在 capability 里增加 "Push Notification"
 4. 在 AppDelegate 里增加 "deviceToken" property，并得到推送所需的设备码
 5. 在 AppDelegate 里的 applicationDidEnterBackground 方法里调用 TIMChatDelegate 的 didEnterBackground
