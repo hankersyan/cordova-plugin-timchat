@@ -25,7 +25,7 @@ android/iOS
 
 #### 安装
 
-cordova plugin add https://github.com/hankersyan/cordova-plugin-timchat.git
+cordova plugin add https://github.com/hankersyan/cordova-plugin-timchat.git --variable SDKAPPID=腾讯提供 --variable IOS_BUSIID=腾讯提供 --variable XMPUSH_BUSIID=腾讯提供 --variable XMPUSH_APPID=小米提供 --variable XMPUSH_APPKEY=小米提供 --variable HWPUSH_BUSIID=腾讯提供 --variable HWPUSH_APPID=华为提供
 
 
 #### 例子
@@ -35,7 +35,7 @@ cordova plugin add https://github.com/hankersyan/cordova-plugin-timchat.git
 
 #### XCode 设置
 
-1. 移除并重新引用 "timc.framework"，并增加引用 timc.framework/Frameworks/ImSDK.framework
+1. 移除引用 "timc.framework"，重新引用 platforms/ios/<YOUR_PROJECT>/Plugins/cordova-plugin-timchat/timc.framework，并增加引用 timc.framework/Frameworks/ImSDK.framework
 2. 在 build phase 里增加 "run script"，shell项内容设置为 "../../plugins/cordova-plugin-timchat/sample/sign.sh"，注意修改相对路径
 3. 在 capability 里增加 "Push Notification"
 4. 在 AppDelegate 里增加 "deviceToken" property，并得到推送所需的设备码
@@ -58,15 +58,8 @@ cordova plugin add https://github.com/hankersyan/cordova-plugin-timchat.git
 
 ```javascript
 TIMChat.initTIM({						// 初始化+登陆
-        sdkAppId: 0,				// 腾讯云申请的APP ID
         userId: myUserId,
-        userSig: userSigFromServer, // 自己服务器计算好的userSig，参见腾讯云文档
-        busiId: 0,						// 腾讯云IM提供的iOS推送 busiID
-        xmPushBusiId: 0,			// 腾讯云IM提供的小米推送 busiID
-        xmPushAppId: "",			// 小米推送提供的APPID
-        xmPushAppKey: "",			// 小米推送提供的APPKEY
-        hwPushBusiId: 0,			// 腾讯云IM提供的华为推送 busiID
-        hwPushAppId: ""				// 华为推送提供的APPID
+        userSig: userSigFromServer // 自己服务器计算好的userSig，参见腾讯云文档
     },
     function() {
         console.log('login result: success');

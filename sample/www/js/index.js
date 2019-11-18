@@ -65,15 +65,8 @@ var app = {
         btnElem.addEventListener('click', function() {
             console.log('2');
             TIMChat.initTIM({
-                    sdkAppId: 1400145941,
                     userId: myId.value,
-                    userSig: userSigFromServer,
-                    busiId: 16144,
-                    xmPushBusiId: 7685,
-                    xmPushAppId: "2882303761518228064",
-                    xmPushAppKey: "5531822835064",
-                    hwPushBusiId: 0,
-                    hwPushAppId: ""
+                    userSig: userSigFromServer
                 },
                 function() {
                     console.log('login result: success');

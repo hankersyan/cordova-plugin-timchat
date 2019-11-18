@@ -1,8 +1,8 @@
 //
-//  CDVBaiduOcr.m
-//  myTestCordova
+//  CDVTIMChat.m
+//  TIM01
 //
-//  Created by mac on 2018/6/4.
+//  Created by hankers on 2019/11/4.
 //
 
 #import <Cordova/CDV.h>
@@ -17,18 +17,26 @@
 
 @implementation CDVTIMChat
 
+long SDKAPPID = 0;
+long BUSIID = 0;
+
+- (void)pluginInitialize {
+    // Key
+    NSDictionary* dic = [self.commandDelegate settings];
+    SDKAPPID = [[dic objectForKey:@"sdkappid"] integerValue];
+    BUSIID = [[dic objectForKey:@"ios_busiid"] integerValue];
+}
+
 - (void)initTIM:(CDVInvokedUrlCommand *)command {
 
     NSDictionary *params = [command argumentAtIndex:0];
     
-    int sdkAppId = [params[@"sdkAppId"] integerValue];
-    int busiId = [params[@"busiId"] integerValue];
     NSString *userId = params[@"userId"];
     NSString *userSig = params[@"userSig"];
     NSData *deviceToken = [(AppDelegate*)[[UIApplication sharedApplication] delegate] deviceToken];
     
     [[TIMChatDelegate sharedDelegate] setChatDelegate:self];
-    [[TIMChatDelegate sharedDelegate] initTIM:sdkAppId userId:userId userSig:userSig busiId:busiId deviceToken:deviceToken completion:^(int code, NSString * _Nonnull msg) {
+    [[TIMChatDelegate sharedDelegate] initTIM:SDKAPPID userId:userId userSig:userSig busiId:BUSIID deviceToken:deviceToken completion:^(int code, NSString * _Nonnull msg) {
         NSMutableDictionary* resultDic = [NSMutableDictionary dictionary];
         
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDic];

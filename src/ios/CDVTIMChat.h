@@ -1,8 +1,8 @@
 //
-//  CDVBaiduOcr.h
-//  myTestCordova
+//  CDVTIMChat.m
+//  TIM01
 //
-//  Created by mac on 2018/6/4.
+//  Created by hankers on 2019/11/4.
 //
 
 #import <UIKit/UIKit.h>

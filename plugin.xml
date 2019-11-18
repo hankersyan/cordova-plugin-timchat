@@ -14,6 +14,13 @@
     <repo>https://github.com/hankersyan/cordova-plugin-timchat</repo>
     <issue>https://github.com/hankersyan/cordova-plugin-timchat/issues</issue>
 
+    <preference name="SDKAPPID" /> <!--腾讯提供-->
+    <preference name="IOS_BUSIID" /> <!--腾讯提供-->
+    <preference name="XMPUSH_BUSIID" /> <!--腾讯提供-->
+    <preference name="XMPUSH_APPID" /> <!--小米提供-->
+    <preference name="XMPUSH_APPKEY" /> <!--小米提供-->
+    <preference name="HWPUSH_BUSIID" /> <!--腾讯提供-->
+    <preference name="HWPUSH_APPID" /> <!--华为提供-->
 
     <engines>
         <engine name="cordova" version=">=7.1.0"/>
@@ -42,6 +49,8 @@
             <feature name="TIMChat">
                 <param name="ios-package" value="CDVTIMChat"/>
             </feature>
+            <preference name="SDKAPPID" value="$SDKAPPID" />
+            <preference name="IOS_BUSIID" value="$SDKAPPID" />
         </config-file>
 
         <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
