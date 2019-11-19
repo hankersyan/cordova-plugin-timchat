@@ -34,6 +34,10 @@ long BUSIID = 0;
     NSString *userId = params[@"userId"];
     NSString *userSig = params[@"userSig"];
     NSData *deviceToken = [(AppDelegate*)[[UIApplication sharedApplication] delegate] deviceToken];
+    if (deviceToken == nil) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"deviceToken is nil" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    }
     
     [[TIMChatDelegate sharedDelegate] setChatDelegate:self];
     [[TIMChatDelegate sharedDelegate] initTIM:SDKAPPID userId:userId userSig:userSig busiId:BUSIID deviceToken:deviceToken completion:^(int code, NSString * _Nonnull msg) {
