@@ -57,6 +57,10 @@ cordova plugin add https://github.com/hankersyan/cordova-plugin-timchat.git --va
 #### 用法
 
 ```javascript
+window.didChatClosed = function(convId) {
+		console.log('聊天框关闭的回调, conversationId=' + convId);
+};
+
 TIMChat.initTIM({						// 初始化+登陆
         userId: myUserId,
         userSig: userSigFromServer // 自己服务器计算好的userSig，参见腾讯云文档

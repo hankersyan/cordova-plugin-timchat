@@ -38,6 +38,12 @@
                 <param name="android-package" value="io.hankers.cordova.TIMChat"/>
 								<param name="onload" value="true" />
             </feature>
+				    <preference name="SDKAPPID" value="@$SDKAPPID" />
+				    <preference name="XMPUSH_BUSIID" value="@$XMPUSH_BUSIID" />
+				    <preference name="XMPUSH_APPID" value="@$XMPUSH_APPID" />
+				    <preference name="XMPUSH_APPKEY" value="@$XMPUSH_APPKEY" />
+				    <preference name="HWPUSH_BUSIID" value="@$HWPUSH_BUSIID" />
+				    <preference name="HWPUSH_APPID" value="@$HWPUSH_APPID" />
         </config-file>
         <resource-file src="./src/android/timc-release.aar" target="libs/timc-release.aar" />
         <framework src="./src/android/timchat.gradle" custom="true" type="gradleReference"/>
