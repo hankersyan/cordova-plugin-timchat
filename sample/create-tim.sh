@@ -6,7 +6,4 @@ cordova plugin add cordova-plugin-timchat --searchpath ../.. --variable SDKAPPID
 cp -r ../www .
 cp ../config.xml .
 cp ../AppDelegate.* ./platforms/ios/TIM01/Classes
-cp -r ../*.bundle .
 cordova prepare
-#cp -r ../*.bundle ./platforms/ios/TIM01/
-cp -r ../*.bundle ./platforms/ios/TIM01/Resources

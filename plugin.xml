@@ -65,33 +65,23 @@
         <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
             <string>传输资料需要使用相册</string>
         </config-file>
+        <config-file target="*-Info.plist" parent="NSMicrophoneUsageDescription">
+            <string>需要录音</string>
+        </config-file>
 
         <header-file src="src/ios/CDVTIMChat.h" />
         <source-file src="src/ios/CDVTIMChat.m" />
 
-        <framework src="AVFoundation.framework"/>
-        <framework src="AudioToolbox.framework"/>
-        <framework src="AssetsLibrary.framework"/>
-        <framework src="Accelerate.framework"/>
-        <framework src="CoreTelephony.framework"/>
-        <framework src="CoreMedia.framework"/>
-        <framework src="CoreGraphics.framework"/>
-        <framework src="CoreText.framework"/>
-        <framework src="CoreData.framework"/>
-        <framework src="Foundation.framework"/>
-        <framework src="ImageIO.framework"/>
-        <framework src="MobileCoreServices.framework"/>
-        <framework src="OpenGLES.framework"/>
-        <framework src="QuartzCore.framework"/>
-        <framework src="Security.framework"/>
-        <framework src="SystemConfiguration.framework"/>
-        <framework src="UIKit.framework"/>
-        <framework src="VideoToolbox.framework"/>
-        <framework src="libc++.tbd"/>
-        <framework src="libz.tbd"/>
-        <framework src="libsqlite3.tbd"/>
-        <framework src="libiconv.tbd"/>
-        <framework src="libresolv.tbd"/>
+    		<resource-file src="src/ios/libs/timc.framework/TUIKitFace.bundle"/>
+    		<resource-file src="src/ios/libs/timc.framework/TUIKitResource.bundle"/>
+
+		    <config-file target="*-Debug.plist" parent="aps-environment">
+		      <string>development</string>
+		    </config-file>
+		    <config-file target="*-Release.plist" parent="aps-environment">
+		      <string>production</string>
+		    </config-file>
+
         <framework src="src/ios/libs/timc.framework" embed="true" custom="true"/>
 
     </platform>

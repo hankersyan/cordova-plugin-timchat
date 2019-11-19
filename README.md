@@ -36,17 +36,15 @@ cordova plugin add https://github.com/hankersyan/cordova-plugin-timchat.git --va
 #### XCode 设置
 
 1. 移除引用 "timc.framework"，重新引用 platforms/ios/<YOUR_PROJECT>/Plugins/cordova-plugin-timchat/timc.framework，并增加引用 timc.framework/Frameworks/ImSDK.framework
-2. 在 build phase 里增加 "run script"，shell项内容设置为 "../../plugins/cordova-plugin-timchat/sample/sign.sh"，注意修改相对路径
-3. 在 capability 里增加 "Push Notification"
-4. 在 AppDelegate 里增加 "deviceToken" property，并得到推送所需的设备码
-5. 在 AppDelegate 里的 applicationDidEnterBackground 方法里调用 TIMChatDelegate 的 didEnterBackground
-6. 在 AppDelegate 里的 applicationDidBecomeActive 方法里调用 TIMChatDelegate 的 didBecomeActive
-7. 引用 TUIKitFace and TUIKitResource 两个 bundle
+2. 在 AppDelegate 里增加 "deviceToken" property，并得到推送所需的设备码
+3. 在 AppDelegate 里的 applicationDidEnterBackground 方法里调用 TIMChatDelegate 的 didEnterBackground
+4. 在 AppDelegate 里的 applicationDidBecomeActive 方法里调用 TIMChatDelegate 的 didBecomeActive
 
 #### Android studio 设置 
 1. 根 build.gradle 里设置 defaultMinSdkVersion=21 
 2. AndroidManifest.xml 里增加推送设置，注意替换YOUR.PACKAGE.NAME
 ```html
+		<!-- 小米推送设置 -->
     <permission
         android:name="<YOUR.PACKAGE.NAME>.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
