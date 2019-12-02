@@ -39,10 +39,11 @@ var app = {
         var parentElement = document.getElementById(id);
         var listeningElement = parentElement.querySelector('.listening');
         var receivedElement = parentElement.querySelector('.received');
-        var btnElem = parentElement.querySelector('input[type="button"]');
+        var chatBtn = document.getElementById('chat');;
         var myId = document.getElementById('myid');
         var myPwd = document.getElementById('mypwd');
         var friendId = document.getElementById('friendId');
+        var rtcBtn = document.getElementById('rtc');;
 
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
@@ -62,7 +63,7 @@ var app = {
 
         console.log('1, userId=' + myId.value);
 
-        btnElem.addEventListener('click', function() {
+        chatBtn.addEventListener('click', function() {
             console.log('2');
             TIMChat.initTIM({
                     userId: myId.value,
@@ -85,6 +86,53 @@ var app = {
                 function() { console.log('login result: failure'); }
             );
         }, false);
+        
+        console.log('2, rtcBtn=' + rtcBtn);
+        
+        rtcBtn.addEventListener('click', this.startConference.bind(this), false);
+        document.getElementById('name').value = 'u' + Math.floor((Math.random() * 1000) + 1);
+        
+        console.log('3');
+    },
+
+    startConference: function() {
+			console.log('201');
+        
+			if (typeof QNRtc == 'undefined') {
+				alert('QNRtc plugin not found');
+				return;
+			}
+			var appId = 'd8lk7l4ed';
+			var roomName = document.getElementById('room').value;
+			var userId = document.getElementById('name').value;
+			var bundleId = 'com.qbox.QNRTCKitDemo';
+
+			console.log('202,' + roomName + ',' + userId);
+
+      var oReq = new XMLHttpRequest();
+      
+			oReq.addEventListener("load", function() {
+				console.log("load", this.responseText);
+				var para = {
+					app_id: appId,
+					user_id: userId,
+					room_name: roomName,
+					room_token: this.responseText
+				}
+				QNRtc.start(para);
+			});
+			oReq.open("GET", "https://api-demo.qnsdk.com/v1/rtc/token/admin/"
+				+"app/"+appId
+				+"/room/"+roomName
+				+"/user/"+userId
+				+"?bundleId="+bundleId);
+			oReq.onerror = function () {
+				console.log("** An error occurred during the transaction");
+				console.log(oReq, oReq.status);
+			};
+			oReq.send();
+        
+			console.log('205');
     }
 };
 
