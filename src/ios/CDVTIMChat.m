@@ -12,7 +12,6 @@
 #import "AppDelegate.h"
 
 @interface CDVTIMChat(ChatDelegate)
-
 @end
 
 @implementation CDVTIMChat
@@ -33,6 +32,7 @@ long BUSIID = 0;
     
     NSString *userId = params[@"userId"];
     NSString *userSig = params[@"userSig"];
+
     NSData *deviceToken = [(AppDelegate*)[[UIApplication sharedApplication] delegate] deviceToken];
     if (deviceToken == nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"deviceToken is nil" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -40,6 +40,11 @@ long BUSIID = 0;
     }
     
     [[TIMChatDelegate sharedDelegate] setChatDelegate:self];
+    
+    if ([[params allKeys] containsObject:@"chatMoreMenus"]) {
+    		[[TIMChatDelegate sharedDelegate] configChatMoreMenus:params[@"chatMoreMenus"]];
+    }
+    
     [[TIMChatDelegate sharedDelegate] initTIM:SDKAPPID userId:userId userSig:userSig busiId:BUSIID deviceToken:deviceToken completion:^(int code, NSString * _Nonnull msg) {
         NSMutableDictionary* resultDic = [NSMutableDictionary dictionary];
         
@@ -86,6 +91,23 @@ long BUSIID = 0;
 {
     NSLog(@"CDVTIMChat::didChatClosed, %@", convId);
     [self.commandDelegate evalJs:[NSString stringWithFormat:@"didChatClosed('%@')", convId]];
+}
+
+- (void)didChatMoreMenuClicked:(NSString*)menuTitle params:(NSDictionary*)params {
+    NSLog(@"CDVTIMChat::didChatMoreMenuClicked %@, %@", menuTitle, params);
+    NSError *error;
+    NSString *jsonString = @"";
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:params
+                                                       options:0 // Pass 0 if you don't care about the readability of the generated string
+                                                         error:&error];
+    if (! jsonData) {
+        NSLog(@"Got an error: %@", error);
+    } else {
+        jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+    }
+    NSString *jsStr = [NSString stringWithFormat:@"didChatMoreMenuClicked('%@', '%@')", menuTitle, jsonString];
+    [self.commandDelegate evalJs:jsStr];
 }
 
 @end

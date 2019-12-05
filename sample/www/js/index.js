@@ -18,10 +18,19 @@
  */
 var app = {
     // Application Constructor
-    initialize: function() {
+    initialize: function () {
+        const self = this;
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
-        window.didChatClosed = function(convId) {
-            console.log('JS didChatClosed,,,,,,,,' + convId);
+        window.didChatClosed = function (convId) {
+            console.log('JS didChatClosed, ' + convId);
+        };
+        window.didChatMoreMenuClicked = function (menuTitle, params) {
+            console.log('JS didChatMoreMenuClicked, ', menuTitle, params);
+            var par = JSON.parse(params);
+            console.log(par);
+            var convId = par.conversationId.replace(/[\@\#\$\%\&]/ig, '');
+            var userId = par.userId.replace(/[\@\#\$\%\&]/ig, '');
+            self.openConference(convId, userId);
         };
         console.log("didChatClosed=" + (typeof didChatClosed));
     },
@@ -30,20 +39,20 @@ var app = {
     //
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
-    onDeviceReady: function() {
+    onDeviceReady: function () {
         this.receivedEvent('deviceready');
     },
 
     // Update DOM on a Received Event
-    receivedEvent: function(id) {
+    receivedEvent: function (id) {
         var parentElement = document.getElementById(id);
         var listeningElement = parentElement.querySelector('.listening');
         var receivedElement = parentElement.querySelector('.received');
-        var chatBtn = document.getElementById('chat');;
+        var chatBtn = document.getElementById('chat');
         var myId = document.getElementById('myid');
         var myPwd = document.getElementById('mypwd');
         var friendId = document.getElementById('friendId');
-        var rtcBtn = document.getElementById('rtc');;
+        var rtcBtn = document.getElementById('rtc');
 
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
@@ -56,83 +65,99 @@ var app = {
             friendId.value = "@TGS#1I2NWTBG3";
             userSigFromServer = "eJwtzEELgjAYxvHvsnPIu*nQCV0k6FBSpFB0szb1RVxjmonRd0*mx*f3wP9L8mPmDcqSmDAPyMZtlEr3WKLjutCNst16dbIpjEFJYhoA0ICLgC6PGg1aNTvnnAHAoj22zkKfipD6Yq1gNZffanfmGTI2WEiqU5nuy*eQv*x97C9p8rgdWj19Ir*ertGW-P6-vTMF";
         } else {
-            myId.value = "yan"
+            myId.value = "yan";
             friendId.value = "@TGS#1I2NWTBG3";
             userSigFromServer = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwpWJeVDh4pTsxIKCzBQlK0MTAwNDE1NLE0OITGpFQWZRKlDc1NTUyMDAACJakpkLFjM3NrQ0NzK2gJqSmQ401SIwvTjcv8okL9mvssg7O8*r3CUgMb3EN9832M8yrNLc0NjUo7jCKD01Rt-RVqkWAPIpMUE_";
         }
 
         console.log('1, userId=' + myId.value);
 
-        chatBtn.addEventListener('click', function() {
+        chatBtn.addEventListener('click', function () {
             console.log('2');
             TIMChat.initTIM({
                     userId: myId.value,
-                    userSig: userSigFromServer
+                    userSig: userSigFromServer,
+                    chatMoreMenus: {
+                        "会议": "conference" // title and namedImage
+                    }
                 },
-                function() {
+                function () {
                     console.log('login result: success');
                     if (friendId.value.startsWith('@')) {
                         TIMChat.chatWithGroupId({
                             groupId: friendId.value
-                        }, function() { console.log(5); }, function() { console.log(6); });
+                        }, function () {
+                            console.log(5);
+                        }, function () {
+                            console.log(6);
+                        });
                     } else {
                         TIMChat.chatWithUserId({
-                            userId: friendId.value,
-                            remark: '',
-                            avatar: ''
-                        }, function() { console.log(3); }, function() { console.log(4); });
+                            userId: friendId.value
+                        }, function () {
+                            console.log(3);
+                        }, function () {
+                            console.log(4);
+                        });
                     }
                 },
-                function() { console.log('login result: failure'); }
+                function () {
+                    console.log('login result: failure');
+                }
             );
         }, false);
-        
+
         console.log('2, rtcBtn=' + rtcBtn);
-        
+
         rtcBtn.addEventListener('click', this.startConference.bind(this), false);
         document.getElementById('name').value = 'u' + Math.floor((Math.random() * 1000) + 1);
-        
+
         console.log('3');
     },
 
-    startConference: function() {
-			console.log('201');
-        
-			if (typeof QNRtc == 'undefined') {
-				alert('QNRtc plugin not found');
-				return;
-			}
-			var appId = 'd8lk7l4ed';
-			var roomName = document.getElementById('room').value;
-			var userId = document.getElementById('name').value;
-			var bundleId = 'com.qbox.QNRTCKitDemo';
+    startConference: function () {
+        var roomName = document.getElementById('room').value;
+        var userId = document.getElementById('name').value;
+        this.openConference(roomName, userId);
+    },
 
-			console.log('202,' + roomName + ',' + userId);
+    openConference: function (conferenceId, userId) {
+        console.log('201');
 
-      var oReq = new XMLHttpRequest();
-      
-			oReq.addEventListener("load", function() {
-				console.log("load", this.responseText);
-				var para = {
-					app_id: appId,
-					user_id: userId,
-					room_name: roomName,
-					room_token: this.responseText
-				}
-				QNRtc.start(para);
-			});
-			oReq.open("GET", "https://api-demo.qnsdk.com/v1/rtc/token/admin/"
-				+"app/"+appId
-				+"/room/"+roomName
-				+"/user/"+userId
-				+"?bundleId="+bundleId);
-			oReq.onerror = function () {
-				console.log("** An error occurred during the transaction");
-				console.log(oReq, oReq.status);
-			};
-			oReq.send();
-        
-			console.log('205');
+        if (typeof QNRtc == 'undefined') {
+            alert('QNRtc plugin not found');
+            return;
+        }
+        var appId = 'd8lk7l4ed';
+        var roomName = conferenceId;
+        var bundleId = 'com.qbox.QNRTCKitDemo';
+
+        console.log('202,' + roomName + ',' + userId);
+
+        var oReq = new XMLHttpRequest();
+
+        oReq.addEventListener("load", function () {
+            console.log("load", this.responseText);
+            var para = {
+                app_id: appId,
+                user_id: userId,
+                room_name: roomName,
+                room_token: this.responseText
+            }
+            QNRtc.start(para);
+        });
+        oReq.open("GET", "https://api-demo.qnsdk.com/v1/rtc/token/admin/" +
+            "app/" + appId +
+            "/room/" + roomName +
+            "/user/" + userId +
+            "?bundleId=" + bundleId);
+        oReq.onerror = function () {
+            console.log("** An error occurred during the transaction");
+            console.log(oReq, oReq.status);
+        };
+        oReq.send();
+
+        console.log('205');
     }
 };
 

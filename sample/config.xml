@@ -31,5 +31,9 @@
 		    <config-file parent="NSPhotoLibraryUsageDescription" target="*-Info.plist">
 		        <string>需要上传照片</string>
 		    </config-file>
+
+				<resource-file src="../conference.png" />
+				<resource-file src="../conference@2x.png" />
+				<resource-file src="../conference@3x.png" />
     </platform>
 </widget>

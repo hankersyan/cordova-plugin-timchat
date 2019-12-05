@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ChatDelegate<NSObject>
 - (void)didChatClosed:(NSString*)convId;
+- (void)didChatMoreMenuClicked:(NSString*)menuTitle params:(NSDictionary*)params;
 @end
 
 @interface TIMChatDelegate : NSObject
@@ -77,6 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)chatWithUserId:(NSString*)userId remark:(NSString*)remark avatar:(NSString*)avatar;
 - (void)chatWithGroupId:(NSString*)groupId;
 - (void)setChatDelegate:(id)chatDelegate;
+- (void)configChatMoreMenus:(NSDictionary*)title2IconDics;
 
 @end
 
