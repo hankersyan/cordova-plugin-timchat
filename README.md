@@ -14,14 +14,14 @@ android/iOS
 1. 单聊/群聊
 2. 发送文本/图片/短语音/短视频消息
 3. 离线消息推送
+4. 视频会议（七牛云、便宜、没有最低消费）
 
 #### 计划中的功能
 
-1. 视频会议（七牛云、便宜、没有最低消费）
-2. 分享地理位置
-3. 后台跟踪地理位置（考虑到各个平台杀进程，大概能存活5分钟）
-4. 自定义消息：投票
-5. 红包
+1. 分享地理位置
+2. 后台跟踪地理位置（考虑到各个平台杀进程，大概能存活5分钟）
+3. 自定义消息：投票
+4. 红包
 
 #### 安装
 
@@ -50,7 +50,11 @@ cordova plugin add https://github.com/hankersyan/cordova-plugin-timchat.git --va
         android:protectionLevel="signature" />
     <uses-permission android:name="<YOUR.PACKAGE.NAME>.permission.MIPUSH_RECEIVE" />
 ```
-
+3. Gradle.properties
+```html
+android.useAndroidX=false
+android.enableJetifier=false
+```
 
 #### 用法
 

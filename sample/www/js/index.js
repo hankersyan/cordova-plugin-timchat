@@ -78,7 +78,7 @@ var app = {
                     userId: myId.value,
                     userSig: userSigFromServer,
                     chatMoreMenus: {
-                        "会议": "conference" // title and namedImage
+                        "会议": "conference" // title and namedImage
                     }
                 },
                 function () {

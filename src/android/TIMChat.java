@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -69,9 +70,29 @@ public class TIMChat extends CordovaPlugin {
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        webView.loadUrl("javascript:didChatClosed('"+ strConvId +"')");
+                        webView.loadUrl("javascript:didChatClosed('" + strConvId + "')");
                     }
                 });
+            }
+
+            @Override
+            public void didChatMoreMenuClicked(String s, Map<String, String> map) {
+                Log.d(TAG, "didChatMoreMenuClicked, " + s + ", " + map);
+                final String menuTitle = s;
+                try {
+                    JSONObject x = new JSONObject();
+                    x.put("conversationId", map.get("conversationId"));
+                    x.put("userId", map.get("userId"));
+                    final String xStr = x.toString();
+                    cordova.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            webView.loadUrl("javascript:didChatMoreMenuClicked('" + menuTitle + "', '" + xStr + "')");
+                        }
+                    });
+                } catch (Exception e) {
+                    Log.d(TAG, e.toString());
+                }
             }
         });
     }
@@ -86,12 +107,32 @@ public class TIMChat extends CordovaPlugin {
      */
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 
+        final Context context = cordova.getContext();
         cordova.getThreadPool().execute(() -> {
             try {
                 if (action.compareToIgnoreCase("initTIM") == 0) {
                     JSONObject arg = args.getJSONObject(0);
                     String userId = arg.getString("userId");
                     String userSig = arg.getString("userSig");
+
+                    if (arg.has("chatMoreMenus")) {
+                        JSONObject chatMoreMenus = arg.getJSONObject("chatMoreMenus");
+                        Map<String, String> params = new HashMap<>();
+                        if (chatMoreMenus != null) {
+                            Iterator<String> keys = chatMoreMenus.keys();
+
+                            // use ResId
+                            while (keys.hasNext()) {
+                                String key = keys.next();
+                                int strResId = context.getResources().getIdentifier(key, "string", context.getPackageName());
+                                int imgResId = context.getResources().getIdentifier(chatMoreMenus.getString(key), "drawable", context.getPackageName());
+                                params.put(String.valueOf(strResId), String.valueOf(imgResId));
+                            }
+                        }
+                        if (params.size() > 0) {
+                            GlobalApp.configChatMoreMenus(params);
+                        }
+                    }
 
                     String secretKey = arg.has("secretKey") ? arg.getString("secretKey") : "";
 //                    userSig = GlobalApp.generateUserSigForTest(sdkAppId, userId, secretKey);
