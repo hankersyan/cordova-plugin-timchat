@@ -19,6 +19,7 @@
     <platform name="android">
         <allow-intent href="market:*" />
         <resource-file src="../conference@3x.png" target="app/src/main/res/drawable-xxhdpi/conference.png" />
+        <resource-file src="../tim01-strings.xml" target="app/src/main/res/values/tim01-strings.xml" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />

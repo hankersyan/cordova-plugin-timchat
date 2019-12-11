@@ -31,7 +31,7 @@ cordova plugin add https://github.com/hankersyan/cordova-plugin-timchat.git --va
 #### 例子
 运行sample目录下的 './create-tim.sh', 并进行IDE的设置.
 
-![js调用TIMChat](https://meehealth.oss-cn-shanghai.aliyuncs.com/tim/3eyau6.gif "js调用TIMChat")
+![js调用TIMChat](https://meehealth.oss-cn-shanghai.aliyuncs.com/tim/3izp70.gif "js调用TIMChat")
 
 #### XCode 设置
 
@@ -50,22 +50,28 @@ cordova plugin add https://github.com/hankersyan/cordova-plugin-timchat.git --va
         android:protectionLevel="signature" />
     <uses-permission android:name="<YOUR.PACKAGE.NAME>.permission.MIPUSH_RECEIVE" />
 ```
-3. Gradle.properties
-```html
-android.useAndroidX=false
-android.enableJetifier=false
-```
 
 #### 用法
 
 ```javascript
 window.didChatClosed = function(convId) {
-		console.log('聊天框关闭的回调, conversationId=' + convId);
+    console.log('聊天页关闭的回调, conversationId=' + convId);
 };
-
-TIMChat.initTIM({						// 初始化+登陆
+window.didChatMoreMenuClicked = function (menuTitle, params) {
+    console.log('聊天页里自定义菜单的回调, ', menuTitle, params);
+    var par = JSON.parse(params);
+    console.log(par);
+    var convId = par.conversationId.replace(/[\@\#\$\%\&]/ig, ''); // 会话ID
+    var userId = par.userId.replace(/[\@\#\$\%\&]/ig, ''); // 用户ID
+    window.openConference(convId, userId); // 打开视频会议
+};
+TIMChat.initTIM({             // 初始化+登陆
         userId: myUserId,
-        userSig: userSigFromServer // 自己服务器计算好的userSig，参见腾讯云文档
+        userSig: userSigFromServer, // 自己服务器计算好的userSig，参见腾讯云文档
+        chatMoreMenus: {
+                "会议": "conference" // 聊天页里自定义菜单, 格式为 title : namedImage 
+                                // 注意：android 需为 title 添加 string资源
+        }
     },
     function() {
         console.log('login result: success');
@@ -81,4 +87,43 @@ TIMChat.initTIM({						// 初始化+登陆
     },
     function() { console.log('login result: failure'); }
 );
+window.openConference = function (conferenceId, userId) {
+    console.log('201');
+
+    if (typeof QNRtc == 'undefined') {
+        alert('QNRtc plugin not found');
+        return;
+    }
+    var appId = 'd8lk7l4ed';
+    var roomName = conferenceId;
+    var bundleId = 'com.qbox.QNRTCKitDemo';
+
+    console.log('202,' + roomName + ',' + userId);
+
+    var oReq = new XMLHttpRequest();
+
+    oReq.addEventListener("load", function () {
+        console.log("load", this.responseText);
+        var para = {
+            app_id: appId,
+            user_id: userId,
+            room_name: roomName,
+            room_token: this.responseText
+        }
+        QNRtc.start(para);
+    });
+    // 获取七牛云token
+    oReq.open("GET", "https://api-demo.qnsdk.com/v1/rtc/token/admin/" +
+        "app/" + appId +
+        "/room/" + roomName +
+        "/user/" + userId +
+        "?bundleId=" + bundleId);
+    oReq.onerror = function () {
+        console.log("** An error occurred during the transaction");
+        console.log(oReq, oReq.status);
+    };
+    oReq.send();
+
+    console.log('205');
+}
 ```

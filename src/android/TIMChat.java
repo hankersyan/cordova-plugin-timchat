@@ -1,5 +1,7 @@
 package io.hankers.cordova;
 
+import android.app.AlertDialog;
+import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
@@ -17,6 +19,7 @@ import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +32,10 @@ public class TIMChat extends CordovaPlugin {
 
     private static String TAG = TIMChat.class.getSimpleName();
     private static final String preferenceTag = "preference";
+
+    static Application _app = null;
+    static String _packageName = null;
+    static Resources _resources = null;
 
     private Map _configMap;
     int sdkAppId;
@@ -52,6 +59,10 @@ public class TIMChat extends CordovaPlugin {
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
         GlobalApp.checkPermission(cordova.getActivity());
+
+        _app = cordova.getActivity().getApplication();
+        _packageName = _app.getPackageName();
+        _resources = _app.getResources();
 
         Context context = cordova.getActivity();
         int resId = context.getResources().getIdentifier("config", "xml", context.getPackageName());
@@ -124,8 +135,19 @@ public class TIMChat extends CordovaPlugin {
                             // use ResId
                             while (keys.hasNext()) {
                                 String key = keys.next();
-                                int strResId = context.getResources().getIdentifier(key, "string", context.getPackageName());
-                                int imgResId = context.getResources().getIdentifier(chatMoreMenus.getString(key), "drawable", context.getPackageName());
+                                int strResId = TIMChat.getStringResIdByValue(key);
+                                if (strResId < 1) {
+                                    cordova.getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            new AlertDialog.Builder(cordova.getActivity())
+                                                    .setMessage("You must provide the string resource of " + key)
+                                                    .create().show();
+                                        }
+                                    });
+                                    return;
+                                }
+                                int imgResId = TIMChat.getResourceId(chatMoreMenus.getString(key), "drawable");
                                 params.put(String.valueOf(strResId), String.valueOf(imgResId));
                             }
                         }
@@ -253,6 +275,45 @@ public class TIMChat extends CordovaPlugin {
             }
         }
         return null;
+    }
+
+    public static int getResourceId(String name, String type) {
+        int ic = _resources.getIdentifier(name, type, _packageName);
+        return ic;
+    }
+
+    public static int getStringResIdByValue(String strVal)
+    {
+        // because string name can not be unicode
+        // R.string.class
+        try {
+            Class<?> act = Class.forName(_packageName + ".R");
+
+            Class stringCls = null;
+            for(Class innerClass: act.getDeclaredClasses())
+            {
+                if (innerClass.getName().endsWith("string")) {
+                    stringCls = innerClass;
+                    break;
+                }
+            }
+
+            if (stringCls != null) {
+                Field fields[] = stringCls.getFields();
+                for (Field field : fields) {
+                    int resId = _app.getResources().getIdentifier(field.getName(), "string", _packageName);
+                    String resVal = _app.getString(resId);
+                    if (resVal.equalsIgnoreCase(strVal)) {
+                        return resId;
+                    }
+                }
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
 }
