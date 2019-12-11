@@ -29,7 +29,9 @@ cordova plugin add https://github.com/hankersyan/cordova-plugin-timchat.git --va
 
 
 #### 例子
-运行sample目录下的 './create-tim.sh', 并进行IDE的设置.
+即时消息+视频会议：运行sample目录下的 './create-tim-rtc.sh', 并进行IDE的设置.
+
+即时消息：运行sample目录下的 './create-tim.sh', 并进行IDE的设置.
 
 ![js调用TIMChat](https://meehealth.oss-cn-shanghai.aliyuncs.com/tim/3izp70.gif "js调用TIMChat")
 
