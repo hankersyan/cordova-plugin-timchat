@@ -19,6 +19,7 @@
     "cordova-android",
     "cordova:plugin",
     "im",
+    "instant message",
     "chat"
   ],
   "engines": {
