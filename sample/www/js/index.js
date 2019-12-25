@@ -77,8 +77,11 @@ var app = {
             TIMChat.initTIM({
                     userId: myId.value,
                     userSig: userSigFromServer,
-                    chatMoreMenus: {
-                        "会议": "conference" // title and namedImage
+                    chatMoreMenus: {  // 聊天输入框里的自定义菜单
+                    	"title": "会议", // 菜单title，安卓需增加一条string资源
+                    	"icon" : "conference", // 菜单图标，图标资源
+                    	"message": "", // 
+                    	"notification": "conference" // 推送提示音，声音资源
                     }
                 },
                 function () {

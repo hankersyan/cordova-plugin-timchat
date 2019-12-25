@@ -87,6 +87,41 @@ long BUSIID = 0;
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)sendCustomMessage:(CDVInvokedUrlCommand *)command {
+    NSDictionary *params = [command argumentAtIndex:0];
+    
+    NSString *conversationId = params[@"conversationId"];
+    NSString *msg = params[@"message"];
+    NSString *type = params[@"type"];
+    NSString *pushNotificationForAndroid = params[@"pushNotificationForAndroid"];
+    NSString *pushNotificationForIOS = params[@"pushNotificationForIOS"];
+
+    [[TIMChatDelegate sharedDelegate] sendCustomMessage:conversationId message:msg type:type 
+    		pushNotificationForAndroid:pushNotificationForAndroid 
+    			pushNotificationForIOS:pushNotificationForIOS];
+
+    NSMutableDictionary* resultDic = [NSMutableDictionary dictionary];
+
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDic];
+
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)sendTextMessage:(CDVInvokedUrlCommand *)command {
+    NSDictionary *params = [command argumentAtIndex:0];
+    
+    NSString *conversationId = params[@"conversationId"];
+    NSString *msg = params[@"message"];
+
+    [[TIMChatDelegate sharedDelegate] sendTextMessage:conversationId message:msg];
+
+    NSMutableDictionary* resultDic = [NSMutableDictionary dictionary];
+
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDic];
+
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 -(void)didChatClosed:(NSString*)convId
 {
     NSLog(@"CDVTIMChat::didChatClosed, %@", convId);
@@ -107,6 +142,32 @@ long BUSIID = 0;
         jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
     }
     NSString *jsStr = [NSString stringWithFormat:@"didChatMoreMenuClicked('%@', '%@')", menuTitle, jsonString];
+    [self.commandDelegate evalJs:jsStr];
+}
+
+- (void)didCustomMessageSelected:(NSDictionary*)params {
+    NSLog(@"CDVTIMChat::didCustomMessageSelected %@", params);
+    [self evalJs:@"didChatMoreMenuClicked" params:params];
+}
+
+- (void)receivingNewCustomMessage:(NSDictionary*)params {
+    NSLog(@"CDVTIMChat::receivingNewCustomMessage %@", params);
+    [self evalJs:@"receivingNewCustomMessage" params:params];
+}
+
+- (void)evalJs:(NSString*)functionName params:(NSDictionary*)params {
+    NSError *error;
+    NSString *jsonString = @"";
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:params
+                                                       options:0 // Pass 0 if you don't care about the readability of the generated string
+                                                         error:&error];
+    if (! jsonData) {
+        NSLog(@"Got an error: %@", error);
+    } else {
+        jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+    }
+    NSString *jsStr = [NSString stringWithFormat:@"%@('%@')", functionNamejsonString];
     [self.commandDelegate evalJs:jsStr];
 }
 

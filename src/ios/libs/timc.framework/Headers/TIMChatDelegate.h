@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol ChatDelegate<NSObject>
 - (void)didChatClosed:(NSString*)convId;
 - (void)didChatMoreMenuClicked:(NSString*)menuTitle params:(NSDictionary*)params;
+- (void)didCustomMessageSelected:(NSDictionary*)params;
+- (void)receivingNewCustomMessage:(NSDictionary*)params;
 @end
 
 @interface TIMChatDelegate : NSObject
@@ -38,8 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedDelegate;
 
 - (void)initTIM:(int)appId userId:(NSString*)userId userSig:(NSString*)userSig busiId:(int)busiId deviceToken:(NSData*)deviceToken completion:(void(^)(int code, NSString* msg))completion;
-- (void)didEnterBackground;
-- (void)didBecomeActive;
+//- (void)didEnterBackground;
+//- (void)didBecomeActive;
 - (void)didReceiveRemoteNotification:(NSDictionary *)userInfo;
 - (BOOL)openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
 - (BOOL)handleOpenURL:(NSURL *)url;
@@ -79,6 +81,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)chatWithGroupId:(NSString*)groupId;
 - (void)setChatDelegate:(id)chatDelegate;
 - (void)configChatMoreMenus:(NSDictionary*)title2IconDics;
+- (void)sendCustomMessage:(NSString*)conversationId message:(NSString*)msg type:(int)type pushNotificationForAndroid:(NSString*)pushNotificationForAndroid pushNotificationForIOS:(NSString*)pushNotificationForIOS;
+- (void)sendTextMessage:(NSString*)conversationId message:(NSString*)msg;
 
 @end
 

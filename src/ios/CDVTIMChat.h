@@ -13,5 +13,7 @@
 - (void)initTIM:(CDVInvokedUrlCommand *)command;
 - (void)chatWithUserId:(CDVInvokedUrlCommand *)command;
 - (void)chatWithGroupId:(CDVInvokedUrlCommand *)command;
+- (void)sendCustomMessage:(CDVInvokedUrlCommand *)command;
+- (void)sendTextMessage:(CDVInvokedUrlCommand *)command;
 
 @end
