@@ -90,9 +90,9 @@ long BUSIID = 0;
 - (void)sendCustomMessage:(CDVInvokedUrlCommand *)command {
     NSDictionary *params = [command argumentAtIndex:0];
     
-    NSString *conversationId = params[@"conversationId"];
+    NSString *conversationId = params[@"conversation"];
     NSString *msg = params[@"message"];
-    NSString *type = params[@"type"];
+    int type = [params[@"type"] integerValue];
     NSString *pushNotificationForAndroid = params[@"pushNotificationForAndroid"];
     NSString *pushNotificationForIOS = params[@"pushNotificationForIOS"];
 
@@ -110,7 +110,7 @@ long BUSIID = 0;
 - (void)sendTextMessage:(CDVInvokedUrlCommand *)command {
     NSDictionary *params = [command argumentAtIndex:0];
     
-    NSString *conversationId = params[@"conversationId"];
+    NSString *conversationId = params[@"conversation"];
     NSString *msg = params[@"message"];
 
     [[TIMChatDelegate sharedDelegate] sendTextMessage:conversationId message:msg];
@@ -120,6 +120,22 @@ long BUSIID = 0;
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDic];
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)confirm:(CDVInvokedUrlCommand *)command {
+    NSDictionary *params = [command argumentAtIndex:0];
+    
+    NSString *desc = params[@"description"];
+    
+    __weak CDVTIMChat* that = self;
+
+    [[TIMChatDelegate sharedDelegate] confirm:desc okCallback:^{
+        NSMutableDictionary* resultDic = [NSMutableDictionary dictionary];
+
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDic];
+
+        [that.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
 }
 
 -(void)didChatClosed:(NSString*)convId
@@ -135,7 +151,7 @@ long BUSIID = 0;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:params
                                                        options:0 // Pass 0 if you don't care about the readability of the generated string
                                                          error:&error];
-    if (! jsonData) {
+    if (!jsonData) {
         NSLog(@"Got an error: %@", error);
     } else {
         jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -147,7 +163,7 @@ long BUSIID = 0;
 
 - (void)didCustomMessageSelected:(NSDictionary*)params {
     NSLog(@"CDVTIMChat::didCustomMessageSelected %@", params);
-    [self evalJs:@"didChatMoreMenuClicked" params:params];
+    [self evalJs:@"didCustomMessageSelected" params:params];
 }
 
 - (void)receivingNewCustomMessage:(NSDictionary*)params {
@@ -161,13 +177,13 @@ long BUSIID = 0;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:params
                                                        options:0 // Pass 0 if you don't care about the readability of the generated string
                                                          error:&error];
-    if (! jsonData) {
+    if (!jsonData) {
         NSLog(@"Got an error: %@", error);
     } else {
         jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
     }
-    NSString *jsStr = [NSString stringWithFormat:@"%@('%@')", functionNamejsonString];
+    NSString *jsStr = [NSString stringWithFormat:@"%@('%@')", functionName, jsonString];
     [self.commandDelegate evalJs:jsStr];
 }
 

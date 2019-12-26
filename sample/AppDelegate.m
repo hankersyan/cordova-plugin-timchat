@@ -62,14 +62,4 @@
     NSLog(@"ERROR, %@", error.localizedDescription);
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    if (_deviceToken)
-        [[TIMChatDelegate sharedDelegate] didEnterBackground];
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    if (_deviceToken)
-        [[TIMChatDelegate sharedDelegate] didBecomeActive];
-}
-
 @end

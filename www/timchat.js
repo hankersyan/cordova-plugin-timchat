@@ -17,7 +17,7 @@ var TIMChat = {
      * @param successCallback
      * @param errorCallback
      */
-    initTIM: function (params, successCallback, errorCallback) {
+    initTIM: function(params, successCallback, errorCallback) {
         exec(successCallback, errorCallback, 'TIMChat', 'initTIM', [params]);
     },
     /**
@@ -26,7 +26,7 @@ var TIMChat = {
      * @param errorCallback
      * @param params
      */
-    chatWithUserId: function (params, successCallback, errorCallback) {
+    chatWithUserId: function(params, successCallback, errorCallback) {
         exec(successCallback, errorCallback, 'TIMChat', 'chatWithUserId', [params]);
     },
     /**
@@ -35,8 +35,35 @@ var TIMChat = {
      * @param errorCallback
      * @param params
      */
-    chatWithGroupId: function (params, successCallback, errorCallback) {
+    chatWithGroupId: function(params, successCallback, errorCallback) {
         exec(successCallback, errorCallback, 'TIMChat', 'chatWithGroupId', [params]);
+    },
+    /**
+     *
+     * @param successCallback
+     * @param errorCallback
+     * @param params
+     */
+    sendCustomMessage: function(params, successCallback, errorCallback) {
+        exec(successCallback, errorCallback, 'TIMChat', 'sendCustomMessage', [params]);
+    },
+    /**
+     *
+     * @param successCallback
+     * @param errorCallback
+     * @param params
+     */
+    sendTextMessage: function(params, successCallback, errorCallback) {
+        exec(successCallback, errorCallback, 'TIMChat', 'sendTextMessage', [params]);
+    },
+    /**
+     *
+     * @param successCallback
+     * @param errorCallback
+     * @param params
+     */
+    confirm: function(params, successCallback, errorCallback) {
+        exec(successCallback, errorCallback, 'TIMChat', 'confirm', [params]);
     }
 };
 

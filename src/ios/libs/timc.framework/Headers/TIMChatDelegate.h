@@ -83,6 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)configChatMoreMenus:(NSDictionary*)title2IconDics;
 - (void)sendCustomMessage:(NSString*)conversationId message:(NSString*)msg type:(int)type pushNotificationForAndroid:(NSString*)pushNotificationForAndroid pushNotificationForIOS:(NSString*)pushNotificationForIOS;
 - (void)sendTextMessage:(NSString*)conversationId message:(NSString*)msg;
+- (void)confirm:(NSString*)description okCallback:(void (^)(void))okCallback;
 
 @end
 

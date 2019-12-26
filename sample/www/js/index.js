@@ -18,33 +18,42 @@
  */
 var app = {
     // Application Constructor
-    initialize: function () {
+    initialize: function() {
         const self = this;
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
-        window.didChatClosed = function (convId) {
+        window.didChatClosed = function(convId) {
             console.log('JS didChatClosed, ' + convId);
         };
-        window.didChatMoreMenuClicked = function (menuTitle, params) {
+        window.didChatMoreMenuClicked = function(menuTitle, params) {
             console.log('JS didChatMoreMenuClicked, ', menuTitle, params);
-            var par = JSON.parse(params);
-            console.log(par);
-            var convId = par.conversationId.replace(/[\@\#\$\%\&]/ig, '');
-            var userId = par.userId.replace(/[\@\#\$\%\&]/ig, '');
-            self.openConference(convId, userId);
+            self.openConferenceWithParams(menuTitle, params);
         };
-        console.log("didChatClosed=" + (typeof didChatClosed));
+        window.receivingNewCustomMessage = function(params) {
+            console.log('JS receivingNewCustomMessage, ' + params);
+            TIMChat.confirm({
+                "description": "加入会议?"
+            }, function() {
+                console.log('JS joining meeting', params);
+                self.openConferenceWithParams(null, params);
+            });
+        };
+        window.didCustomMessageSelected = function(params) {
+            console.log('JS didCustomMessageSelected, ' + params);
+            self.openConferenceWithParams(null, params);
+        };
+        console.log("initialize OK, window.didChatClosed=" + (typeof didChatClosed));
     },
 
     // deviceready Event Handler
     //
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
-    onDeviceReady: function () {
+    onDeviceReady: function() {
         this.receivedEvent('deviceready');
     },
 
     // Update DOM on a Received Event
-    receivedEvent: function (id) {
+    receivedEvent: function(id) {
         var parentElement = document.getElementById(id);
         var listeningElement = parentElement.querySelector('.listening');
         var receivedElement = parentElement.querySelector('.received');
@@ -60,51 +69,64 @@ var app = {
         console.log('Received Event: ' + id + ', ' + window.cordova.platformId);
 
         var userSigFromServer = "Your SHOULD calculate the userSig on your own server";
+
+        const self = this;
+        self.Users = [
+            { id: 'yrm', usersig: 'eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwpVFuVDh4pTsxIKCzBQlK0MTAwNDE1NLE0OITGpFQWZRKlDc1NTUyMDAACJakpkLFjM3NzY1MDGBihZnpgNNLa809grM8wjyKUupKgp1izKISHU3cC6ziPR1LA-Iz3GJSK00KzIJNc7IDbVVqgUAv4sxBQ__' },
+            { id: 'hankers', usersig: 'eJwtzMkOgjAUheF36drALbYyJKzcOSwUmjSGTSNVLlOwbYxDfHcJsDzfSf4vyQ*Z99SGJCTwgKymjaXuHd5w4kr1jTZ2uWzZqGHAkiSUAVDGY0bnR78GNHp0znkAALM67CYLwzWLI*BLBe9j*QROFL6qz*1VFn79jlRLu2O12X9EnjEphJGPwLU7veUXm5LfHx97M0A_' },
+            { id: 'yan', usersig: 'eJwtzE8LgjAcxvH3smsh29waEzqEl*gPRnqpm7Vf45coQ00m0XtPpsfn88D3S4pTHg3QkoTwiJJ12Gig6fGFgceyWbgzVekcGpIwQSkTUgs2P*AdtjC5lJJTSmftsQ6mVCz0Rumlgnaqxo-rygMcMybKFDjuzj4di311v*VPfnCXrHb6o4e37eyW-P6oNjDx' },
+        ];
+
+        friendId.value = "@TGS#1I2NWTBG3";
+        userSigFromServer = "";
         if (window.cordova.platformId == "ios") {
             myId.value = "hankers";
-            friendId.value = "@TGS#1I2NWTBG3";
-            userSigFromServer = "eJwtzEELgjAYxvHvsnPIu*nQCV0k6FBSpFB0szb1RVxjmonRd0*mx*f3wP9L8mPmDcqSmDAPyMZtlEr3WKLjutCNst16dbIpjEFJYhoA0ICLgC6PGg1aNTvnnAHAoj22zkKfipD6Yq1gNZffanfmGTI2WEiqU5nuy*eQv*x97C9p8rgdWj19Ir*ertGW-P6-vTMF";
         } else {
             myId.value = "yan";
-            friendId.value = "@TGS#1I2NWTBG3";
-            userSigFromServer = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwpWJeVDh4pTsxIKCzBQlK0MTAwNDE1NLE0OITGpFQWZRKlDc1NTUyMDAACJakpkLFjM3NrQ0NzK2gJqSmQ401SIwvTjcv8okL9mvssg7O8*r3CUgMb3EN9832M8yrNLc0NjUo7jCKD01Rt-RVqkWAPIpMUE_";
         }
 
         console.log('1, userId=' + myId.value);
 
-        chatBtn.addEventListener('click', function () {
+        chatBtn.addEventListener('click', function() {
             console.log('2');
+            for (var i = 0; i < self.Users.length; i++) {
+                if (self.Users[i].id == myId.value) {
+                    userSigFromServer = self.Users[i].usersig;
+                    break;
+                }
+            }
+            if (!userSigFromServer || userSigFromServer.length < 1) {
+                alert('userSig is null, please choose one of hankers, yan, yrm');
+                return;
+            }
             TIMChat.initTIM({
                     userId: myId.value,
                     userSig: userSigFromServer,
-                    chatMoreMenus: {  // 聊天输入框里的自定义菜单
-                    	"title": "会议", // 菜单title，安卓需增加一条string资源
-                    	"icon" : "conference", // 菜单图标，图标资源
-                    	"message": "", // 
-                    	"notification": "conference" // 推送提示音，声音资源
+                    chatMoreMenus: { // 聊天输入框里的自定义菜单
+                        "会议": "conference" // 推送提示音，声音资源
                     }
                 },
-                function () {
+                function() {
                     console.log('login result: success');
                     if (friendId.value.startsWith('@')) {
                         TIMChat.chatWithGroupId({
                             groupId: friendId.value
-                        }, function () {
+                        }, function() {
                             console.log(5);
-                        }, function () {
+                        }, function() {
                             console.log(6);
                         });
                     } else {
                         TIMChat.chatWithUserId({
                             userId: friendId.value
-                        }, function () {
+                        }, function() {
                             console.log(3);
-                        }, function () {
+                        }, function() {
                             console.log(4);
                         });
                     }
                 },
-                function () {
+                function() {
                     console.log('login result: failure');
                 }
             );
@@ -118,13 +140,13 @@ var app = {
         console.log('3');
     },
 
-    startConference: function () {
+    startConference: function() {
         var roomName = document.getElementById('room').value;
         var userId = document.getElementById('name').value;
         this.openConference(roomName, userId);
     },
 
-    openConference: function (conferenceId, userId) {
+    openConference: function(conferenceId, userId) {
         console.log('201');
 
         if (typeof QNRtc == 'undefined') {
@@ -139,7 +161,7 @@ var app = {
 
         var oReq = new XMLHttpRequest();
 
-        oReq.addEventListener("load", function () {
+        oReq.addEventListener("load", function() {
             console.log("load", this.responseText);
             var para = {
                 app_id: appId,
@@ -154,14 +176,38 @@ var app = {
             "/room/" + roomName +
             "/user/" + userId +
             "?bundleId=" + bundleId);
-        oReq.onerror = function () {
+        oReq.onerror = function() {
             console.log("** An error occurred during the transaction");
             console.log(oReq, oReq.status);
         };
         oReq.send();
 
         console.log('205');
-    }
+    },
+
+    openConferenceWithParams: function(menuTitle, params) {
+        const self = this;
+        var par = JSON.parse(params);
+        console.log(par);
+        var confId = par.conversation.replace(/[\@\#\$\%\&]/ig, '');
+        var userId = document.getElementById('name').value;
+        //var userId = par.user.replace(/[\@\#\$\%\&]/ig, '');
+
+        if (menuTitle == "会议") {
+            self.openConference(confId, userId);
+            // request
+            TIMChat.sendCustomMessage({
+                'conversation': par.conversation,
+                'message': '加入视频会议',
+                'type': 1,
+                'pushNotificationForAndroid': 'android.resource://your.package.name/id.of.r.raw.sound',
+                'pushNotificationForIOS': 'sounds/conference.wav'
+            });
+        } else if (par.type == 1) {
+            // answer
+            self.openConference(confId, userId);
+        }
+    },
 };
 
 app.initialize();

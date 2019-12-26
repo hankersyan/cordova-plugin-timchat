@@ -15,5 +15,6 @@
 - (void)chatWithGroupId:(CDVInvokedUrlCommand *)command;
 - (void)sendCustomMessage:(CDVInvokedUrlCommand *)command;
 - (void)sendTextMessage:(CDVInvokedUrlCommand *)command;
+- (void)confirm:(CDVInvokedUrlCommand *)command;
 
 @end
