@@ -76,6 +76,7 @@ public class TIMChat extends CordovaPlugin {
         hwPushAppId = getStringFromConfigs("hwPush_AppId");
 
         GlobalApp.setChatCallback(new GlobalApp.ChatCallback() {
+            @Override
             public void didChatClosed(String convId) {
                 final String strConvId = convId;
                 cordova.getActivity().runOnUiThread(new Runnable() {
@@ -92,13 +93,55 @@ public class TIMChat extends CordovaPlugin {
                 final String menuTitle = s;
                 try {
                     JSONObject x = new JSONObject();
-                    x.put("conversationId", map.get("conversationId"));
-                    x.put("userId", map.get("userId"));
+                    x.put("conversation", map.get("conversation"));
+                    x.put("user", map.get("user"));
                     final String xStr = x.toString();
                     cordova.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             webView.loadUrl("javascript:didChatMoreMenuClicked('" + menuTitle + "', '" + xStr + "')");
+                        }
+                    });
+                } catch (Exception e) {
+                    Log.d(TAG, e.toString());
+                }
+            }
+
+            @Override
+            public void didCustomMessageSelected(Map<String, String> params) {
+                Log.d(TAG, "didCustomMessageSelected, " + params.toString());
+                try {
+                    JSONObject x = new JSONObject();
+                    x.put("conversation", params.get("conversation"));
+                    x.put("user", params.get("user"));
+                    x.put("type", params.get("type"));
+                    x.put("text", params.get("text"));
+                    final String xStr = x.toString();
+                    cordova.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            webView.loadUrl("javascript:didCustomMessageSelected('" + xStr + "')");
+                        }
+                    });
+                } catch (Exception e) {
+                    Log.d(TAG, e.toString());
+                }
+            }
+
+            @Override
+            public void receivingNewCustomMessage(Map<String, String> params) {
+                Log.d(TAG, "receivingNewCustomMessage, " + params.toString());
+                try {
+                    JSONObject x = new JSONObject();
+                    x.put("conversation", params.get("conversation"));
+                    x.put("user", params.get("user"));
+                    x.put("type", params.get("type"));
+                    x.put("text", params.get("text"));
+                    final String xStr = x.toString();
+                    cordova.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            webView.loadUrl("javascript:receivingNewCustomMessage('" + xStr + "')");
                         }
                     });
                 } catch (Exception e) {
@@ -198,6 +241,53 @@ public class TIMChat extends CordovaPlugin {
                         @Override
                         public void run() {
                             GlobalApp.chatWithGroupId(groupId);
+                        }
+                    });
+                } else if (action.compareToIgnoreCase("sendCustomMessage") == 0) {
+                    JSONObject arg = args.getJSONObject(0);
+                    final String text = arg.getString("text");
+                    final String conversation = arg.getString("conversation");
+                    final int type = arg.getInt("type");
+                    final String pushNotificationForAndroid = arg.getString("pushNotificationForAndroid");
+                    final String pushNotificationForIOS = arg.getString("pushNotificationForIOS");
+                    Log.d(TAG, action + ", " + text);
+                    cordova.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            GlobalApp.sendCustomMessage(text, conversation, type, pushNotificationForAndroid, pushNotificationForIOS);
+                        }
+                    });
+                } else if (action.compareToIgnoreCase("sendTextMessage") == 0) {
+                    JSONObject arg = args.getJSONObject(0);
+                    final String text = arg.getString("text");
+                    final String conversation = arg.getString("conversation");
+                    Log.d(TAG, action + ", " + text);
+                    cordova.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            GlobalApp.sendTextMessage(text, conversation);
+                        }
+                    });
+                } else if (action.compareToIgnoreCase("confirm") == 0) {
+                    JSONObject arg = args.getJSONObject(0);
+                    final String desc = arg.getString("description");
+                    Log.d(TAG, action + ", " + desc);
+                    cordova.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            GlobalApp.confirm(desc, new GlobalApp.ConfirmCallback() {
+                                @Override
+                                public void onCancel() {
+                                    Log.e(TAG, "onCancel");
+                                    callbackContext.error(1);
+                                }
+
+                                @Override
+                                public void onOK() {
+                                    Log.i(TAG, "onOK");
+                                    callbackContext.success();
+                                }
+                            });
                         }
                     });
                 } else {

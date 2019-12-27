@@ -37,6 +37,7 @@
 				<resource-file src="../conference.png" />
 				<resource-file src="../conference@2x.png" />
 				<resource-file src="../conference@3x.png" />
+				<resource-file src="../conference.wav" />
 				
 				<preference name="WKWebViewOnly" value="true" />
 		    <feature name="CDVWKWebViewEngine">

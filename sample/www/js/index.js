@@ -201,7 +201,7 @@ var app = {
                 'message': '加入视频会议',
                 'type': 1,
                 'pushNotificationForAndroid': 'android.resource://your.package.name/id.of.r.raw.sound',
-                'pushNotificationForIOS': 'sounds/conference.wav'
+                'pushNotificationForIOS': 'conference.wav'
             });
         } else if (par.type == 1) {
             // answer
