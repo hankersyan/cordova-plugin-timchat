@@ -64,6 +64,24 @@ var TIMChat = {
      */
     confirm: function(params, successCallback, errorCallback) {
         exec(successCallback, errorCallback, 'TIMChat', 'confirm', [params]);
+    },
+    /**
+     *
+     * @param successCallback
+     * @param errorCallback
+     * @param params
+     */
+    getLoginUser: function(successCallback, errorCallback) {
+        exec(successCallback, errorCallback, 'TIMChat', 'getLoginUser', null);
+    },
+    /**
+     *
+     * @param successCallback
+     * @param errorCallback
+     * @param params
+     */
+    autoLogin: function(params, successCallback, errorCallback) {
+        exec(successCallback, errorCallback, 'TIMChat', 'autoLogin', [params]);
     }
 };
 

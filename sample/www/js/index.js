@@ -18,26 +18,26 @@
  */
 var app = {
     // Application Constructor
-    initialize: function() {
+    initialize: function () {
         const self = this;
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
-        window.didChatClosed = function(convId) {
+        window.didChatClosed = function (convId) {
             console.log('JS didChatClosed, ' + convId);
         };
-        window.didChatMoreMenuClicked = function(menuTitle, params) {
+        window.didChatMoreMenuClicked = function (menuTitle, params) {
             console.log('JS didChatMoreMenuClicked, ', menuTitle, params);
             self.openConferenceWithParams(menuTitle, params);
         };
-        window.receivingNewCustomMessage = function(params) {
+        window.receivingNewCustomMessage = function (params) {
             console.log('JS receivingNewCustomMessage, ' + params);
             TIMChat.confirm({
                 "description": "加入会议?"
-            }, function() {
+            }, function () {
                 console.log('JS joining meeting', params);
                 self.openConferenceWithParams(null, params);
             });
         };
-        window.didCustomMessageSelected = function(params) {
+        window.didCustomMessageSelected = function (params) {
             console.log('JS didCustomMessageSelected, ' + params);
             self.openConferenceWithParams(null, params);
         };
@@ -48,12 +48,12 @@ var app = {
     //
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
-    onDeviceReady: function() {
+    onDeviceReady: function () {
         this.receivedEvent('deviceready');
     },
 
     // Update DOM on a Received Event
-    receivedEvent: function(id) {
+    receivedEvent: function (id) {
         var parentElement = document.getElementById(id);
         var listeningElement = parentElement.querySelector('.listening');
         var receivedElement = parentElement.querySelector('.received');
@@ -68,17 +68,22 @@ var app = {
 
         console.log('Received Event: ' + id + ', ' + window.cordova.platformId);
 
-        var userSigFromServer = "Your SHOULD calculate the userSig on your own server";
-
         const self = this;
-        self.Users = [
-            { id: 'yrm', usersig: 'eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwpVFuVDh4pTsxIKCzBQlK0MTAwNDE1NLE0OITGpFQWZRKlDc1NTUyMDAACJakpkLFjM3NzY1MDGBihZnpgNNLa809grM8wjyKUupKgp1izKISHU3cC6ziPR1LA-Iz3GJSK00KzIJNc7IDbVVqgUAv4sxBQ__' },
-            { id: 'hankers', usersig: 'eJwtzMkOgjAUheF36drALbYyJKzcOSwUmjSGTSNVLlOwbYxDfHcJsDzfSf4vyQ*Z99SGJCTwgKymjaXuHd5w4kr1jTZ2uWzZqGHAkiSUAVDGY0bnR78GNHp0znkAALM67CYLwzWLI*BLBe9j*QROFL6qz*1VFn79jlRLu2O12X9EnjEphJGPwLU7veUXm5LfHx97M0A_' },
-            { id: 'yan', usersig: 'eJwtzE8LgjAcxvH3smsh29waEzqEl*gPRnqpm7Vf45coQ00m0XtPpsfn88D3S4pTHg3QkoTwiJJ12Gig6fGFgceyWbgzVekcGpIwQSkTUgs2P*AdtjC5lJJTSmftsQ6mVCz0Rumlgnaqxo-rygMcMybKFDjuzj4di311v*VPfnCXrHb6o4e37eyW-P6oNjDx' },
+        self.Users = [{
+                id: 'yrm',
+                usersig: 'eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwpVFuVDh4pTsxIKCzBQlK0MTAwNDE1NLE0OITGpFQWZRKlDc1NTUyMDAACJakpkLFjM3NzY1MDGBihZnpgNNLa809grM8wjyKUupKgp1izKISHU3cC6ziPR1LA-Iz3GJSK00KzIJNc7IDbVVqgUAv4sxBQ__'
+            },
+            {
+                id: 'hankers',
+                usersig: 'eJwtzMkOgjAUheF36drALbYyJKzcOSwUmjSGTSNVLlOwbYxDfHcJsDzfSf4vyQ*Z99SGJCTwgKymjaXuHd5w4kr1jTZ2uWzZqGHAkiSUAVDGY0bnR78GNHp0znkAALM67CYLwzWLI*BLBe9j*QROFL6qz*1VFn79jlRLu2O12X9EnjEphJGPwLU7veUXm5LfHx97M0A_'
+            },
+            {
+                id: 'yan',
+                usersig: 'eJwtzE8LgjAcxvH3smsh29waEzqEl*gPRnqpm7Vf45coQ00m0XtPpsfn88D3S4pTHg3QkoTwiJJ12Gig6fGFgceyWbgzVekcGpIwQSkTUgs2P*AdtjC5lJJTSmftsQ6mVCz0Rumlgnaqxo-rygMcMybKFDjuzj4di311v*VPfnCXrHb6o4e37eyW-P6oNjDx'
+            },
         ];
 
         friendId.value = "@TGS#1I2NWTBG3";
-        userSigFromServer = "";
         if (window.cordova.platformId == "ios") {
             myId.value = "hankers";
         } else {
@@ -87,49 +92,9 @@ var app = {
 
         console.log('1, userId=' + myId.value);
 
-        chatBtn.addEventListener('click', function() {
-            console.log('2');
-            for (var i = 0; i < self.Users.length; i++) {
-                if (self.Users[i].id == myId.value) {
-                    userSigFromServer = self.Users[i].usersig;
-                    break;
-                }
-            }
-            if (!userSigFromServer || userSigFromServer.length < 1) {
-                alert('userSig is null, please choose one of hankers, yan, yrm');
-                return;
-            }
-            TIMChat.initTIM({
-                    userId: myId.value,
-                    userSig: userSigFromServer,
-                    chatMoreMenus: { // 聊天输入框里的自定义菜单
-                        "会议": "conference" // 推送提示音，声音资源
-                    }
-                },
-                function() {
-                    console.log('login result: success');
-                    if (friendId.value.startsWith('@')) {
-                        TIMChat.chatWithGroupId({
-                            groupId: friendId.value
-                        }, function() {
-                            console.log(5);
-                        }, function() {
-                            console.log(6);
-                        });
-                    } else {
-                        TIMChat.chatWithUserId({
-                            userId: friendId.value
-                        }, function() {
-                            console.log(3);
-                        }, function() {
-                            console.log(4);
-                        });
-                    }
-                },
-                function() {
-                    console.log('login result: failure');
-                }
-            );
+        chatBtn.addEventListener('click', function () {
+            console.log('5');
+            self.login();
         }, false);
 
         console.log('2, rtcBtn=' + rtcBtn);
@@ -137,16 +102,89 @@ var app = {
         rtcBtn.addEventListener('click', this.startConference.bind(this), false);
         document.getElementById('name').value = 'u' + Math.floor((Math.random() * 1000) + 1);
 
+        TIMChat.getLoginUser(function (uid) {
+            console.log('getLoginUser=' + uid);
+            if (uid) {
+                myId.value = uid;
+            }
+        });
+
         console.log('3');
     },
 
-    startConference: function() {
+    login: function () {
+        const self = this;
+        var myId = document.getElementById('myid');
+        var friendId = document.getElementById('friendId');
+
+        TIMChat.getLoginUser(function (loginUser) {
+            console.log('getLoginUser=' + loginUser);
+            if (myId.value == loginUser) {
+                TIMChat.autoLogin({
+                    userId: myId.value
+                }, function () {
+                    self.onLoginSuccess();
+                });
+            } else {
+                var userSigFromServer = "Your SHOULD calculate the userSig on your own server";
+                for (var i = 0; i < self.Users.length; i++) {
+                    if (self.Users[i].id == myId.value) {
+                        userSigFromServer = self.Users[i].usersig;
+                        break;
+                    }
+                }
+                if (!userSigFromServer || userSigFromServer.length < 1) {
+                    alert('userSig is null, please choose one of hankers, yan, yrm');
+                    return;
+                }
+                TIMChat.initTIM({
+                        userId: myId.value,
+                        userSig: userSigFromServer,
+                        chatMoreMenus: { // 聊天输入框里的自定义菜单
+                            "会议": "conference" // 推送提示音，声音资源
+                        }
+                    },
+                    function () {
+                        console.log('login result: success');
+                        self.onLoginSuccess();
+                    },
+                    function () {
+                        console.log('login result: failure');
+                    }
+                );
+            }
+        });
+
+    },
+
+    onLoginSuccess: function () {
+        var friendId = document.getElementById('friendId');
+        if (friendId.value.startsWith('@')) {
+            TIMChat.chatWithGroupId({
+                groupId: friendId.value
+            }, function () {
+                console.log(5);
+            }, function () {
+                console.log(6);
+            });
+        } else {
+            TIMChat.chatWithUserId({
+                userId: friendId.value
+            }, function () {
+                console.log(3);
+            }, function () {
+                console.log(4);
+            });
+        }
+    },
+
+    startConference: function () {
         var roomName = document.getElementById('room').value;
         var userId = document.getElementById('name').value;
         this.openConference(roomName, userId);
     },
 
-    openConference: function(conferenceId, userId) {
+    openConference: function (conferenceId, userId) {
         console.log('201');
 
         if (typeof QNRtc == 'undefined') {
@@ -161,7 +199,7 @@ var app = {
 
         var oReq = new XMLHttpRequest();
 
-        oReq.addEventListener("load", function() {
+        oReq.addEventListener("load", function () {
             console.log("load", this.responseText);
             var para = {
                 app_id: appId,
@@ -176,7 +214,7 @@ var app = {
             "/room/" + roomName +
             "/user/" + userId +
             "?bundleId=" + bundleId);
-        oReq.onerror = function() {
+        oReq.onerror = function () {
             console.log("** An error occurred during the transaction");
             console.log(oReq, oReq.status);
         };
@@ -185,7 +223,7 @@ var app = {
         console.log('205');
     },
 
-    openConferenceWithParams: function(menuTitle, params) {
+    openConferenceWithParams: function (menuTitle, params) {
         const self = this;
         var par = JSON.parse(params);
         console.log(par);

@@ -18,11 +18,11 @@ android/iOS
 
 #### 计划中的功能
 
-5. 视频会议B--腾讯云
-6. 分享地理位置
-7. 后台跟踪地理位置（考虑到各个平台杀进程，大概能存活5分钟）
-8. 自定义消息：投票
-9. 红包
+5. 分享地理位置
+6. 后台跟踪地理位置（考虑到各个平台杀进程，大概能存活5分钟）
+7. 自定义消息：投票
+8. 红包
+9. 视频会议B--腾讯云
 
 #### 安装
 
@@ -44,9 +44,12 @@ cordova plugin add https://gitee.com/hankersyan/cordova-plugin-timchat.git --var
 
 1. 移除引用 "timc.framework"，重新引用 platforms/ios/<YOUR_PROJECT>/Plugins/cordova-plugin-timchat/timc.framework，并增加引用 timc.framework/Frameworks/ImSDK.framework
 2. 在 AppDelegate 里增加 "deviceToken" property，并得到推送所需的设备码
-3. 如果需要集成七牛视频会议插件，需在 YOUR_PROJECT_NAME-Prefix.pch 文件里引用头文件 #import "Plugins/cordova-plugin-rtc-qiniu/QRDPublicHeader.h"
-4. 关于腾讯IM离线推送的自定义铃声，查看wav文件在编译后包里的相对路径，推送设定的pushNotificationForIOS值使用此相对路径。
-5. Limitation: 由于腾讯IM离线推送的Android自定义铃声只能使用资源ID，所以必须先编译android工程，得到铃声wav文件的资源ID，再硬编码。一直用此工程编译，资源ID貌似不变。（待定）
+
+如果集成了七牛云视频会议插件，还需要：
+
+3. 在 YOUR_PROJECT_NAME-Prefix.pch 文件里引用头文件 #import "Plugins/cordova-plugin-rtc-qiniu/QRDPublicHeader.h"
+4. 视频呼叫时的IOS自定义铃声，由于腾讯IM离线推送的自定义铃声是音频文件的相对路径，故需查看 wav/caf 文件在编译后包里的相对路径，推送设定的 pushNotificationForIOS 值使用此相对路径。
+5. 视频呼叫时的Android自定义铃声，由于腾讯IM离线推送的Android自定义铃声只能使用资源ID，所以必须先编译android工程，得到铃声 wav 文件的资源ID，再硬编码。一直用此工程编译，资源ID貌似不变。（LIMITATION，待定）
 
 #### Android studio 设置 
 1. 根 build.gradle 里设置 defaultMinSdkVersion=21 
@@ -70,7 +73,7 @@ window.didChatMoreMenuClicked = function (menuTitle, params) {
     window.openConferenceWithParams(menuTitle, params);
 };
 window.receivingNewCustomMessage = function(params) {
-    console.log('JS receivingNewCustomMessage, ' + params);
+    console.log('接收到新的自定义消息的回调, ' + params);
     TIMChat.confirm({
         "description": "加入会议?"
     }, function() {
@@ -79,7 +82,7 @@ window.receivingNewCustomMessage = function(params) {
     });
 };
 window.didCustomMessageSelected = function(params) {
-    console.log('JS didCustomMessageSelected, ' + params);
+    console.log('聊天消息列表里用户点击自定义消息的回调, ' + params);
     window.openConferenceWithParams(null, params);
 };
 TIMChat.initTIM({             // 初始化+登陆
@@ -153,7 +156,7 @@ window.openConferenceWithParams = function(menuTitle, params) {
       TIMChat.sendCustomMessage({
           'conversation': par.conversation,
           'message': '加入视频会议',
-          'type': 1, // 自定义类型: 1=视频会议
+          'type': 1, // 自定义消息类型: 1=视频会议
           'pushNotificationForAndroid': 'android.resource://your.package.name/id.of.r.raw.sound',
           'pushNotificationForIOS': 'sounds/conference.wav'
       });

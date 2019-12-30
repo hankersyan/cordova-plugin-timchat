@@ -16,5 +16,7 @@
 - (void)sendCustomMessage:(CDVInvokedUrlCommand *)command;
 - (void)sendTextMessage:(CDVInvokedUrlCommand *)command;
 - (void)confirm:(CDVInvokedUrlCommand *)command;
+- (void)getLoginUser:(CDVInvokedUrlCommand *)command;
+- (void)autoLogin:(CDVInvokedUrlCommand *)command;
 
 @end

@@ -290,6 +290,43 @@ public class TIMChat extends CordovaPlugin {
                             });
                         }
                     });
+                } else if (action.compareToIgnoreCase("getLoginUser") == 0) {
+                    Log.d(TAG, action);
+                    cordova.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String userId = GlobalApp.getLoginUser();
+                            callbackContext.success(userId);
+                        }
+                    });
+                } else if (action.compareToIgnoreCase("autoLogin") == 0) {
+                    JSONObject arg = args.getJSONObject(0);
+                    final String userId = arg.getString("userId");
+                    Log.d(TAG, action + ", " + userId);
+                    cordova.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            GlobalApp.autoLogin(userId, new GlobalApp.Callback() {
+
+                                @Override
+                                public void onError(int i, String s) {
+                                    JSONObject ret = new JSONObject();
+                                    try {
+                                        ret.put("code", i);
+                                        ret.put("msg", s);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    callbackContext.error(ret);
+                                }
+
+                                @Override
+                                public void onSuccess(Object o) {
+                                    callbackContext.success();
+                                }
+                            });
+                        }
+                    });
                 } else {
                     Method method = TIMChat.class.getDeclaredMethod(action, JSONArray.class, CallbackContext.class);
                     method.invoke(TIMChat.this, args, callbackContext);

@@ -138,6 +138,35 @@ long BUSIID = 0;
     }];
 }
 
+- (void)getLoginUser:(CDVInvokedUrlCommand *)command {
+    __weak CDVTIMChat* that = self;
+
+    NSString *userId = [[TIMChatDelegate sharedDelegate] getLoginUser];
+
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:userId];
+
+    [that.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)autoLogin:(CDVInvokedUrlCommand *)command {
+    NSDictionary *params = [command argumentAtIndex:0];
+    
+    NSString *userId = params[@"userId"];
+    
+    __weak CDVTIMChat* that = self;
+
+    [[TIMChatDelegate sharedDelegate] autoLogin:userId completion:^(int code, NSString * _Nonnull msg) {
+        NSMutableDictionary* resultDic = [NSMutableDictionary dictionary];
+        [resultDic setObject:[NSString stringWithFormat:@"%d", code] forKey:@"code"];
+        if (msg)
+            [resultDic setObject:msg forKey:@"msg"];
+
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDic];
+        
+        [that.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
 -(void)didChatClosed:(NSString*)convId
 {
     NSLog(@"CDVTIMChat::didChatClosed, %@", convId);
