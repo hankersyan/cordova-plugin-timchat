@@ -208,6 +208,7 @@ public class TIMChat extends CordovaPlugin {
                                     xmPushBusiId, xmPushAppId, xmPushAppKey,
                                     hwPushBusiId, hwPushAppId,
                                     secretKey);
+                            GlobalApp.onActivityInit(cordova.getActivity());
                             GlobalApp.login(userId, userSig, new GlobalApp.Callback() {
                                 @Override
                                 public void onError(int i, String s) {

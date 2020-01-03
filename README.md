@@ -55,7 +55,18 @@ cordova plugin add https://gitee.com/hankersyan/cordova-plugin-timchat.git --var
 1. 根 build.gradle 里设置 defaultMinSdkVersion=21 
 2. AndroidManifest.xml 里增加推送设置，注意替换YOUR.PACKAGE.NAME
 ```html
-		<!-- 小米推送设置 -->
+    <!-- 华为推送设置 in application section -->
+    <meta-data
+        android:name="com.huawei.hms.client.appid"
+        android:value="appid=你的APPID"/>
+
+    <!-- 华为推送设置 in manifest -->
+    <permission
+        android:name="<YOUR.PACKAGE.NAME>.permission.PROCESS_PUSH_MSG"
+        android:protectionLevel="signatureOrSystem"/>
+    <uses-permission android:name="<YOUR.PACKAGE.NAME>.permission.PROCESS_PUSH_MSG" />
+
+		<!-- 小米推送设置 in manifest -->
     <permission
         android:name="<YOUR.PACKAGE.NAME>.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
