@@ -228,7 +228,7 @@ var app = {
         var par = JSON.parse(params);
         console.log(par);
         var confId = par.conversation.replace(/[\@\#\$\%\&]/ig, '');
-        var userId = document.getElementById('name').value;
+        var userId = document.getElementById('myid').value;
         //var userId = par.user.replace(/[\@\#\$\%\&]/ig, '');
 
         if (menuTitle == "会议") {

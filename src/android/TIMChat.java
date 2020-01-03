@@ -245,7 +245,7 @@ public class TIMChat extends CordovaPlugin {
                     });
                 } else if (action.compareToIgnoreCase("sendCustomMessage") == 0) {
                     JSONObject arg = args.getJSONObject(0);
-                    final String text = arg.getString("text");
+                    final String text = arg.getString("message");
                     final String conversation = arg.getString("conversation");
                     final int type = arg.getInt("type");
                     final String pushNotificationForAndroid = arg.getString("pushNotificationForAndroid");
@@ -254,12 +254,12 @@ public class TIMChat extends CordovaPlugin {
                     cordova.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            GlobalApp.sendCustomMessage(text, conversation, type, pushNotificationForAndroid, pushNotificationForIOS);
+                            GlobalApp.sendCustomMessage(conversation, text, type, pushNotificationForAndroid, pushNotificationForIOS);
                         }
                     });
                 } else if (action.compareToIgnoreCase("sendTextMessage") == 0) {
                     JSONObject arg = args.getJSONObject(0);
-                    final String text = arg.getString("text");
+                    final String text = arg.getString("message");
                     final String conversation = arg.getString("conversation");
                     Log.d(TAG, action + ", " + text);
                     cordova.getActivity().runOnUiThread(new Runnable() {
