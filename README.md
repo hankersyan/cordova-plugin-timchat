@@ -13,8 +13,8 @@ android/iOS
 
 1. 单聊/群聊
 2. 发送文本/图片/短语音/短视频消息
-3. 离线消息推送
-4. 视频会议A--七牛云（便宜、没有最低消费）
+3. 离线消息推送(iOS,华为,小米)
+4. 多人视频会议A--七牛云（便宜、没有最低消费）
 
 #### 计划中的功能
 
@@ -22,7 +22,7 @@ android/iOS
 6. 后台跟踪地理位置（考虑到各个平台杀进程，大概能存活5分钟）
 7. 自定义消息：投票
 8. 红包
-9. 视频会议B--腾讯云
+9. 多人视频会议B--腾讯云
 
 #### 安装
 
@@ -49,7 +49,7 @@ cordova plugin add https://gitee.com/hankersyan/cordova-plugin-timchat.git --var
 
 3. 在 YOUR_PROJECT_NAME-Prefix.pch 文件里引用头文件 #import "Plugins/cordova-plugin-rtc-qiniu/QRDPublicHeader.h"
 4. 视频呼叫时的IOS自定义铃声，由于腾讯IM离线推送的自定义铃声是音频文件的相对路径，故需查看 wav/caf 文件在编译后包里的相对路径，推送设定的 pushNotificationForIOS 值使用此相对路径。
-5. 视频呼叫时的Android自定义铃声，由于腾讯IM离线推送的Android自定义铃声只能使用资源ID，所以必须先编译android工程，得到铃声 wav 文件的资源ID，再硬编码。一直用此工程编译，资源ID貌似不变。（LIMITATION，待定）
+5. 视频呼叫时的Android自定义铃声，由于腾讯IM离线推送的Android自定义铃声只能使用资源ID，所以必须先编译android工程，得到铃声 wav 文件的资源ID。
 
 #### Android studio 设置 
 1. 根 build.gradle 里设置 defaultMinSdkVersion=21 

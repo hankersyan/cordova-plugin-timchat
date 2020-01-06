@@ -10,16 +10,22 @@
     <content src="index.html" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
-    <allow-intent href="mailto:*" />
-    <allow-intent href="geo:*" />
+    <allow-intent href="*" />
     <platform name="android">
         <allow-intent href="market:*" />
         <resource-file src="../conference@3x.png" target="app/src/main/res/drawable-xxhdpi/conference.png" />
         <resource-file src="../conference-strings.xml" target="app/src/main/res/values/conference-strings.xml" />
+        <config-file mode="merge" parent="/manifest" target="AndroidManifest.xml">
+				    <permission android:name="io.hankers.tim01.permission.PROCESS_PUSH_MSG" android:protectionLevel="signatureOrSystem"/>
+				    <uses-permission android:name="io.hankers.tim01.permission.PROCESS_PUSH_MSG" />
+				    <permission android:name="io.hankers.tim01.permission.MIPUSH_RECEIVE" android:protectionLevel="signature" />
+				    <uses-permission android:name="io.hankers.tim01.permission.MIPUSH_RECEIVE" />
+        </config-file>
+		    <edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
+		    		<application android:usesCleartextTraffic="true"/>
+	        	<meta-data android:name="com.huawei.hms.client.appid" android:value="appid=101330759" />
+	        	<activity android:name="cordova.plugin.qnrtc.activity.RoomActivity" />
+		    </edit-config>
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
