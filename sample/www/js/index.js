@@ -24,23 +24,6 @@ var app = {
         window.didChatClosed = function (convId) {
             console.log('JS didChatClosed, ' + convId);
         };
-        window.didChatMoreMenuClicked = function (menuTitle, params) {
-            console.log('JS didChatMoreMenuClicked, ', menuTitle, params);
-            self.openConferenceWithParams(menuTitle, params);
-        };
-        window.receivingNewCustomMessage = function (params) {
-            console.log('JS receivingNewCustomMessage, ' + params);
-            TIMChat.confirm({
-                "description": "加入会议?"
-            }, function () {
-                console.log('JS joining meeting', params);
-                self.openConferenceWithParams(null, params);
-            });
-        };
-        window.didCustomMessageSelected = function (params) {
-            console.log('JS didCustomMessageSelected, ' + params);
-            self.openConferenceWithParams(null, params);
-        };
         console.log("initialize OK, window.didChatClosed=" + (typeof didChatClosed));
     },
 
@@ -59,9 +42,7 @@ var app = {
         var receivedElement = parentElement.querySelector('.received');
         var chatBtn = document.getElementById('chat');
         var myId = document.getElementById('myid');
-        var myPwd = document.getElementById('mypwd');
         var friendId = document.getElementById('friendId');
-        var rtcBtn = document.getElementById('rtc');
 
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
@@ -97,10 +78,7 @@ var app = {
             self.login();
         }, false);
 
-        console.log('2, rtcBtn=' + rtcBtn);
-
-        rtcBtn.addEventListener('click', this.startConference.bind(this), false);
-        document.getElementById('name').value = 'u' + Math.floor((Math.random() * 1000) + 1);
+        console.log('2, chatBtn=' + chatBtn);
 
         TIMChat.getLoginUser(function (uid) {
             console.log('getLoginUser=' + uid);
@@ -142,7 +120,11 @@ var app = {
                         userSig: userSigFromServer,
                         chatMoreMenus: { // 聊天输入框里的自定义菜单
                             "会议": "conference" // 推送提示音，声音资源
-                        }
+                        },
+                        qnAppID: "d8lk7l4ed",
+                        qnTokenUrl: "https://api-demo.qnsdk.com/v1/rtc/token/admin/app/d8lk7l4ed/room/<ROOM>/user/<USER>?bundleId=com.qbox.QNRTCKitDemo",
+                        pushNotificationForIOS: "conference.wav",
+                        pushNotificationForAndroid: "android.resource://io.hankers.tim01/1234567890"
                     },
                     function () {
                         console.log('login result: success');
@@ -176,76 +158,8 @@ var app = {
                 console.log(4);
             });
         }
-    },
+    }
 
-    startConference: function () {
-        var roomName = document.getElementById('room').value;
-        var userId = document.getElementById('name').value;
-        this.openConference(roomName, userId);
-    },
-
-    openConference: function (conferenceId, userId) {
-        console.log('201');
-
-        if (typeof QNRtc == 'undefined') {
-            alert('QNRtc plugin not found');
-            return;
-        }
-        var appId = 'd8lk7l4ed';
-        var roomName = conferenceId;
-        var bundleId = 'com.qbox.QNRTCKitDemo';
-
-        console.log('202,' + roomName + ',' + userId);
-
-        var oReq = new XMLHttpRequest();
-
-        oReq.addEventListener("load", function () {
-            console.log("load", this.responseText);
-            var para = {
-                app_id: appId,
-                user_id: userId,
-                room_name: roomName,
-                room_token: this.responseText
-            }
-            QNRtc.start(para);
-        });
-        oReq.open("GET", "https://api-demo.qnsdk.com/v1/rtc/token/admin/" +
-            "app/" + appId +
-            "/room/" + roomName +
-            "/user/" + userId +
-            "?bundleId=" + bundleId);
-        oReq.onerror = function () {
-            console.log("** An error occurred during the transaction");
-            console.log(oReq, oReq.status);
-        };
-        oReq.send();
-
-        console.log('205');
-    },
-
-    openConferenceWithParams: function (menuTitle, params) {
-        const self = this;
-        var par = JSON.parse(params);
-        console.log(par);
-        var confId = par.conversation.replace(/[\@\#\$\%\&]/ig, '');
-        var userId = document.getElementById('myid').value;
-        //var userId = par.user.replace(/[\@\#\$\%\&]/ig, '');
-
-        if (menuTitle == "会议") {
-            self.openConference(confId, userId);
-            // request
-            TIMChat.sendCustomMessage({
-                'conversation': par.conversation,
-                'message': '加入视频会议',
-                'type': 1,
-                'pushNotificationForAndroid': 'android.resource://your.package.name/id.of.r.raw.sound',
-                'pushNotificationForIOS': 'conference.wav'
-            });
-        } else if (par.type == 1) {
-            // answer
-            self.openConference(confId, userId);
-        }
-    },
 };
 
 app.initialize();
