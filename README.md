@@ -79,30 +79,17 @@ cordova plugin add https://gitee.com/hankersyan/cordova-plugin-timchat.git --var
 window.didChatClosed = function(convId) {
     console.log('聊天页关闭的回调, conversationId=' + convId);
 };
-window.didChatMoreMenuClicked = function (menuTitle, params) {
-    console.log('聊天页里自定义菜单的回调, ', menuTitle, params);
-    window.openConferenceWithParams(menuTitle, params);
-};
-window.receivingNewCustomMessage = function(params) {
-    console.log('接收到新的自定义消息的回调, ' + params);
-    TIMChat.confirm({
-        "description": "加入会议?"
-    }, function() {
-        console.log('JS joining meeting', params);
-        window.openConferenceWithParams(null, params);
-    });
-};
-window.didCustomMessageSelected = function(params) {
-    console.log('聊天消息列表里用户点击自定义消息的回调, ' + params);
-    window.openConferenceWithParams(null, params);
-};
 TIMChat.initTIM({             // 初始化+登陆
         userId: myUserId,
         userSig: userSigFromServer, // 自己服务器计算好的userSig，参见腾讯云文档
         chatMoreMenus: {
                 "会议": "conference" // 聊天页里自定义菜单, 格式为 title : namedImage 
                                 // 注意：android 需为 title 添加 string资源
-        }
+        },
+        qnAppID: "d8lk7l4ed",   // 七牛云App ID
+        qnTokenUrl: "https://api-demo.qnsdk.com/v1/rtc/token/admin/app/d8lk7l4ed/room/<ROOM>/user/<USER>?bundleId=com.qbox.QNRTCKitDemo", // 计算七牛云token的自己服务器的URL，<ROOM>和<USER>是占位符，会被本插件替换
+        pushNotificationForIOS: "conference.wav", // 离线推送时iOS的提示音
+        pushNotificationForAndroid: "android.resource://YOUR.PACKAGE.NAME/1234567890"  // 离线推送时android的提示音
     },
     function() {
         console.log('login result: success');
@@ -118,62 +105,4 @@ TIMChat.initTIM({             // 初始化+登陆
     },
     function() { console.log('login result: failure'); }
 );
-window.openConference = function (conferenceId, userId) {
-    console.log('201');
-
-    if (typeof QNRtc == 'undefined') {
-        alert('QNRtc plugin not found');
-        return;
-    }
-    var appId = 'd8lk7l4ed';
-    var roomName = conferenceId;
-    var bundleId = 'com.qbox.QNRTCKitDemo';
-
-    console.log('202,' + roomName + ',' + userId);
-
-    var oReq = new XMLHttpRequest();
-
-    oReq.addEventListener("load", function () {
-        console.log("load", this.responseText);
-        var para = {
-            app_id: appId,
-            user_id: userId,
-            room_name: roomName,
-            room_token: this.responseText
-        }
-        QNRtc.start(para);
-    });
-    // 获取七牛云token
-    oReq.open("GET", "https://api-demo.qnsdk.com/v1/rtc/token/admin/" +
-        "app/" + appId +
-        "/room/" + roomName +
-        "/user/" + userId +
-        "?bundleId=" + bundleId);
-    oReq.onerror = function () {
-        console.log("** An error occurred during the transaction");
-        console.log(oReq, oReq.status);
-    };
-    oReq.send();
-
-    console.log('205');
-};
-window.openConferenceWithParams = function(menuTitle, params) {
-  var par = JSON.parse(params);
-  console.log(par);
-  var confId = par.conversation.replace(/[\@\#\$\%\&]/ig, ''); // 七牛云会议ID禁用特殊字符
-  if (menuTitle == "会议") {
-      window.openConference(confId, myUserId);
-      // request
-      TIMChat.sendCustomMessage({
-          'conversation': par.conversation,
-          'message': '加入视频会议',
-          'type': 1, // 自定义消息类型: 1=视频会议
-          'pushNotificationForAndroid': 'android.resource://your.package.name/id.of.r.raw.sound',
-          'pushNotificationForIOS': 'sounds/conference.wav'
-      });
-  } else if (par.type == 1) {
-      // answer
-      window.openConference(confId, myUserId);
-  }
-};
 ```
