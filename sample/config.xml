@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.hankers.tim01" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="io.hankers.tim01" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0"
+	 xmlns:android="http://schemas.android.com/apk/res/android">
     <name>TIM01</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -20,12 +21,16 @@
 				    <uses-permission android:name="io.hankers.tim01.permission.PROCESS_PUSH_MSG" />
 				    <permission android:name="io.hankers.tim01.permission.MIPUSH_RECEIVE" android:protectionLevel="signature" />
 				    <uses-permission android:name="io.hankers.tim01.permission.MIPUSH_RECEIVE" />
+						<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+        </config-file>
+        <config-file mode="merge" parent="/manifest/application" target="AndroidManifest.xml">
+	        	<meta-data android:name="com.huawei.hms.client.appid" android:value="appid=101330759" />
+	        	<activity android:name="cordova.plugin.qnrtc.activity.RoomActivity" />
         </config-file>
 		    <edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
 		    		<application android:usesCleartextTraffic="true"/>
-	        	<meta-data android:name="com.huawei.hms.client.appid" android:value="appid=101330759" />
-	        	<activity android:name="cordova.plugin.qnrtc.activity.RoomActivity" />
 		    </edit-config>
+        <preference name="android-minSdkVersion" value="21" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />

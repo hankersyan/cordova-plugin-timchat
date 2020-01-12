@@ -3,10 +3,13 @@ package io.hankers.cordova;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+import android.os.AsyncTask;
 import android.util.Log;
 
+import com.tencent.imsdk.TIMManager;
 import com.tencent.qcloud.tim.timchat.GlobalApp;
 
 import org.apache.cordova.CallbackContext;
@@ -18,9 +21,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -44,6 +53,11 @@ public class TIMChat extends CordovaPlugin {
     String xmPushAppKey;
     long hwPushBusiId;
     String hwPushAppId;
+
+    String pushNotificationForAndroid = "";
+    String pushNotificationForIOS = "";
+    String qnTokenUrl = "";
+    String qnAppID = "";
 
     public TIMChat() {
 
@@ -91,38 +105,49 @@ public class TIMChat extends CordovaPlugin {
             public void didChatMoreMenuClicked(String s, Map<String, String> map) {
                 Log.d(TAG, "didChatMoreMenuClicked, " + s + ", " + map);
                 final String menuTitle = s;
-                try {
-                    JSONObject x = new JSONObject();
-                    x.put("conversation", map.get("conversation"));
-                    x.put("user", map.get("user"));
-                    final String xStr = x.toString();
-                    cordova.getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            webView.loadUrl("javascript:didChatMoreMenuClicked('" + menuTitle + "', '" + xStr + "')");
-                        }
-                    });
-                } catch (Exception e) {
-                    Log.d(TAG, e.toString());
+                if (menuTitle.equalsIgnoreCase("会议")) {
+                    TIMChat.this.videoCall(map.get("conversation"));
                 }
+//                try {
+//                    JSONObject x = new JSONObject();
+//                    x.put("conversation", map.get("conversation"));
+//                    x.put("user", map.get("user"));
+//                    final String xStr = x.toString();
+//                    cordova.getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            webView.loadUrl("javascript:didChatMoreMenuClicked('" + menuTitle + "', '" + xStr + "')");
+//                        }
+//                    });
+//                } catch (Exception e) {
+//                    Log.d(TAG, e.toString());
+//                }
             }
 
             @Override
             public void didCustomMessageSelected(Map<String, String> params) {
                 Log.d(TAG, "didCustomMessageSelected, " + params.toString());
                 try {
-                    JSONObject x = new JSONObject();
-                    x.put("conversation", params.get("conversation"));
-                    x.put("user", params.get("user"));
-                    x.put("type", params.get("type"));
-                    x.put("text", params.get("text"));
-                    final String xStr = x.toString();
-                    cordova.getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            webView.loadUrl("javascript:didCustomMessageSelected('" + xStr + "')");
+                    if (params.containsKey("type") && params.get("type") != null) {
+                        int type = Integer.valueOf(params.get("type"));
+                        if (type == 1) {
+                            String convId = String.valueOf(params.get("conversation"));
+                            TIMChat.this.startQNRtc(convId);
                         }
-                    });
+                    }
+
+//                    JSONObject x = new JSONObject();
+//                    x.put("conversation", params.get("conversation"));
+//                    x.put("user", params.get("user"));
+//                    x.put("type", params.get("type"));
+//                    x.put("text", params.get("text"));
+//                    final String xStr = x.toString();
+//                    cordova.getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            webView.loadUrl("javascript:didCustomMessageSelected('" + xStr + "')");
+//                        }
+//                    });
                 } catch (Exception e) {
                     Log.d(TAG, e.toString());
                 }
@@ -132,18 +157,36 @@ public class TIMChat extends CordovaPlugin {
             public void receivingNewCustomMessage(Map<String, String> params) {
                 Log.d(TAG, "receivingNewCustomMessage, " + params.toString());
                 try {
-                    JSONObject x = new JSONObject();
-                    x.put("conversation", params.get("conversation"));
-                    x.put("user", params.get("user"));
-                    x.put("type", params.get("type"));
-                    x.put("text", params.get("text"));
-                    final String xStr = x.toString();
-                    cordova.getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            webView.loadUrl("javascript:receivingNewCustomMessage('" + xStr + "')");
+                    if (params.containsKey("type") && params.get("type") != null) {
+                        int type = Integer.valueOf(params.get(("type")));
+                        if (type == 1) {
+                            GlobalApp.confirm("加入会议", new GlobalApp.ConfirmCallback() {
+                                @Override
+                                public void onCancel() {
+
+                                }
+
+                                @Override
+                                public void onOK() {
+                                    String convId = String.valueOf(params.get("conversation"));
+                                    TIMChat.this.startQNRtc(convId);
+                                }
+                            });
                         }
-                    });
+                    }
+
+//                    JSONObject x = new JSONObject();
+//                    x.put("conversation", params.get("conversation"));
+//                    x.put("user", params.get("user"));
+//                    x.put("type", params.get("type"));
+//                    x.put("text", params.get("text"));
+//                    final String xStr = x.toString();
+//                    cordova.getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            webView.loadUrl("javascript:receivingNewCustomMessage('" + xStr + "')");
+//                        }
+//                    });
                 } catch (Exception e) {
                     Log.d(TAG, e.toString());
                 }
@@ -198,6 +241,11 @@ public class TIMChat extends CordovaPlugin {
                             GlobalApp.configChatMoreMenus(params);
                         }
                     }
+
+                    pushNotificationForAndroid = arg.has("pushNotificationForAndroid") ? arg.getString("pushNotificationForAndroid") : "";
+                    pushNotificationForIOS = arg.has("pushNotificationForIOS") ? arg.getString("pushNotificationForIOS") : "";
+                    qnTokenUrl = arg.has("qnTokenUrl") ? arg.getString("qnTokenUrl") : "";
+                    qnAppID = arg.has("qnAppID") ? arg.getString("qnAppID") : "";
 
                     String secretKey = arg.has("secretKey") ? arg.getString("secretKey") : "";
 //                    userSig = GlobalApp.generateUserSigForTest(sdkAppId, userId, secretKey);
@@ -444,4 +492,99 @@ public class TIMChat extends CordovaPlugin {
         return -1;
     }
 
+    public void videoCall(String conversationId) {
+        String msg = "加入视频会议";
+        int type = 1;
+
+        GlobalApp.sendCustomMessage(conversationId, msg, type, pushNotificationForAndroid, pushNotificationForIOS);
+
+        this.startQNRtc(conversationId);
+    }
+
+    public void startQNRtc(final String conversationId) {
+        try {
+            Class cls = Class.forName("cordova.plugin.qnrtc.QNRtc");
+            //Method method = cls.getMethod("setResource");
+            //Object o = method.invoke(null, cordova.getActivity().getApplication());
+            Method[] methods = cls.getMethods();
+            for (Method m : methods) {
+                if ("setResource".equals(m.getName())) {
+                    // for static methods we can use null as instance of class
+                    m.invoke(null, new Object[] {cordova.getActivity().getApplication()});
+                    break;
+                }
+            }
+            //QNRtc.setResource(cordova.getActivity().getApplication());
+            new RequestTokenTask().execute(conversationId);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
+    }
+
+    private class RequestTokenTask extends AsyncTask<String, Void, String> {
+
+        String roomId = "";
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String conversationId = strings[0];
+            roomId = conversationId
+                    .replace("#", "")
+                    .replace("@", "")
+                    .replace("$", "")
+                    .replace("%", "")
+                    .replace("&", "");
+            String userId = TIMManager.getInstance().getLoginUser();
+            String url = qnTokenUrl.replace("<ROOM>", roomId).replace("<USER>", userId);
+            String token = "";
+            try {
+                HttpURLConnection urlConnection = (HttpURLConnection) new URL(url).openConnection();
+                urlConnection.setRequestMethod("GET");
+                int statusCode = urlConnection.getResponseCode();
+                if (statusCode == 200) {
+                    InputStream it = new BufferedInputStream(urlConnection.getInputStream());
+                    InputStreamReader read = new InputStreamReader(it);
+                    BufferedReader buff = new BufferedReader(read);
+                    StringBuilder dta = new StringBuilder();
+                    String chunks;
+                    while ((chunks = buff.readLine()) != null) {
+                        dta.append(chunks);
+                    }
+                    token = dta.toString();
+                } else {
+                    //Handle else
+                }
+            } catch (Exception ex) {
+                Log.e(TAG, ex.getLocalizedMessage());
+            }
+
+            return token.trim();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            final String roomToken = result;
+            TIMChat.this.cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (roomToken == null) {
+                        Log.e(TAG, "empty token");
+                        return;
+                    }
+                    String userId = TIMManager.getInstance().getLoginUser();
+
+                    try {
+                        Class cls = Class.forName("cordova.plugin.qnrtc.activity.RoomActivity");
+                        Intent intent = new Intent(TIMChat.this.cordova.getActivity(), cls);
+                        intent.putExtra("ROOM_ID", roomId);
+                        intent.putExtra("ROOM_TOKEN", roomToken);
+                        intent.putExtra("USER_ID", userId);
+                        TIMChat.this.cordova.getActivity().startActivity(intent);
+                    } catch (Exception e) {
+                        Log.e(TAG, e.getLocalizedMessage());
+                    }
+                }
+            });
+        }
+    }
 }
