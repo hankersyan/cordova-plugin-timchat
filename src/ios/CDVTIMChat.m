@@ -240,7 +240,7 @@ NSString* qnAppID = @"";
     //[self evalJs:@"receivingNewCustomMessage" params:params];
 
 #ifdef QNRTCHeader_h
-    NSString *desc = [params objectForKey:@"加入会议"];
+    NSString *desc = [params objectForKey:@"text"];
     __weak CDVTIMChat* that = self;
     [[TIMChatDelegate sharedDelegate] confirm:desc okCallback:^{
         NSString *convId = [params objectForKey:@"conversation"];
