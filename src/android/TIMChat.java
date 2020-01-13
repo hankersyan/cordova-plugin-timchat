@@ -158,9 +158,9 @@ public class TIMChat extends CordovaPlugin {
                 Log.d(TAG, "receivingNewCustomMessage, " + params.toString());
                 try {
                     if (params.containsKey("type") && params.get("type") != null) {
-                        int type = Integer.valueOf(params.get(("type")));
+                        int type = Integer.valueOf(params.get("type"));
                         if (type == 1) {
-                            GlobalApp.confirm("加入会议", new GlobalApp.ConfirmCallback() {
+                            GlobalApp.confirm(params.get("text"), new GlobalApp.ConfirmCallback() {
                                 @Override
                                 public void onCancel() {
 
