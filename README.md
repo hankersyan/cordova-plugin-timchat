@@ -82,14 +82,15 @@ window.didChatClosed = function(convId) {
 TIMChat.initTIM({             // 初始化+登陆
         userId: myUserId,
         userSig: userSigFromServer, // 自己服务器计算好的userSig，参见腾讯云文档
+        // 如果集成七牛云视频会议，还需以下配置
         chatMoreMenus: {
                 "会议": "conference" // 聊天页里自定义菜单, 格式为 title : namedImage 
                                 // 注意：android 需为 title 添加 string资源
         },
         qnAppID: "d8lk7l4ed",   // 七牛云App ID
         qnTokenUrl: "https://api-demo.qnsdk.com/v1/rtc/token/admin/app/d8lk7l4ed/room/<ROOM>/user/<USER>?bundleId=com.qbox.QNRTCKitDemo", // 计算七牛云token的自己服务器的URL，<ROOM>和<USER>是占位符，会被本插件替换
-        pushNotificationForIOS: "conference.wav", // 离线推送时iOS的提示音
-        pushNotificationForAndroid: "android.resource://YOUR.PACKAGE.NAME/1234567890"  // 离线推送时android的提示音
+        pushNotificationForIOS: "conference.wav", // 视频呼叫时，iOS的离线推送提示音
+        pushNotificationForAndroid: "android.resource://YOUR.PACKAGE.NAME/raw资源ID"  // 视频呼叫时，android的离线推送提示音
     },
     function() {
         console.log('login result: success');
