@@ -105,23 +105,9 @@ public class TIMChat extends CordovaPlugin {
             public void didChatMoreMenuClicked(String s, Map<String, String> map) {
                 Log.d(TAG, "didChatMoreMenuClicked, " + s + ", " + map);
                 final String menuTitle = s;
-                if (menuTitle.equalsIgnoreCase("会议")) {
+                if (menuTitle.equalsIgnoreCase("")) {
                     TIMChat.this.videoCall(map.get("conversation"));
                 }
-//                try {
-//                    JSONObject x = new JSONObject();
-//                    x.put("conversation", map.get("conversation"));
-//                    x.put("user", map.get("user"));
-//                    final String xStr = x.toString();
-//                    cordova.getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            webView.loadUrl("javascript:didChatMoreMenuClicked('" + menuTitle + "', '" + xStr + "')");
-//                        }
-//                    });
-//                } catch (Exception e) {
-//                    Log.d(TAG, e.toString());
-//                }
             }
 
             @Override
@@ -135,19 +121,6 @@ public class TIMChat extends CordovaPlugin {
                             TIMChat.this.startQNRtc(convId);
                         }
                     }
-
-//                    JSONObject x = new JSONObject();
-//                    x.put("conversation", params.get("conversation"));
-//                    x.put("user", params.get("user"));
-//                    x.put("type", params.get("type"));
-//                    x.put("text", params.get("text"));
-//                    final String xStr = x.toString();
-//                    cordova.getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            webView.loadUrl("javascript:didCustomMessageSelected('" + xStr + "')");
-//                        }
-//                    });
                 } catch (Exception e) {
                     Log.d(TAG, e.toString());
                 }
@@ -174,19 +147,6 @@ public class TIMChat extends CordovaPlugin {
                             });
                         }
                     }
-
-//                    JSONObject x = new JSONObject();
-//                    x.put("conversation", params.get("conversation"));
-//                    x.put("user", params.get("user"));
-//                    x.put("type", params.get("type"));
-//                    x.put("text", params.get("text"));
-//                    final String xStr = x.toString();
-//                    cordova.getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            webView.loadUrl("javascript:receivingNewCustomMessage('" + xStr + "')");
-//                        }
-//                    });
                 } catch (Exception e) {
                     Log.d(TAG, e.toString());
                 }
@@ -257,19 +217,36 @@ public class TIMChat extends CordovaPlugin {
                                     hwPushBusiId, hwPushAppId,
                                     secretKey);
                             GlobalApp.onActivityInit(cordova.getActivity());
-                            GlobalApp.login(userId, userSig, new GlobalApp.Callback() {
-                                @Override
-                                public void onError(int i, String s) {
-                                    Log.e(TAG, "code=" + i + ", msg=" + s);
-                                    callbackContext.error(i);
-                                }
+                            String loginUser = GlobalApp.getLoginUser();
+                            if (loginUser.equalsIgnoreCase(userId)) {
+                                GlobalApp.autoLogin(userId, new GlobalApp.Callback() {
+                                    @Override
+                                    public void onError(int i, String s) {
+                                        Log.e(TAG, "code=" + i + ", msg=" + s);
+                                        callbackContext.error(i);
+                                    }
 
-                                @Override
-                                public void onSuccess(Object o) {
-                                    Log.i(TAG, "initTIM success");
-                                    callbackContext.success();
-                                }
-                            });
+                                    @Override
+                                    public void onSuccess(Object o) {
+                                        Log.i(TAG, "initTIM success");
+                                        callbackContext.success();
+                                    }
+                                });
+                            } else {
+                                GlobalApp.login(userId, userSig, new GlobalApp.Callback() {
+                                    @Override
+                                    public void onError(int i, String s) {
+                                        Log.e(TAG, "code=" + i + ", msg=" + s);
+                                        callbackContext.error(i);
+                                    }
+
+                                    @Override
+                                    public void onSuccess(Object o) {
+                                        Log.i(TAG, "initTIM success");
+                                        callbackContext.success();
+                                    }
+                                });
+                            }
                         }
                     });
                 } else if (action.compareToIgnoreCase("chatWithUserId") == 0) {
@@ -493,7 +470,7 @@ public class TIMChat extends CordovaPlugin {
     }
 
     public void videoCall(String conversationId) {
-        String msg = "加入视频会议";
+        String msg = "";
         int type = 1;
 
         GlobalApp.sendCustomMessage(conversationId, msg, type, pushNotificationForAndroid, pushNotificationForIOS);
