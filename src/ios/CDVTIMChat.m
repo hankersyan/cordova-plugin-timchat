@@ -69,13 +69,24 @@ NSString* qnAppID = @"";
             qnAppID = params[@"qnAppID"];
     }
 
-    [[TIMChatDelegate sharedDelegate] initTIM:SDKAPPID userId:userId userSig:userSig busiId:BUSIID deviceToken:deviceToken completion:^(int code, NSString * _Nonnull msg) {
-        NSMutableDictionary* resultDic = [NSMutableDictionary dictionary];
-        
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDic];
-        
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
+    NSString* loginUser = [[TIMChatDelegate sharedDelegate] getLoginUser];
+    if ([loginUser isEqualToString:userId]) {
+        [[TIMChatDelegate sharedDelegate] autoLogin:loginUser completion:^(int code, NSString * _Nonnull msg) {
+            NSMutableDictionary* resultDic = [NSMutableDictionary dictionary];
+            
+            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDic];
+            
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }];
+    } else {
+        [[TIMChatDelegate sharedDelegate] initTIM:SDKAPPID userId:userId userSig:userSig busiId:BUSIID deviceToken:deviceToken completion:^(int code, NSString * _Nonnull msg) {
+            NSMutableDictionary* resultDic = [NSMutableDictionary dictionary];
+            
+            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDic];
+            
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }];
+    }
 }
 
 - (void)chatWithUserId:(CDVInvokedUrlCommand *)command {
@@ -199,20 +210,7 @@ NSString* qnAppID = @"";
 
 - (void)didChatMoreMenuClicked:(NSString*)menuTitle params:(NSDictionary*)params {
     NSLog(@"CDVTIMChat::didChatMoreMenuClicked %@, %@", menuTitle, params);
-//    NSError *error;
-//    NSString *jsonString = @"";
-//    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:params
-//                                                       options:0 // Pass 0 if you don't care about the readability of the generated string
-//                                                         error:&error];
-//    if (!jsonData) {
-//        NSLog(@"Got an error: %@", error);
-//    } else {
-//        jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-//        jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
-//    }
-//    NSString *jsStr = [NSString stringWithFormat:@"didChatMoreMenuClicked('%@', '%@')", menuTitle, jsonString];
-//    [self.commandDelegate evalJs:jsStr];
-    
+
 #ifdef QNRTCHeader_h
     if ([menuTitle isEqualToString:@"会议"]) {
         NSString* convId = [params objectForKey:@"conversation"];
@@ -223,7 +221,6 @@ NSString* qnAppID = @"";
 
 - (void)didCustomMessageSelected:(NSDictionary*)params {
     NSLog(@"CDVTIMChat::didCustomMessageSelected %@", params);
-//    [self evalJs:@"didCustomMessageSelected" params:params];
 
 #ifdef QNRTCHeader_h
     long type = [[params objectForKey:@"type"] intValue];
@@ -237,7 +234,6 @@ NSString* qnAppID = @"";
 
 - (void)receivingNewCustomMessage:(NSDictionary*)params {
     NSLog(@"CDVTIMChat::receivingNewCustomMessage %@", params);
-    //[self evalJs:@"receivingNewCustomMessage" params:params];
 
 #ifdef QNRTCHeader_h
     NSString *desc = [params objectForKey:@"text"];
