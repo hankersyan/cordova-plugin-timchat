@@ -39,7 +39,7 @@ import java.util.Map;
 
 public class TIMChat extends CordovaPlugin {
 
-    private static String TAG = TIMChat.class.getSimpleName();
+    private static String TAG = io.hankers.cordova.TIMChat.class.getSimpleName();
     private static final String preferenceTag = "preference";
 
     static Application _app = null;
@@ -54,10 +54,10 @@ public class TIMChat extends CordovaPlugin {
     long hwPushBusiId;
     String hwPushAppId;
 
-    String pushNotificationForAndroid = "";
-    String pushNotificationForIOS = "";
-    String qnTokenUrl = "";
-    String qnAppID = "";
+    static String pushNotificationForAndroid = "";
+    static String pushNotificationForIOS = "";
+    static String qnTokenUrl = "";
+    static String qnAppID = "";
 
     public TIMChat() {
 
@@ -106,22 +106,8 @@ public class TIMChat extends CordovaPlugin {
                 Log.d(TAG, "didChatMoreMenuClicked, " + s + ", " + map);
                 final String menuTitle = s;
                 if (menuTitle.equalsIgnoreCase("会议")) {
-                    TIMChat.this.videoCall(map.get("conversation"));
+                    io.hankers.cordova.TIMChat.this.videoCall(map.get("conversation"));
                 }
-//                try {
-//                    JSONObject x = new JSONObject();
-//                    x.put("conversation", map.get("conversation"));
-//                    x.put("user", map.get("user"));
-//                    final String xStr = x.toString();
-//                    cordova.getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            webView.loadUrl("javascript:didChatMoreMenuClicked('" + menuTitle + "', '" + xStr + "')");
-//                        }
-//                    });
-//                } catch (Exception e) {
-//                    Log.d(TAG, e.toString());
-//                }
             }
 
             @Override
@@ -132,22 +118,9 @@ public class TIMChat extends CordovaPlugin {
                         int type = Integer.valueOf(params.get("type"));
                         if (type == 1) {
                             String convId = String.valueOf(params.get("conversation"));
-                            TIMChat.this.startQNRtc(convId);
+                            io.hankers.cordova.TIMChat.this.startQNRtc(convId);
                         }
                     }
-
-//                    JSONObject x = new JSONObject();
-//                    x.put("conversation", params.get("conversation"));
-//                    x.put("user", params.get("user"));
-//                    x.put("type", params.get("type"));
-//                    x.put("text", params.get("text"));
-//                    final String xStr = x.toString();
-//                    cordova.getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            webView.loadUrl("javascript:didCustomMessageSelected('" + xStr + "')");
-//                        }
-//                    });
                 } catch (Exception e) {
                     Log.d(TAG, e.toString());
                 }
@@ -169,24 +142,11 @@ public class TIMChat extends CordovaPlugin {
                                 @Override
                                 public void onOK() {
                                     String convId = String.valueOf(params.get("conversation"));
-                                    TIMChat.this.startQNRtc(convId);
+                                    io.hankers.cordova.TIMChat.this.startQNRtc(convId);
                                 }
                             });
                         }
                     }
-
-//                    JSONObject x = new JSONObject();
-//                    x.put("conversation", params.get("conversation"));
-//                    x.put("user", params.get("user"));
-//                    x.put("type", params.get("type"));
-//                    x.put("text", params.get("text"));
-//                    final String xStr = x.toString();
-//                    cordova.getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            webView.loadUrl("javascript:receivingNewCustomMessage('" + xStr + "')");
-//                        }
-//                    });
                 } catch (Exception e) {
                     Log.d(TAG, e.toString());
                 }
@@ -221,7 +181,7 @@ public class TIMChat extends CordovaPlugin {
                             // use ResId
                             while (keys.hasNext()) {
                                 String key = keys.next();
-                                int strResId = TIMChat.getStringResIdByValue(key);
+                                int strResId = io.hankers.cordova.TIMChat.getStringResIdByValue(key);
                                 if (strResId < 1) {
                                     cordova.getActivity().runOnUiThread(new Runnable() {
                                         @Override
@@ -233,7 +193,7 @@ public class TIMChat extends CordovaPlugin {
                                     });
                                     return;
                                 }
-                                int imgResId = TIMChat.getResourceId(chatMoreMenus.getString(key), "drawable");
+                                int imgResId = io.hankers.cordova.TIMChat.getResourceId(chatMoreMenus.getString(key), "drawable");
                                 params.put(String.valueOf(strResId), String.valueOf(imgResId));
                             }
                         }
@@ -271,7 +231,7 @@ public class TIMChat extends CordovaPlugin {
                                     callbackContext.success();
                                 }
                             };
-                            if (loginUser.equalsIgnoreCase(userId)) {
+                            if (loginUser != null && loginUser.equalsIgnoreCase(userId)) {
                                 GlobalApp.autoLogin(userId, callback);
                             } else {
                                 GlobalApp.login(userId, userSig, callback);
@@ -383,8 +343,8 @@ public class TIMChat extends CordovaPlugin {
                         }
                     });
                 } else {
-                    Method method = TIMChat.class.getDeclaredMethod(action, JSONArray.class, CallbackContext.class);
-                    method.invoke(TIMChat.this, args, callbackContext);
+                    Method method = io.hankers.cordova.TIMChat.class.getDeclaredMethod(action, JSONArray.class, CallbackContext.class);
+                    method.invoke(io.hankers.cordova.TIMChat.this, args, callbackContext);
                 }
             } catch (Exception e) {
                 Log.e(TAG, e.toString());
@@ -521,7 +481,7 @@ public class TIMChat extends CordovaPlugin {
                 }
             }
             //QNRtc.setResource(cordova.getActivity().getApplication());
-            new RequestTokenTask().execute(conversationId);
+            new io.hankers.cordova.TIMChat.RequestTokenTask().execute(conversationId);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
@@ -561,7 +521,7 @@ public class TIMChat extends CordovaPlugin {
                     //Handle else
                 }
             } catch (Exception ex) {
-                Log.e(TAG, ex.getLocalizedMessage());
+                Log.e(TAG, "ERROR=" + ex.getMessage() + "\n\n, qnTokenUrl=" + qnTokenUrl);
             }
 
             return token.trim();
@@ -570,7 +530,7 @@ public class TIMChat extends CordovaPlugin {
         @Override
         protected void onPostExecute(String result) {
             final String roomToken = result;
-            TIMChat.this.cordova.getActivity().runOnUiThread(new Runnable() {
+            io.hankers.cordova.TIMChat.this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     if (roomToken == null) {
@@ -581,11 +541,11 @@ public class TIMChat extends CordovaPlugin {
 
                     try {
                         Class cls = Class.forName("cordova.plugin.qnrtc.activity.RoomActivity");
-                        Intent intent = new Intent(TIMChat.this.cordova.getActivity(), cls);
+                        Intent intent = new Intent(io.hankers.cordova.TIMChat.this.cordova.getActivity(), cls);
                         intent.putExtra("ROOM_ID", roomId);
                         intent.putExtra("ROOM_TOKEN", roomToken);
                         intent.putExtra("USER_ID", userId);
-                        TIMChat.this.cordova.getActivity().startActivity(intent);
+                        io.hankers.cordova.TIMChat.this.cordova.getActivity().startActivity(intent);
                     } catch (Exception e) {
                         Log.e(TAG, e.getLocalizedMessage());
                     }
