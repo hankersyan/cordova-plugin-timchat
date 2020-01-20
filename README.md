@@ -53,7 +53,8 @@ cordova plugin add https://gitee.com/hankersyan/cordova-plugin-timchat.git --var
 
 #### Android studio 设置 
 1. 根 build.gradle 里设置 defaultMinSdkVersion=21 
-2. AndroidManifest.xml 里增加推送设置，注意替换YOUR.PACKAGE.NAME
+2. 在 Application.onCreate 事件中调用 GlobalApp.onApplicationCreate(this) 
+3. AndroidManifest.xml 里增加推送设置，注意替换YOUR.PACKAGE.NAME
 ```html
     <!-- 华为推送设置 in application section -->
     <meta-data

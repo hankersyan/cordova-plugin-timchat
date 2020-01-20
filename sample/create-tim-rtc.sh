@@ -7,5 +7,6 @@ cordova plugin add cordova-plugin-timchat --searchpath ../.. --variable SDKAPPID
 cordova plugin add cordova-plugin-rtc-qiniu --variable APPID=dmqotunph --searchpath ../../../../cordova/plugins
 cp -r ../www .
 cp ../config.xml .
-cp ../AppDelegate.* ./platforms/ios/TIM01/Classes
+cp ../AppDelegate.* ./platforms/ios/TIM01/Classes/
+cp ../MyApplication.java ./platforms/android/app/src/main/java/io/hankers/tim01/
 cordova prepare

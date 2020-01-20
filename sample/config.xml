@@ -28,7 +28,7 @@
 	        	<activity android:name="cordova.plugin.qnrtc.activity.RoomActivity" />
         </config-file>
 		    <edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
-		    		<application android:usesCleartextTraffic="true"/>
+		    		<application android:usesCleartextTraffic="true" android:name=".MyApplication" />
 		    </edit-config>
         <preference name="android-minSdkVersion" value="21" />
     </platform>
