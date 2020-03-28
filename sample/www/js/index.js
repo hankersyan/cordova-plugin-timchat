@@ -21,6 +21,7 @@ var app = {
     initialize: function () {
         const self = this;
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+        document.addEventListener("resume", this.onResume.bind(this), false);
         window.didChatClosed = function (convId) {
             console.log('JS didChatClosed, ' + convId);
         };
@@ -158,6 +159,15 @@ var app = {
                 console.log(4);
             });
         }
+    },
+
+    onResume: function() {
+        console.log('JS::onResume');
+        setTimeout(function() {
+            TIMChat.getConversations({}, (conversations)=>{
+                console.log("Conversations=", JSON.stringify(conversations));
+            });
+        }, 500);
     }
 
 };

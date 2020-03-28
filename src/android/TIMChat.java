@@ -342,6 +342,15 @@ public class TIMChat extends CordovaPlugin {
                             });
                         }
                     });
+                } else if (action.compareToIgnoreCase("getConversations") == 0) {
+                    cordova.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            JSONArray convs = GlobalApp.getConversationSummaries();
+                            Log.d(TAG, action + ", " + convs);
+                            callbackContext.success(convs);
+                        }
+                    });
                 } else {
                     Method method = io.hankers.cordova.TIMChat.class.getDeclaredMethod(action, JSONArray.class, CallbackContext.class);
                     method.invoke(io.hankers.cordova.TIMChat.this, args, callbackContext);

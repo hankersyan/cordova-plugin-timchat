@@ -47,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)handleOpenURL:(NSURL *)url;
 - (NSString*)getLoginUser;
 - (void)autoLogin:(NSString*)userId completion:(void(^)(int code, NSString* msg))completion;
+- (NSArray*)getConversationSummaries;
 
 //进入登录界面
 //- (void)enterLoginUI;

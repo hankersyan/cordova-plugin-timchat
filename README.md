@@ -11,7 +11,7 @@ android/iOS
 
 #### 已实现的功能
 
-1. 单聊/群聊
+1. 单聊/群聊/会话列表
 2. 发送文本/图片/短语音/短视频消息
 3. 离线消息推送(iOS,华为,小米)
 4. 多人视频会议A--七牛云（便宜、没有最低消费）
@@ -42,7 +42,7 @@ cordova plugin add https://gitee.com/hankersyan/cordova-plugin-timchat.git --var
 
 #### XCode 设置
 
-1. 移除引用 "timc.framework"，重新引用 platforms/ios/<YOUR_PROJECT>/Plugins/cordova-plugin-timchat/timc.framework，并增加引用 timc.framework/Frameworks/ImSDK.framework
+1. 移除引用 "timc.framework"，重新引用 platforms/ios/<YOUR_PROJECT>/Plugins/cordova-plugin-timchat/timc.framework，并增加引用 timc.framework/Frameworks/ImSDK.framework。上传应用商店前，需删除Archive包里的timc.framework/Frameworks/ImSDK.framework，因为不允许嵌套的framework。
 2. 在 AppDelegate 里增加 "deviceToken" property，并得到推送所需的设备码
 
 如果集成了七牛云视频会议插件，还需要：
@@ -107,4 +107,16 @@ TIMChat.initTIM({             // 初始化+登陆
     },
     function() { console.log('login result: failure'); }
 );
+// 侦听resume事件，应用程序从后台再次打开
+document.addEventListener("resume", onResume, false);
+function onResume() {
+    console.log('JS::onResume');
+    setTimeout(function() {
+    		// 获取会话列表(本地)
+        TIMChat.getConversations({}, (conversations)=>{
+            console.log("Conversations=", JSON.stringify(conversations));
+        });
+    }, 500);
+}
+// 群组管理推荐使用服务器端API
 ```

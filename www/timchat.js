@@ -82,6 +82,9 @@ var TIMChat = {
      */
     autoLogin: function(params, successCallback, errorCallback) {
         exec(successCallback, errorCallback, 'TIMChat', 'autoLogin', [params]);
+    },
+    getConversations: function(params, successCallback, errorCallback) {
+        exec(successCallback, errorCallback, 'TIMChat', 'getConversations', [params]);
     }
 };
 

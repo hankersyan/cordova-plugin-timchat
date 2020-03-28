@@ -18,5 +18,6 @@
 - (void)confirm:(CDVInvokedUrlCommand *)command;
 - (void)getLoginUser:(CDVInvokedUrlCommand *)command;
 - (void)autoLogin:(CDVInvokedUrlCommand *)command;
+- (void)getConversations:(CDVInvokedUrlCommand *)command;
 
 @end

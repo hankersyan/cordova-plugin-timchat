@@ -202,6 +202,14 @@ NSString* qnAppID = @"";
     }];
 }
 
+- (void)getConversations:(CDVInvokedUrlCommand *)command {
+    NSArray* convs = [[TIMChatDelegate sharedDelegate] getConversationSummaries];
+    
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:convs];
+    
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 -(void)didChatClosed:(NSString*)convId
 {
     NSLog(@"CDVTIMChat::didChatClosed, %@", convId);
