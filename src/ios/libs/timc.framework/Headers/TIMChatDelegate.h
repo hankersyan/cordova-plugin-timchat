@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didChatMoreMenuClicked:(NSString*)menuTitle params:(NSDictionary*)params;
 - (void)didCustomMessageSelected:(NSDictionary*)params;
 - (void)receivingNewCustomMessage:(NSDictionary*)params;
+- (void)didLogout;
 @end
 
 @interface TIMChatDelegate : NSObject

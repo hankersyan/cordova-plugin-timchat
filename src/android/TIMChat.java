@@ -151,6 +151,16 @@ public class TIMChat extends CordovaPlugin {
                     Log.d(TAG, e.toString());
                 }
             }
+
+            @Override
+            public void logout() {
+                cordova.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        webView.loadUrl("javascript:didLogout()");
+                    }
+                });
+            }
         });
     }
 

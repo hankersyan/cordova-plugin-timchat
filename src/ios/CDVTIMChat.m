@@ -255,6 +255,12 @@ NSString* qnAppID = @"";
 
 }
 
+-(void)didLogout
+{
+    NSLog(@"CDVTIMChat::didLogout");
+    [self.commandDelegate evalJs:@"didLogout()"];
+}
+
 - (void)evalJs:(NSString*)functionName params:(NSDictionary*)params {
     NSError *error;
     NSString *jsonString = @"";
