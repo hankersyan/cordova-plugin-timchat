@@ -7,7 +7,7 @@ repositories{
 }
 
 dependencies {
-    implementation 'com.tencent.imsdk:tuikit:4.5.111'
+    implementation 'com.tencent.imsdk:tuikit:4.7.1'
     implementation "com.android.support:appcompat-v7:27.1.1"
     implementation "com.android.support:multidex:1.0.1"
     implementation "org.bouncycastle:bcpkix-jdk15on:1.59"
