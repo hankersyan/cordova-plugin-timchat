@@ -2,8 +2,8 @@
 //  timc.h
 //  timc
 //
-//  Created by apple on 2019/10/18.
-//  Copyright © 2019 Tencent. All rights reserved.
+//  Created by mac on 2020/4/11.
+//  Copyright © 2020 Tencent. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -15,4 +15,5 @@ FOUNDATION_EXPORT double timcVersionNumber;
 FOUNDATION_EXPORT const unsigned char timcVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <timc/PublicHeader.h>
+
 

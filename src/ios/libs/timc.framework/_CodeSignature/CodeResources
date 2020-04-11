@@ -4,13 +4,21 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>00.caf</key>
+		<data>
+		uvLh61vIZ1sIE3eDxMNSuSKxNlo=
+		</data>
+		<key>01.caf</key>
+		<data>
+		6TqD58EuTA9+xXpMN0+Jfv2Q0fw=
+		</data>
 		<key>Assets.car</key>
 		<data>
-		IUhUxBqSku8PWpy9SVFGqwUaQKQ=
+		SkpUTnwu7I9hNz7nuNNRWRef2dw=
 		</data>
 		<key>Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<data>
-		dCYj9BjAWm5jGI+0+HIGjGFcWD8=
+		f2nv45IAhWauRErV0Qk11bTiXz8=
 		</data>
 		<key>Base.lproj/LaunchScreen.storyboardc/Info.plist</key>
 		<data>
@@ -18,11 +26,11 @@
 		</data>
 		<key>Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib</key>
 		<data>
-		yH/+jhBq5rtrgBlT7NCW7S6zRAs=
+		HK0JmXBYcEnl1mu9zhbxpo/HPa4=
 		</data>
 		<key>Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib</key>
 		<data>
-		CejPiiSYgq1jjAWoWFFDGRYqpCc=
+		3Ty5mkjniIqyPltsxWGElZRDH84=
 		</data>
 		<key>Base.lproj/Main.storyboardc/Info.plist</key>
 		<data>
@@ -30,23 +38,23 @@
 		</data>
 		<key>Base.lproj/Main.storyboardc/Itl-9X-Waa-view-Yp7-vI-hcL.nib</key>
 		<data>
-		u2TSRl1uQ67mM64kVop9k2kyqWo=
+		XZNzKOAGvl1NG76MtQ6G7Ocwxp0=
 		</data>
 		<key>Base.lproj/Main.storyboardc/LoginController.nib</key>
 		<data>
-		eAQNIeL9onglkta2UGqOiT6pbmI=
+		S2J1dw1MHycPyfnlmssDlQASIio=
 		</data>
 		<key>Base.lproj/Main.storyboardc/UIViewController-Itl-9X-Waa.nib</key>
 		<data>
-		xqCdquiTRWE/DrbFWVEfPlLZIjk=
+		cJACHWfx22nTO/Gv3/n19uOgjK0=
 		</data>
 		<key>Frameworks/ImSDK.framework/ImSDK</key>
 		<data>
-		Ghw2yUro9nzrlmkT1B604sXW30g=
+		pAHuYVoVHYTtKUZKNEW80q1thdA=
 		</data>
 		<key>Frameworks/ImSDK.framework/Info.plist</key>
 		<data>
-		o4J/o+znsUoFhRBHqaPYmKVeBaY=
+		sdw4oYlqwGIqXzPhS/zLIXwhd/k=
 		</data>
 		<key>Headers/TIMChatDelegate.h</key>
 		<data>
@@ -54,11 +62,11 @@
 		</data>
 		<key>Headers/timc.h</key>
 		<data>
-		kJBd9sQkmBon2qM9noyWIkR3Q4k=
+		3B9L8Zd0+hQUjDGDowNPSqmKln4=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		lvFT5yntUxGl+u2MfBWEW49eFh8=
+		IXZxaoXaBd65ueBF4DRh6xEi2TM=
 		</data>
 		<key>TUIKitFace.bundle/del_normal@2x.png</key>
 		<data>
@@ -936,29 +944,9 @@
 		<data>
 		VE0g7oSNyj0sZ+wwG05zqBhR5dc=
 		</data>
-		<key>TUIKitResource.bundle/default_group.png</key>
-		<data>
-		zVjSi6Q4lyjYAlwO53HFpEkgpnk=
-		</data>
-		<key>TUIKitResource.bundle/default_group@2x.png</key>
-		<data>
-		uOxh+tfft5xEOvAOSG9Mpjv8lCQ=
-		</data>
-		<key>TUIKitResource.bundle/default_group@3x.png</key>
-		<data>
-		/5zngNc+ESUZp28rVSE0G1NGMLA=
-		</data>
-		<key>TUIKitResource.bundle/default_head.png</key>
-		<data>
-		R2UJbg3ZUDMDNgIs5u4Jiyxk4Sg=
-		</data>
 		<key>TUIKitResource.bundle/default_head@2x.png</key>
 		<data>
-		JrDH1kgP9ZdO7LUjyv8tsBrAnQU=
-		</data>
-		<key>TUIKitResource.bundle/default_head@3x.png</key>
-		<data>
-		jz6IylixTqNo5S9XAVTP70ALPMo=
+		/LbHbgO5z3iCFZYxGeh2szqe3Rg=
 		</data>
 		<key>TUIKitResource.bundle/delete@2x.png</key>
 		<data>
@@ -1508,18 +1496,6 @@
 		<data>
 		zbbWCRmGBJ/t1mf6ntAr1vB/cKg=
 		</data>
-		<key>camera@3x.png</key>
-		<data>
-		un5WV2N/Q7Da3NQirx0gchAUK94=
-		</data>
-		<key>phone@3x.png</key>
-		<data>
-		iW076EwyVPqSzBLeMFr29fbar2o=
-		</data>
-		<key>video@3x.png</key>
-		<data>
-		sKnGbfs3HRiFMLeXaLgVpTuQ5OU=
-		</data>
 		<key>zh-Hans.lproj/LaunchScreen.strings</key>
 		<dict>
 			<key>hash</key>
@@ -1541,26 +1517,48 @@
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>00.caf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			uvLh61vIZ1sIE3eDxMNSuSKxNlo=
+			</data>
+			<key>hash2</key>
+			<data>
+			bc5mU5IMc0DxK+DqTXqIDb/TMuZBIkS8WiB9ToasLBo=
+			</data>
+		</dict>
+		<key>01.caf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			6TqD58EuTA9+xXpMN0+Jfv2Q0fw=
+			</data>
+			<key>hash2</key>
+			<data>
+			S5YlAD2JFM8EuBcSy6f0PtcQdMq+HvTtudhGjxLcOts=
+			</data>
+		</dict>
 		<key>Assets.car</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			IUhUxBqSku8PWpy9SVFGqwUaQKQ=
+			SkpUTnwu7I9hNz7nuNNRWRef2dw=
 			</data>
 			<key>hash2</key>
 			<data>
-			O6Vu0jvzshPVdgFQP7ebd22tEUB75tgkF7xhJupAjF8=
+			OHASBwk/c6UlPzvw5acOVFnMP9G3Al9RP4/pKQZHU1o=
 			</data>
 		</dict>
 		<key>Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			dCYj9BjAWm5jGI+0+HIGjGFcWD8=
+			f2nv45IAhWauRErV0Qk11bTiXz8=
 			</data>
 			<key>hash2</key>
 			<data>
-			d90YQOyZThN6SIdEwJMiGxZLi/lYzkKp1tTeL6DBtXM=
+			SdzuvIiIv4WnKKZ0LNyswAjjVYsNHmfWgHO2C3LRDhU=
 			</data>
 		</dict>
 		<key>Base.lproj/LaunchScreen.storyboardc/Info.plist</key>
@@ -1578,22 +1576,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			yH/+jhBq5rtrgBlT7NCW7S6zRAs=
+			HK0JmXBYcEnl1mu9zhbxpo/HPa4=
 			</data>
 			<key>hash2</key>
 			<data>
-			+LZ5JZ7oIqSfVxDoxOX6cOUIR348+mlxWm1ld641q0s=
+			Wmbu8ppcMvgLs++JYdjD10yVlPoEjNJQKIFRaCmiL5M=
 			</data>
 		</dict>
 		<key>Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			CejPiiSYgq1jjAWoWFFDGRYqpCc=
+			3Ty5mkjniIqyPltsxWGElZRDH84=
 			</data>
 			<key>hash2</key>
 			<data>
-			YjPUZaHod/NoyazuiuTpuxMs4CBPz10p+V8YyhCfdgQ=
+			gY5OdcAqIzI4CJIpt+QboYG+3HD8SI3rZUdx4kkWiPA=
 			</data>
 		</dict>
 		<key>Base.lproj/Main.storyboardc/Info.plist</key>
@@ -1611,55 +1609,55 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			u2TSRl1uQ67mM64kVop9k2kyqWo=
+			XZNzKOAGvl1NG76MtQ6G7Ocwxp0=
 			</data>
 			<key>hash2</key>
 			<data>
-			nVsWCxZWhqknwIFecN1T2Wh6ioBTIxZ2pHE5795KPws=
+			+jXOWdYT+pTldYLP9QD0v75b96YF4HXgiqfVck0O4QY=
 			</data>
 		</dict>
 		<key>Base.lproj/Main.storyboardc/LoginController.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			eAQNIeL9onglkta2UGqOiT6pbmI=
+			S2J1dw1MHycPyfnlmssDlQASIio=
 			</data>
 			<key>hash2</key>
 			<data>
-			tDOg1nO3toKPBPbxFzOWgqK63vSP0LAaOXhDPS/IHbw=
+			ZPwGwVQ0lK/kyn8MPABK5zJFDX+pThEgWLKH4Zch8uE=
 			</data>
 		</dict>
 		<key>Base.lproj/Main.storyboardc/UIViewController-Itl-9X-Waa.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			xqCdquiTRWE/DrbFWVEfPlLZIjk=
+			cJACHWfx22nTO/Gv3/n19uOgjK0=
 			</data>
 			<key>hash2</key>
 			<data>
-			N6YcZ/vAm9K4W1jYMZZSYr3D3o62w7nrX3QT66M+Xo4=
+			BfDN2qt7iSmdBEN9+Wv9Hsli5A59xz2Mosop+pfhZ2Y=
 			</data>
 		</dict>
 		<key>Frameworks/ImSDK.framework/ImSDK</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Ghw2yUro9nzrlmkT1B604sXW30g=
+			pAHuYVoVHYTtKUZKNEW80q1thdA=
 			</data>
 			<key>hash2</key>
 			<data>
-			N4sAnFgpMnX1m7UOW81vc5YZce8BMLleM9abonHYHcU=
+			xRp1RdY92+XmtvJzHGmxiFWGADNUy0Ai+fkSKdgmcXU=
 			</data>
 		</dict>
 		<key>Frameworks/ImSDK.framework/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			o4J/o+znsUoFhRBHqaPYmKVeBaY=
+			sdw4oYlqwGIqXzPhS/zLIXwhd/k=
 			</data>
 			<key>hash2</key>
 			<data>
-			7Xp3qALrzg6ZF2T2bK9QfgTD/+A91lnBTo+0JkxWm8E=
+			OLMIxjprajYAXxR3HTSsowmNMKRpl8iicOacnWpWvZY=
 			</data>
 		</dict>
 		<key>Headers/TIMChatDelegate.h</key>
@@ -1677,11 +1675,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			kJBd9sQkmBon2qM9noyWIkR3Q4k=
+			3B9L8Zd0+hQUjDGDowNPSqmKln4=
 			</data>
 			<key>hash2</key>
 			<data>
-			ewBWoW94vLAUTRtEvbBGk1IMOhdsYv1sGAC/9m6Rl/0=
+			vl8rGyhxnShdPZP2druhFby/Kx1OmSXyeBIlthZap9o=
 			</data>
 		</dict>
 		<key>TUIKitFace.bundle/del_normal@2x.png</key>
@@ -4093,70 +4091,15 @@
 			D3trYw4Leyt+N7bbJu+9+aqdqE8MctMVxgH9kWPgSwI=
 			</data>
 		</dict>
-		<key>TUIKitResource.bundle/default_group.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			zVjSi6Q4lyjYAlwO53HFpEkgpnk=
-			</data>
-			<key>hash2</key>
-			<data>
-			a88HVvZFZSVv9S0V0DSAfQD2R4+oBrhQMJPjAY7gOkQ=
-			</data>
-		</dict>
-		<key>TUIKitResource.bundle/default_group@2x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			uOxh+tfft5xEOvAOSG9Mpjv8lCQ=
-			</data>
-			<key>hash2</key>
-			<data>
-			svb70GWPrccrvKyD6CEzEPJrHYhou4kCWEHSLPzayrY=
-			</data>
-		</dict>
-		<key>TUIKitResource.bundle/default_group@3x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			/5zngNc+ESUZp28rVSE0G1NGMLA=
-			</data>
-			<key>hash2</key>
-			<data>
-			6dmozwREsmbMekXPbAuNTFRXxnFnEQy2dr0cn3c6wuE=
-			</data>
-		</dict>
-		<key>TUIKitResource.bundle/default_head.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			R2UJbg3ZUDMDNgIs5u4Jiyxk4Sg=
-			</data>
-			<key>hash2</key>
-			<data>
-			oyoZSRgSgGJjGD9cmblEROnMbPSxgKsWlZu7weiNfR4=
-			</data>
-		</dict>
 		<key>TUIKitResource.bundle/default_head@2x.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			JrDH1kgP9ZdO7LUjyv8tsBrAnQU=
+			/LbHbgO5z3iCFZYxGeh2szqe3Rg=
 			</data>
 			<key>hash2</key>
 			<data>
-			aDi0y7E168hCdooB6dmMoDOgcSrcD3f4Gd2Nw3LuzAo=
-			</data>
-		</dict>
-		<key>TUIKitResource.bundle/default_head@3x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			jz6IylixTqNo5S9XAVTP70ALPMo=
-			</data>
-			<key>hash2</key>
-			<data>
-			JlPZ86y/jc4mdHNMkZoNTMs+s1U0yrl0jkQQiMq8Aps=
+			d4K2mgpBVVd2kXeWHAvlpP7nocMEqmiwEa1SE59oVDY=
 			</data>
 		</dict>
 		<key>TUIKitResource.bundle/delete@2x.png</key>
@@ -5664,39 +5607,6 @@
 			<key>hash2</key>
 			<data>
 			OrsFfxyA0zm6uXG9PzvO3rjBc7CzCdH196v0ZB9VZmY=
-			</data>
-		</dict>
-		<key>camera@3x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			un5WV2N/Q7Da3NQirx0gchAUK94=
-			</data>
-			<key>hash2</key>
-			<data>
-			40bfNjO7W5mghgPEj7ju5+H4dZYdVb7+DP/i/u++ICo=
-			</data>
-		</dict>
-		<key>phone@3x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			iW076EwyVPqSzBLeMFr29fbar2o=
-			</data>
-			<key>hash2</key>
-			<data>
-			XhNbYotcnVoczzfPPho0K7Ol9SofrzfI8ww/whPimq0=
-			</data>
-		</dict>
-		<key>video@3x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			sKnGbfs3HRiFMLeXaLgVpTuQ5OU=
-			</data>
-			<key>hash2</key>
-			<data>
-			/Ezu3LkMq8NDepj+/BHLGBJwSJ894dTDfUS9K/29pOA=
 			</data>
 		</dict>
 		<key>zh-Hans.lproj/LaunchScreen.strings</key>
