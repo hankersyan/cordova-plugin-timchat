@@ -125,7 +125,9 @@ var app = {
                         qnAppID: "d8lk7l4ed",
                         qnTokenUrl: "https://api-demo.qnsdk.com/v1/rtc/token/admin/app/d8lk7l4ed/room/<ROOM>/user/<USER>?bundleId=com.qbox.QNRTCKitDemo",
                         pushNotificationForIOS: "conference.wav",
-                        pushNotificationForAndroid: "android.resource://io.hankers.tim01/1234567890"
+                        pushNotificationForAndroid: "android.resource://io.hankers.tim01/1234567890",
+                        groupProfileUrl: "http://YOUR.DOMAIN.COM/groupprofile.html?token=xxx.ooo",
+                        userProfileUrl: "http://YOUR.DOMAIN.COM/userprofile.html?token=xxx.ooo",
                     },
                     function () {
                         console.log('login result: success');

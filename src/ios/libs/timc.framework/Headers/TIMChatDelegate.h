@@ -37,6 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (UITabBarController *)getMainController;
 
 @property (nonatomic, strong) NSString *integratedLoginParam;
+@property (nonatomic, strong) NSString *groupProfileUrl;
+@property (nonatomic, strong) NSString *userProfileUrl;
 
 + (instancetype)sharedDelegate;
 

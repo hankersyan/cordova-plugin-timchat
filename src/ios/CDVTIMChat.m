@@ -53,6 +53,14 @@ NSString* qnAppID = @"";
     		[[TIMChatDelegate sharedDelegate] configChatMoreMenus:params[@"chatMoreMenus"]];
     }
     
+    if ([[params allKeys] containsObject:@"groupProfileUrl"]) {
+            [[TIMChatDelegate sharedDelegate] setGroupProfileUrl:params[@"groupProfileUrl"]];
+    }
+    
+    if ([[params allKeys] containsObject:@"userProfileUrl"]) {
+            [[TIMChatDelegate sharedDelegate] setUserProfileUrl:params[@"userProfileUrl"]];
+    }
+
     if ([[params allKeys] containsObject:@"pushNotificationForAndroid"]) {
             pushNotificationForAndroid = params[@"pushNotificationForAndroid"];
     }

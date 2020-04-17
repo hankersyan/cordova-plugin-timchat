@@ -15,6 +15,7 @@ android/iOS
 2. 发送文本/图片/短语音/短视频消息
 3. 离线消息推送(iOS,华为,小米)
 4. 多人视频会议A--七牛云（便宜、没有最低消费）
+5. 群或用户详情页面可自定义
 
 #### 计划中的功能
 
@@ -42,14 +43,12 @@ cordova plugin add https://gitee.com/hankersyan/cordova-plugin-timchat.git --var
 
 #### XCode 设置
 
-1. 移除引用 "timc.framework"，重新引用 platforms/ios/<YOUR_PROJECT>/Plugins/cordova-plugin-timchat/timc.framework，并增加引用 timc.framework/Frameworks/ImSDK.framework。上传应用商店前，需删除Archive包里的timc.framework/Frameworks/ImSDK.framework，因为不允许嵌套的framework。
-2. 在 AppDelegate 里增加 "deviceToken" property，并得到推送所需的设备码
+1. 在 AppDelegate 里增加 "deviceToken" property，并得到推送所需的设备码，参见sample
 
 如果集成了七牛云视频会议插件，还需要：
 
-3. 在 YOUR_PROJECT_NAME-Prefix.pch 文件里引用头文件 #import "Plugins/cordova-plugin-rtc-qiniu/QRDPublicHeader.h"
-4. 视频呼叫时的IOS自定义铃声，由于腾讯IM离线推送的自定义铃声是音频文件的相对路径，故需查看 wav/caf 文件在编译后包里的相对路径，推送设定的 pushNotificationForIOS 值使用此相对路径。
-5. 视频呼叫时的Android自定义铃声，由于腾讯IM离线推送的Android自定义铃声只能使用资源ID，所以必须先编译android工程，得到铃声 wav 文件的资源ID。
+2. 视频呼叫时的IOS自定义铃声，由于腾讯IM离线推送的自定义铃声是音频文件的相对路径，故需查看 wav/caf 文件在编译后包里的相对路径，推送设定的 pushNotificationForIOS 值使用此相对路径。
+3. 视频呼叫时的Android自定义铃声，由于腾讯IM离线推送的Android自定义铃声只能使用资源ID，所以必须先编译android工程，得到铃声 wav 文件的资源ID。
 
 #### Android studio 设置 
 1. 根 build.gradle 里设置 defaultMinSdkVersion=21 
@@ -91,7 +90,9 @@ TIMChat.initTIM({             // 初始化+登陆
         qnAppID: "d8lk7l4ed",   // 七牛云App ID
         qnTokenUrl: "https://api-demo.qnsdk.com/v1/rtc/token/admin/app/d8lk7l4ed/room/<ROOM>/user/<USER>?bundleId=com.qbox.QNRTCKitDemo", // 计算七牛云token的自己服务器的URL，<ROOM>和<USER>是占位符，会被本插件替换
         pushNotificationForIOS: "conference.wav", // 视频呼叫时，iOS的离线推送提示音
-        pushNotificationForAndroid: "android.resource://YOUR.PACKAGE.NAME/raw资源ID"  // 视频呼叫时，android的离线推送提示音
+        pushNotificationForAndroid: "android.resource://YOUR.PACKAGE.NAME/raw资源ID",  // 视频呼叫时，android的离线推送提示音
+				groupProfileUrl: "http://YOUR.DOMAIN.COM/groupprofile.html?token=xxx.ooo", // 用户从聊天框会打开群详情页面，此处自定义群详情页的URL，群ID自动追加为id参数
+				userProfileUrl: "http://YOUR.DOMAIN.COM/userprofile.html?token=xxx.ooo",   // 用户从聊天框会打开用户详情页面，此处自定义用户详情页的URL，用户ID自动追加为id参数
     },
     function() {
         console.log('login result: success');
@@ -118,5 +119,86 @@ function onResume() {
         });
     }, 500);
 }
-// 群组管理推荐使用服务器端API
+```
+
+#### 群或用户详情页面示例
+
+```javascript
+function doSubmit() { // 右上角按钮会调用此函数，不要修改函数名
+    yourSubmitFunction((result) => {
+        if (result.成功) {
+            console.log('操作成功', result);
+            jsbridgingShowToast('修改成功'); // 成功后显示消息
+            setTimeout(function () {
+                jsbridgingBack();						// 并退出
+            }, 1000);
+        } else {
+            if (!result.errmsg) result.errmsg = '未知错误';
+            jsbridgingAlert(result.errmsg); // 失败后显示对话框
+        }
+    });
+}
+//
+// JS Bridging 定义了三个函数，无需修改
+//
+var nativeAlert;
+var nativeShowToast;
+var nativeBack;
+function jsbridgingAlert(msg) { // 显示对话框
+    if (typeof Android != "undefined") {
+        Android.alert(msg);
+    } else {
+        nativeAlert(msg); // iOS
+    }
+}
+function jsbridgingShowToast(msg) { // 显示悬浮消息
+    if (typeof Android != "undefined") {
+        Android.showToast(msg);
+    } else {
+        nativeShowToast(msg); // iOS
+    }
+}
+function jsbridgingBack() { // 退出页面
+    if (typeof Android != "undefined") {
+        Android.back();
+    } else {
+        nativeBack(); // iOS
+    }
+}
+function setupWebViewJavascriptBridge(callback) {
+    if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+    if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+    window.WVJBCallbacks = [callback];
+    var WVJBIframe = document.createElement('iframe');
+    WVJBIframe.style.display = 'none';
+    WVJBIframe.src = 'https://__bridge_loaded__';
+    document.documentElement.appendChild(WVJBIframe);
+    setTimeout(function () { document.documentElement.removeChild(WVJBIframe) }, 0)
+}
+setupWebViewJavascriptBridge(function (bridge) {
+    /* Initialize your app here */
+    bridge.registerHandler('doSubmit', function (data, responseCallback) {
+        console.log("JS doSubmit called with:", data)
+        responseCallback(data)
+        doSubmit();
+    })
+    nativeAlert = function (msg) {
+        bridge.callHandler('nativeAlert', { 'msg': msg }, function responseCallback(responseData) {
+            console.log("JS nativeAlert received response:", responseData)
+        })
+    }
+    nativeShowToast = function (msg) {
+        bridge.callHandler('nativeShowToast', { 'msg': msg }, function responseCallback(responseData) {
+            console.log("JS nativeShowToast received response:", responseData)
+        })
+    }
+    nativeBack = function (msg) {
+        bridge.callHandler('nativeBack', {}, function responseCallback(responseData) {
+            console.log("JS nativeBack received response:", responseData)
+        })
+    }
+})
+//
+// JS Bridging 定义结束
+//
 ```

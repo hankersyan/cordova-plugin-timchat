@@ -217,6 +217,12 @@ public class TIMChat extends CordovaPlugin {
                     qnTokenUrl = arg.has("qnTokenUrl") ? arg.getString("qnTokenUrl") : "";
                     qnAppID = arg.has("qnAppID") ? arg.getString("qnAppID") : "";
 
+                    String groupProfileUrl = arg.has("groupProfileUrl") ? arg.getString("groupProfileUrl") : "";
+                    GlobalApp.setGroupProfileUrl(groupProfileUrl);
+
+                    String userProfileUrl = arg.has("userProfileUrl") ? arg.getString("userProfileUrl") : "";
+                    GlobalApp.setUserProfileUrl(userProfileUrl);
+
                     String secretKey = arg.has("secretKey") ? arg.getString("secretKey") : "";
 //                    userSig = GlobalApp.generateUserSigForTest(sdkAppId, userId, secretKey);
                     cordova.getActivity().runOnUiThread(new Runnable() {
