@@ -47,8 +47,9 @@ cordova plugin add https://gitee.com/hankersyan/cordova-plugin-timchat.git --var
 
 如果集成了七牛云视频会议插件，还需要：
 
-2. 视频呼叫时的IOS自定义铃声，由于腾讯IM离线推送的自定义铃声是音频文件的相对路径，故需查看 wav/caf 文件在编译后包里的相对路径，推送设定的 pushNotificationForIOS 值使用此相对路径。
-3. 视频呼叫时的Android自定义铃声，由于腾讯IM离线推送的Android自定义铃声只能使用资源ID，所以必须先编译android工程，得到铃声 wav 文件的资源ID。
+2. 在 YOUR_PROJECT_NAME-Prefix.pch 文件里引用头文件 #import "Plugins/cordova-plugin-rtc-qiniu/QRDPublicHeader.h"
+3. 视频呼叫时的IOS自定义铃声，由于腾讯IM离线推送的自定义铃声是音频文件的相对路径，故需查看 wav/caf 文件在编译后包里的相对路径，推送设定的 pushNotificationForIOS 值使用此相对路径。
+4. 视频呼叫时的Android自定义铃声，由于腾讯IM离线推送的Android自定义铃声只能使用资源ID，所以必须先编译android工程，得到铃声 wav 文件的资源ID。
 
 #### Android studio 设置 
 1. 根 build.gradle 里设置 defaultMinSdkVersion=21 
@@ -66,7 +67,7 @@ cordova plugin add https://gitee.com/hankersyan/cordova-plugin-timchat.git --var
         android:protectionLevel="signatureOrSystem"/>
     <uses-permission android:name="<YOUR.PACKAGE.NAME>.permission.PROCESS_PUSH_MSG" />
 
-		<!-- 小米推送设置 in manifest -->
+    <!-- 小米推送设置 in manifest -->
     <permission
         android:name="<YOUR.PACKAGE.NAME>.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
@@ -108,13 +109,16 @@ TIMChat.initTIM({             // 初始化+登陆
     },
     function() { console.log('login result: failure'); }
 );
-// 侦听resume事件，应用程序从后台再次打开
-document.addEventListener("resume", onResume, false);
+document.addEventListener("deviceready", function() {
+    // 侦听resume事件，应用程序从后台再次打开
+    document.addEventListener("resume", onResume, false);
+}, false);
 function onResume() {
     console.log('JS::onResume');
     setTimeout(function() {
-    		// 获取会话列表(本地)
+        // 获取会话列表(本地)
         TIMChat.getConversations({}, (conversations)=>{
+            // 在这里刷新会话列表
             console.log("Conversations=", JSON.stringify(conversations));
         });
     }, 500);
@@ -130,7 +134,7 @@ function doSubmit() { // 右上角按钮会调用此函数，不要修改函数�
             console.log('操作成功', result);
             jsbridgingShowToast('修改成功'); // 成功后显示消息
             setTimeout(function () {
-                jsbridgingBack();						// 并退出
+                jsbridgingBack();          // 并退出
             }, 1000);
         } else {
             if (!result.errmsg) result.errmsg = '未知错误';

@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         id="cordova-plugin-timchat"
-        version="4.4.0">
+        version="4.4.1">
 
     <name>cordova-plugin-timchat</name>
     <description>腾讯IM</description>
@@ -82,10 +82,17 @@
 		      <string>production</string>
 		    </config-file>
 
-        <framework src="src/ios/libs/ImSDK.framework" embed="true" custom="true"/>
         <framework src="src/ios/libs/timc.framework" embed="true" custom="true"/>
-				<source-file src="src/ios/libs/ImSDK.framework" target-dir="../.." framework="true" />
 				<source-file src="src/ios/libs/timc.framework" target-dir="../.." framework="true" />
+        <podspec>
+            <config>
+                <source url="https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git"/>
+            </config>
+            <pods>
+                <pod name="TXIMSDK_iOS" spec="~> 4.7.2" />
+            </pods>
+        </podspec>
+				
     </platform>
 
 </plugin>
