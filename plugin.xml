@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         id="cordova-plugin-timchat"
-        version="4.4.1">
+        version="4.4.2">
 
     <name>cordova-plugin-timchat</name>
     <description>腾讯IM</description>
@@ -46,6 +46,7 @@
 				    <preference name="HWPUSH_APPID" value="@$HWPUSH_APPID" />
         </config-file>
         <resource-file src="./src/android/timc-release.aar" target="libs/timc-release.aar" />
+        <resource-file src="./src/android/tuikit-release.aar" target="libs/tuikit-release.aar" />
         <framework src="./src/android/timchat.gradle" custom="true" type="gradleReference"/>
     </platform>
 

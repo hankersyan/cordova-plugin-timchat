@@ -65,7 +65,7 @@ var app = {
             },
         ];
 
-        friendId.value = "@TGS#1I2NWTBG3";
+        friendId.value = "@TGS#24WG7ELGA";
         if (window.cordova.platformId == "ios") {
             myId.value = "hankers";
         } else {
