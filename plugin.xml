@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         id="cordova-plugin-timchat"
-        version="4.4.3">
+        version="4.5.0">
 
     <name>cordova-plugin-timchat</name>
     <description>腾讯IM</description>
@@ -31,8 +31,11 @@
     </js-module>
 
     <platform name="android">
-        <source-file src="src/android/TIMChat.java"
-                     target-dir="src/io/hankers/cordova"/>
+        <source-file src="src/android/TIMChat.java" target-dir="src/io/hankers/cordova"/>
+        <source-file src="src/android/TIMWebViewActivity.java" target-dir="src/io/hankers/cordova"/>
+				<config-file target="AndroidManifest.xml" parent="/manifest/application">
+				    <activity android:name="io.hankers.cordova.TIMWebViewActivity" />
+				</config-file>
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="TIMChat">
                 <param name="android-package" value="io.hankers.cordova.TIMChat"/>

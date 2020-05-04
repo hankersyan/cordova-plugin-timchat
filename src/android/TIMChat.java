@@ -30,6 +30,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -149,6 +151,28 @@ public class TIMChat extends CordovaPlugin {
                     }
                 } catch (Exception e) {
                     Log.d(TAG, e.toString());
+                }
+            }
+
+            @Override
+            public void onOpenGroupProfile(String s) {
+                try {
+                    String questionMark = GlobalApp.getGroupProfileUrl().contains("?") ? "" : "?";
+                    String url = GlobalApp.getGroupProfileUrl() + questionMark + "&id=" + URLEncoder.encode(s, StandardCharsets.UTF_8.toString());
+                    cordova.getActivity().startActivity(new Intent(cordova.getActivity(), TIMWebViewActivity.class).putExtra("url", url));
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
+                }
+            }
+
+            @Override
+            public void onOpenUserProfile(String s) {
+                try {
+                    String questionMark = GlobalApp.getGroupProfileUrl().contains("?") ? "" : "?";
+                    String url = GlobalApp.getUserProfileUrl() + questionMark + "&id=" + URLEncoder.encode(s, StandardCharsets.UTF_8.toString());
+                    cordova.getActivity().startActivity(new Intent(cordova.getActivity(), TIMWebViewActivity.class).putExtra("url", url));
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
                 }
             }
 

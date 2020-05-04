@@ -26,6 +26,7 @@
         <config-file mode="merge" parent="/manifest/application" target="AndroidManifest.xml">
 	        	<meta-data android:name="com.huawei.hms.client.appid" android:value="appid=101330759" />
 	        	<activity android:name="cordova.plugin.qnrtc.activity.RoomActivity" />
+	        	<activity android:name="io.hankers.cordova.TIMWebViewActivity" android:launchMode="singleTop" />
         </config-file>
 		    <edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
 		    		<application android:usesCleartextTraffic="true" android:name=".MyApplication" />
