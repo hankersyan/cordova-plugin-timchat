@@ -12,6 +12,7 @@
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />
     <allow-intent href="*" />
+    <allow-navigation href="*" />
     <platform name="android">
         <allow-intent href="market:*" />
         <resource-file src="../conference@3x.png" target="app/src/main/res/drawable-xxhdpi/conference.png" />
