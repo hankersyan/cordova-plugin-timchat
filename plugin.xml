@@ -75,6 +75,8 @@
 
         <header-file src="src/ios/CDVTIMChat.h" />
         <source-file src="src/ios/CDVTIMChat.m" />
+        <header-file src="src/ios/CDVTIMWeb.h" />
+        <source-file src="src/ios/CDVTIMWeb.m" />
 
     		<resource-file src="src/ios/libs/timc.framework/TUIKitFace.bundle"/>
     		<resource-file src="src/ios/libs/timc.framework/TUIKitResource.bundle"/>

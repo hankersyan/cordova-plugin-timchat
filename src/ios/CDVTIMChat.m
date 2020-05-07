@@ -10,6 +10,7 @@
 #import <objc/runtime.h>
 #import <timc/TIMChatDelegate.h>
 #import "AppDelegate.h"
+#import "CDVTIMWeb.h"
 
 #ifdef QNRTCHeader_h
 #import "QRDRTCViewController.h"
@@ -267,6 +268,32 @@ NSString* qnAppID = @"";
 {
     NSLog(@"CDVTIMChat::didLogout");
     [self.commandDelegate evalJs:@"didLogout()"];
+}
+
+- (void)willOpenGroupProfile:(NSString*)groupId
+{
+    NSString* prefix = [[TIMChatDelegate sharedDelegate] groupProfileUrl];
+    NSString* question = [prefix containsString:@"?"] ? @"" : @"?";
+    
+    CDVTIMWeb* webvc = [CDVTIMWeb new];
+    webvc.startPage = [NSString stringWithFormat:@"%@%@&id=%@", prefix, question, [groupId  stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSLog(@"%@", webvc.startPage);
+    
+    [self presentVC:webvc animated:YES completion:nil];
+}
+
+- (void)willOpenUserProfile:(NSString*)userId
+{
+    NSString* prefix = [[TIMChatDelegate sharedDelegate] userProfileUrl];
+    NSString* question = [prefix containsString:@"?"] ? @"" : @"?";
+    
+    CDVTIMWeb* webvc = [CDVTIMWeb new];
+    webvc.startPage = [NSString stringWithFormat:@"%@%@&id=%@", prefix, question, [userId  stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSLog(@"%@", webvc.startPage);
+
+    [self presentVC:webvc animated:YES completion:nil];
 }
 
 - (void)evalJs:(NSString*)functionName params:(NSDictionary*)params {
