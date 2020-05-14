@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *userProfileUrl;
 
 + (instancetype)sharedDelegate;
++ (void)showToast:(NSString*)msg;
 
 - (void)initTIM:(int)appId userId:(NSString*)userId userSig:(NSString*)userSig busiId:(int)busiId deviceToken:(NSData*)deviceToken completion:(void(^)(int code, NSString* msg))completion;
 //- (void)didEnterBackground;

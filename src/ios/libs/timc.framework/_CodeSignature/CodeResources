@@ -14,11 +14,11 @@
 		</data>
 		<key>Assets.car</key>
 		<data>
-		qHdwZycVD4VCe0V8wjdw3ViAkls=
+		ZmWUPOrjuGiJnqY4ReJyigs1dvI=
 		</data>
 		<key>Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<data>
-		NxNQ0vUcm8/KVWrF9KimU1FkO8U=
+		25YSWHlgMyzfyJxh/aSjbSenqWM=
 		</data>
 		<key>Base.lproj/LaunchScreen.storyboardc/Info.plist</key>
 		<data>
@@ -26,11 +26,11 @@
 		</data>
 		<key>Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib</key>
 		<data>
-		0jOlWYzMqi810GYHh1T4n4+kADU=
+		hgIQ1j9V5hdoMV9zYMl0+Ckv/QU=
 		</data>
 		<key>Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib</key>
 		<data>
-		aOJiohDq0DCoyOEmoRNGsga3/jg=
+		5eakWiOvu9WEt1uw1rA+ue9mQGc=
 		</data>
 		<key>Base.lproj/Main.storyboardc/Info.plist</key>
 		<data>
@@ -38,19 +38,19 @@
 		</data>
 		<key>Base.lproj/Main.storyboardc/Itl-9X-Waa-view-Yp7-vI-hcL.nib</key>
 		<data>
-		VKWO+VaTMGXTqZrSDfuO8z37IS0=
+		4lzllQeqqZ4hmrKgUM8rREs5sK0=
 		</data>
 		<key>Base.lproj/Main.storyboardc/LoginController.nib</key>
 		<data>
-		KLAZR9WvYkiOVzZt38L2IM+8Xeg=
+		FMasX+uJ1ul2E55295hVBBjidn4=
 		</data>
 		<key>Base.lproj/Main.storyboardc/UIViewController-Itl-9X-Waa.nib</key>
 		<data>
-		tzb2SImZ0aveP4nuNQM26OfllW4=
+		tP/7GdOD9oqFNStNzxUmWBgIfPE=
 		</data>
 		<key>Headers/TIMChatDelegate.h</key>
 		<data>
-		V5+U9XNQosNt2L4QSufRCf9VKoM=
+		ZSrK1B9Q2Npj3cXDSBGUWhdMCmU=
 		</data>
 		<key>Headers/timc.h</key>
 		<data>
@@ -58,7 +58,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		B/Bb0VC+Ho1e5K9bBTaVduXLKJA=
+		pSzhHhoT3DXqdeUa4+iSoprPyvc=
 		</data>
 		<key>TUIKitFace.bundle/del_normal@2x.png</key>
 		<data>
@@ -1535,22 +1535,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			qHdwZycVD4VCe0V8wjdw3ViAkls=
+			ZmWUPOrjuGiJnqY4ReJyigs1dvI=
 			</data>
 			<key>hash2</key>
 			<data>
-			QSDg3IDLLqFbJAiFOV7p6Xxr/jcPjLpiht8ww19xnak=
+			IfnVLY0CIrSnZ3A+wrNygPhvoVOtODDToAtbKKjX2TI=
 			</data>
 		</dict>
 		<key>Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			NxNQ0vUcm8/KVWrF9KimU1FkO8U=
+			25YSWHlgMyzfyJxh/aSjbSenqWM=
 			</data>
 			<key>hash2</key>
 			<data>
-			vXmQi4RI0IwZnw23+0JyPFdLZGDTzlkqaO4xfxwcPV0=
+			2g1BNL6pbfdXV0X3v7FDqCfRWNBzWh5IqWCKCSXO0Ig=
 			</data>
 		</dict>
 		<key>Base.lproj/LaunchScreen.storyboardc/Info.plist</key>
@@ -1568,22 +1568,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			0jOlWYzMqi810GYHh1T4n4+kADU=
+			hgIQ1j9V5hdoMV9zYMl0+Ckv/QU=
 			</data>
 			<key>hash2</key>
 			<data>
-			RAkjKbJ6ksKWT7oSVRVDs66Kw84bf6bJ3YV1fxli32w=
+			Tys60sXHqm+LCbn8ODpyrTS8mYbEp8SUK66PfsnRitA=
 			</data>
 		</dict>
 		<key>Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			aOJiohDq0DCoyOEmoRNGsga3/jg=
+			5eakWiOvu9WEt1uw1rA+ue9mQGc=
 			</data>
 			<key>hash2</key>
 			<data>
-			mW2j4gmxtzSG+6v8yjgcNTrraC+/tVEwDYlZjvTxgkA=
+			nU2AV2YU7Z380aSCIm4LXEIbbc/N1sT0gSFwU48lsSs=
 			</data>
 		</dict>
 		<key>Base.lproj/Main.storyboardc/Info.plist</key>
@@ -1601,44 +1601,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			VKWO+VaTMGXTqZrSDfuO8z37IS0=
+			4lzllQeqqZ4hmrKgUM8rREs5sK0=
 			</data>
 			<key>hash2</key>
 			<data>
-			UFRkRmi4HgUmQbFkuNiXbqJxGCkoZIsgZSimsO7mR2o=
+			TuX+k7LDnwN+Lp7Dvd476Q4CVYxauF5dt8LH8+jV2bg=
 			</data>
 		</dict>
 		<key>Base.lproj/Main.storyboardc/LoginController.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			KLAZR9WvYkiOVzZt38L2IM+8Xeg=
+			FMasX+uJ1ul2E55295hVBBjidn4=
 			</data>
 			<key>hash2</key>
 			<data>
-			IcKinQiZumh0QILWwQz3FUVEXM5Cx5cTvTH5qwZDG4M=
+			gojMqWqGrCUoI9tPyh0kdLoLbB91cT0nr2yWqT0gqmU=
 			</data>
 		</dict>
 		<key>Base.lproj/Main.storyboardc/UIViewController-Itl-9X-Waa.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			tzb2SImZ0aveP4nuNQM26OfllW4=
+			tP/7GdOD9oqFNStNzxUmWBgIfPE=
 			</data>
 			<key>hash2</key>
 			<data>
-			tRneYh2AMfFzz1/i2tDeT/vRND8reehXbEULIxjpucA=
+			cYvY6v4J/w0+gKazA8pak/0ScZ4Y85u9dN9AfaDtE2E=
 			</data>
 		</dict>
 		<key>Headers/TIMChatDelegate.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			V5+U9XNQosNt2L4QSufRCf9VKoM=
+			ZSrK1B9Q2Npj3cXDSBGUWhdMCmU=
 			</data>
 			<key>hash2</key>
 			<data>
-			HDn0RXbWs4shy1ozoCgkHQbVueR4d51A+tXb43sANeg=
+			/WNTlX6WmSdDTOpIF3idoLlne/WOm5EtLIl4C/fyStk=
 			</data>
 		</dict>
 		<key>Headers/timc.h</key>
