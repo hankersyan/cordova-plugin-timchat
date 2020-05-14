@@ -12,37 +12,57 @@
 #import "WebViewJavascriptBridge.h"
 #import <timc/TIMChatDelegate.h>
 
+@interface CDVUserAgentUtil (Swizzle)
++ (void)acquireLockDummy:(void (^)(NSInteger lockToken))block;
+@end
+
+@implementation CDVUserAgentUtil (Swizzle)
+
++ (void)acquireLockDummy:(void (^)(NSInteger lockToken))block
+{
+    NSLog(@"acquireLockDuuuuuuuuummy");
+    block(0);
+}
+
+@end
+
 @interface CDVTIMWeb ()
 @property WebViewJavascriptBridge* bridge;
 @end
 
 @implementation CDVTIMWeb
 
-static Method origLockMethod;
-static Method newLockMethod;
-
-+ (void) initialize {
-  if (self == [CDVTIMWeb class]) {
-    // Once-only initializion
-      origLockMethod = class_getClassMethod([CDVUserAgentUtil class], @selector(acquireLock:));
-      newLockMethod = class_getClassMethod([CDVTIMWeb class], @selector(acquireLockDummy:));
-  }
-  // Initialization for this class and any subclasses
-}
-
 - (void)viewDidLoad {
-    //Method originalMethod = SwizzleClassMethod([CDVUserAgentUtil class], @selector(acquireLock:), [CDVTIMWeb class], @selector(acquireLockDummy:));
-    
-    method_exchangeImplementations(origLockMethod, newLockMethod);
+    SwizzleClassMethod([CDVUserAgentUtil class], @selector(acquireLock:), @selector(acquireLockDummy:));
     
     [super viewDidLoad];
-    
-    method_exchangeImplementations(origLockMethod, newLockMethod);
 
-    //recoverSwizzleClassMethod([CDVUserAgentUtil class], @selector(acquireLock:), originalMethod);
+    SwizzleClassMethod([CDVUserAgentUtil class], @selector(acquireLock:), @selector(acquireLockDummy:));
     
     // Do any additional setup after loading the view from its nib.
-    
+    [self registerNativeMethods];
+    [self loadJSMethods];
+}
+
+//---------------------------------------------------------
+// To avoid the deadlock caused by CDVUserAgentUtil::acquireLock
+// using CDVViewController duplicately, we swizzle it via dummy
+// https://ikalaica.com/overriding-methods-in-objective-c/
+//---------------------------------------------------------
+void SwizzleClassMethod(Class c, SEL orig, SEL new)
+{
+    Method origMethod = class_getClassMethod(c, orig);
+    Method newMethod = class_getClassMethod(c, new);
+
+    c = object_getClass((id)c);
+
+    if(class_addMethod(c, orig, method_getImplementation(newMethod), method_getTypeEncoding(newMethod)))
+        class_replaceMethod(c, new, method_getImplementation(origMethod), method_getTypeEncoding(origMethod));
+    else
+        method_exchangeImplementations(origMethod, newMethod);
+}
+
+-(void)registerNativeMethods {
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.webView];
     [self.bridge registerHandler:@"__nativeAlert" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"nativeAlert: %@", data);
@@ -66,49 +86,9 @@ static Method newLockMethod;
         responseCallback(data);
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     }];
-    
-    [self loadNativeMethods];
-
 }
 
-//---------------------------------------------------------
-// To avoid the deadlock caused by CDVUserAgentUtil::acquireLock
-// using CDVViewController duplicately, we swizzle it via dummy
-// https://ikalaica.com/overriding-methods-in-objective-c/
-//---------------------------------------------------------
-Method SwizzleClassMethod(Class destClass, SEL destMethodSel, Class srcClass, SEL srcMethodSel) {
-    
-    Method origMethod = class_getClassMethod([CDVUserAgentUtil class], @selector(acquireLock:));
-    Method newMethod = class_getClassMethod([CDVTIMWeb class], @selector(acquireLockDummy:));
-
-    destClass = object_getClass((id)destClass);
-
-    if(class_addMethod(destClass, destMethodSel, method_getImplementation(newMethod), method_getTypeEncoding(newMethod)))
-        class_replaceMethod(destClass, srcMethodSel, method_getImplementation(origMethod), method_getTypeEncoding(origMethod));
-    else
-        method_exchangeImplementations(origMethod, newMethod);
-    
-    return origMethod;
-}
-
-void recoverSwizzleClassMethod(Class destClass, SEL destMethodSel, Method origMethod) {
-
-    Method destMethod = class_getClassMethod(destClass, destMethodSel);
-
-    destClass = object_getClass((id)destClass);
-
-    if(class_addMethod(destClass, destMethodSel, method_getImplementation(origMethod), method_getTypeEncoding(origMethod)))
-        class_replaceMethod(destClass, destMethodSel, method_getImplementation(origMethod), method_getTypeEncoding(origMethod));
-    else
-        method_exchangeImplementations(destMethod, origMethod);
-}
-
-+ (void)acquireLockDummy:(void (^)(NSInteger lockToken))block
-{
-    block(1);
-}
-
--(void)loadNativeMethods {
+-(void)loadJSMethods {
     
     NSString* strJS = @"console.log('loadNativeMethods::1');"
     "    var __nativeAlert;"
@@ -169,7 +149,7 @@ void recoverSwizzleClassMethod(Class destClass, SEL destMethodSel, Method origMe
     "    });"
     "    console.log('loadNativeMethods::END');";
 
-    double delayInSeconds = 3.0;
+    double delayInSeconds = 1.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         NSLog(@"Do some work");

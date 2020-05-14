@@ -95,6 +95,7 @@
                 <source url="https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git"/>
             </config>
             <pods>
+                <pod name="WebViewJavascriptBridge" spec="~> 6.0" />
                 <pod name="TXIMSDK_iOS" spec="~> 4.7.2" />
             </pods>
         </podspec>
