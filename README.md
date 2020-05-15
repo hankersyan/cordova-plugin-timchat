@@ -18,13 +18,6 @@ android/iOS
 5. 内置Web浏览器，支持cordova插件
 6. 自定义群或用户详情页面
 
-#### 计划中的功能
-
-a. 分享地理位置
-b. 后台跟踪地理位置（无保活）
-c. 自定义消息：投票
-d. 红包
-e. 多人视频会议B--腾讯云
 
 #### 安装
 
@@ -93,8 +86,8 @@ TIMChat.initTIM({             // 初始化+登陆
         qnTokenUrl: "https://api-demo.qnsdk.com/v1/rtc/token/admin/app/d8lk7l4ed/room/<ROOM>/user/<USER>?bundleId=com.qbox.QNRTCKitDemo", // 计算七牛云token的自己服务器的URL，<ROOM>和<USER>是占位符，会被本插件替换
         pushNotificationForIOS: "conference.wav", // 视频呼叫时，iOS的离线推送提示音
         pushNotificationForAndroid: "android.resource://YOUR.PACKAGE.NAME/raw资源ID",  // 视频呼叫时，android的离线推送提示音
-				groupProfileUrl: "http://YOUR.DOMAIN.COM/groupprofile.html?token=xxx.ooo", // 群详情页面
-				userProfileUrl: "http://YOUR.DOMAIN.COM/userprofile.html?token=xxx.ooo",   // 用户详情页面
+        groupProfileUrl: "http://YOUR.DOMAIN.COM/groupprofile.html?token=xxx.ooo", // 群详情页面
+        userProfileUrl: "http://YOUR.DOMAIN.COM/userprofile.html?token=xxx.ooo",   // 用户详情页面
     },
     function() {
         console.log('login result: success');
@@ -133,3 +126,30 @@ function onResume() {
 3. 详情页面使用内置Web浏览器，支持cordova插件，支持本地html文件和远程url
 4. 如果使用本地html文件，如：groupprofile.html（位于www目录下），需引用 cordova.js
 5. 如果使用远程url，如：http://x.cn/groupprofile.html，需安装 cordova-plugin-remote-injection 插件，并在 config.xml 里增加 allow-navigation
+6. TIMChat.dismiss 关闭该浏览器窗口
+7. TIMChat.showToast 显示Toast
+8. TIMChat.alert 对话框
+
+```javascript
+function saveFunction() {
+    YOUR_SAVE_FUNCTION((result) => {
+        if (result.errcode == 0) {
+            TIMChat.showToast('修改成功'); // ToastToast
+            setTimeout(function () {
+                backOrClose();
+            }, 1000);
+        } else {
+            if (!result.errmsg) result.errmsg = '未知错误';
+            TIMChat.alert(result.errmsg); // 对话框
+        }
+    });
+}
+function backOrClose() {
+    console.log('history.length=' + history.length + ", document.referrer=" + document.referrer);
+    if (document.referrer == "") { // 已经回到首页
+        TIMChat.dismiss();  // 关闭内置浏览器窗口
+    } else {
+        history.back();  // 网页还可以back
+    }
+}
+```

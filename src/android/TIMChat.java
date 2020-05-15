@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.tencent.imsdk.TIMManager;
 import com.tencent.qcloud.tim.timchat.GlobalApp;
@@ -534,6 +535,39 @@ public class TIMChat extends CordovaPlugin {
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
+    }
+    
+    void dismiss(JSONArray data, CallbackContext callbackContext) throws JSONException {
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                cordova.getActivity().finish();
+            }
+        });
+    }
+    
+    void alert(JSONArray data, CallbackContext callbackContext) throws JSONException {
+        final String msg = data.getString(0);
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new AlertDialog.Builder(cordova.getActivity())
+                        .setMessage(msg)
+                        .setPositiveButton(com.tencent.qcloud.tim.timchat.R.string.sure, null)
+                        .create()
+                        .show();
+            }
+        });
+    }
+    
+    void showToast(JSONArray data, CallbackContext callbackContext) throws JSONException {
+        final String msg = data.getString(0);
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(cordova.getActivity(), msg, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private class RequestTokenTask extends AsyncTask<String, Void, String> {

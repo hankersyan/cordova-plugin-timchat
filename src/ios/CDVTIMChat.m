@@ -219,6 +219,24 @@ NSString* qnAppID = @"";
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)dismiss:(CDVInvokedUrlCommand *)command {
+	UIViewController *topVC = [self topMostController];
+	if ([topVC isKindOfClass:[UINavigationController class]]) {
+		[topVC dismissViewControllerAnimated:YES completion:nil];
+	}
+}
+
+- (void)alert:(CDVInvokedUrlCommand *)command {
+    NSString* msg = [command argumentAtIndex:0];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+}
+
+- (void)showToast:(CDVInvokedUrlCommand *)command {
+    NSString* msg = [command argumentAtIndex:0];
+    [TIMChatDelegate showToast:msg];
+}
+
 -(void)didChatClosed:(NSString*)convId
 {
     NSLog(@"CDVTIMChat::didChatClosed, %@", convId);

@@ -19,5 +19,8 @@
 - (void)getLoginUser:(CDVInvokedUrlCommand *)command;
 - (void)autoLogin:(CDVInvokedUrlCommand *)command;
 - (void)getConversations:(CDVInvokedUrlCommand *)command;
+- (void)dismiss:(CDVInvokedUrlCommand *)command;
+- (void)alert:(CDVInvokedUrlCommand *)command;
+- (void)showToast:(CDVInvokedUrlCommand *)command;
 
 @end

@@ -85,7 +85,16 @@ var TIMChat = {
     },
     getConversations: function(params, successCallback, errorCallback) {
         exec(successCallback, errorCallback, 'TIMChat', 'getConversations', [params]);
-    }
+    },
+    dismiss: function(params, successCallback, errorCallback) {
+        exec(successCallback, errorCallback, 'TIMChat', 'dismiss', [params]);
+    },
+    alert: function(params, successCallback, errorCallback) {
+        exec(successCallback, errorCallback, 'TIMChat', 'alert', [params]);
+    },
+    showToast: function(params, successCallback, errorCallback) {
+        exec(successCallback, errorCallback, 'TIMChat', 'showToast', [params]);
+    },
 };
 
 module.exports = TIMChat;
