@@ -61,6 +61,7 @@ public class TIMChat extends CordovaPlugin {
     static String pushNotificationForIOS = "";
     static String qnTokenUrl = "";
     static String qnAppID = "";
+    static String roomnameUrl = "";
 
     public TIMChat() {
 
@@ -241,6 +242,7 @@ public class TIMChat extends CordovaPlugin {
                     pushNotificationForIOS = arg.has("pushNotificationForIOS") ? arg.getString("pushNotificationForIOS") : "";
                     qnTokenUrl = arg.has("qnTokenUrl") ? arg.getString("qnTokenUrl") : "";
                     qnAppID = arg.has("qnAppID") ? arg.getString("qnAppID") : "";
+                    roomnameUrl = arg.has("roomnameUrl") ? arg.getString("roomnameUrl") : "";
 
                     String groupProfileUrl = arg.has("groupProfileUrl") ? arg.getString("groupProfileUrl") : "";
                     GlobalApp.setGroupProfileUrl(groupProfileUrl);
@@ -577,12 +579,37 @@ public class TIMChat extends CordovaPlugin {
         @Override
         protected String doInBackground(String... strings) {
             String conversationId = strings[0];
-            roomId = conversationId
-                    .replace("#", "")
-                    .replace("@", "")
-                    .replace("$", "")
-                    .replace("%", "")
-                    .replace("&", "");
+            if (TIMChat.roomnameUrl != null && TIMChat.roomnameUrl.length() > 0) {
+                String url = TIMChat.roomnameUrl.replace("<GROUP_ID>", URLEncoder.encode(conversationId));
+                try {
+                    HttpURLConnection urlConnection = (HttpURLConnection) new URL(url).openConnection();
+                    urlConnection.setRequestMethod("GET");
+                    int statusCode = urlConnection.getResponseCode();
+                    if (statusCode == 200) {
+                        InputStream it = new BufferedInputStream(urlConnection.getInputStream());
+                        InputStreamReader read = new InputStreamReader(it);
+                        BufferedReader buff = new BufferedReader(read);
+                        StringBuilder dta = new StringBuilder();
+                        String chunks;
+                        while ((chunks = buff.readLine()) != null) {
+                            dta.append(chunks);
+                        }
+                        roomId = dta.toString();
+                    }
+                } catch (Exception ex) {
+                    Log.e(TAG, "ERROR=" + ex.getMessage() + "\n\n, roomnameUrl=" + TIMChat.roomnameUrl);
+                }
+            }
+
+            if (roomId == null || roomId.length() == 0) {
+                roomId = conversationId
+                        .replace("#", "")
+                        .replace("@", "")
+                        .replace("$", "")
+                        .replace("%", "")
+                        .replace("&", "");
+            }
+
             String userId = TIMManager.getInstance().getLoginUser();
             String url = qnTokenUrl.replace("<ROOM>", roomId).replace("<USER>", userId);
             String token = "";

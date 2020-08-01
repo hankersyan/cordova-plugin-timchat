@@ -27,6 +27,7 @@ NSString* pushNotificationForAndroid = @"";
 NSString* pushNotificationForIOS = @"";
 NSString* qnTokenUrl = @"";
 NSString* qnAppID = @"";
+NSString *roomnameUrl = @"";
 
 - (void)pluginInitialize {
     // Key
@@ -60,6 +61,10 @@ NSString* qnAppID = @"";
     
     if ([[params allKeys] containsObject:@"userProfileUrl"]) {
             [[TIMChatDelegate sharedDelegate] setUserProfileUrl:params[@"userProfileUrl"]];
+    }
+    
+    if ([[params allKeys] containsObject:@"roomnameUrl"]) {
+            roomnameUrl = params[@"roomnameUrl"];
     }
 
     if ([[params allKeys] containsObject:@"pushNotificationForAndroid"]) {
@@ -333,8 +338,28 @@ NSString* qnAppID = @"";
 #ifdef QNRTCHeader_h
 
 - (void) startQNRtc:(NSString*)conversationId userId:(NSString*)userId {
-    NSString *roomName = [[[[[conversationId stringByReplacingOccurrencesOfString:@"@" withString:@""] stringByReplacingOccurrencesOfString:@"#" withString:@""] stringByReplacingOccurrencesOfString:@"$" withString:@""] stringByReplacingOccurrencesOfString:@"%" withString:@""] stringByReplacingOccurrencesOfString:@"&" withString:@""];
-    
+    if ([roomnameUrl length] > 0) {
+        NSString *url = [roomnameUrl stringByReplacingOccurrencesOfString:@"<GROUP_ID>" withString:[conversationId stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:[NSURL URLWithString:url]];
+        [request setHTTPMethod:@"GET"];
+        
+        __weak CDVTIMChat* that = self;
+
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+        [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            NSString *roomName = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"roomName = %@", roomName);
+            [that startQiniuRtc:roomName userId:userId];
+        }] resume];
+    } else {
+        NSString *roomName = [[[[[conversationId stringByReplacingOccurrencesOfString:@"@" withString:@""] stringByReplacingOccurrencesOfString:@"#" withString:@""] stringByReplacingOccurrencesOfString:@"$" withString:@""] stringByReplacingOccurrencesOfString:@"%" withString:@""] stringByReplacingOccurrencesOfString:@"&" withString:@""];
+        [self startQiniuRtc:roomName userId:userId];
+    }
+}
+
+- (void)startQiniuRtc:(NSString*)roomName userId:(NSString*) userId {
     NSString *url = [[qnTokenUrl stringByReplacingOccurrencesOfString:@"<ROOM>" withString:roomName] stringByReplacingOccurrencesOfString:@"<USER>" withString:userId];
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
