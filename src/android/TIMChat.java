@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.tencent.imsdk.TIMManager;
 import com.tencent.qcloud.tim.timchat.GlobalApp;
+import com.tencent.qcloud.tim.uikit.utils.ToastUtil;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -575,6 +576,11 @@ public class TIMChat extends CordovaPlugin {
     private class RequestTokenTask extends AsyncTask<String, Void, String> {
 
         String roomId = "";
+
+        @Override
+        protected void onPreExecute() {
+            ToastUtil.toastLongMessage("正在连接...");
+        }
 
         @Override
         protected String doInBackground(String... strings) {
