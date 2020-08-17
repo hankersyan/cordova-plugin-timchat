@@ -338,6 +338,7 @@ NSString *roomnameUrl = @"";
 #ifdef QNRTCHeader_h
 
 - (void) startQNRtc:(NSString*)conversationId userId:(NSString*)userId {
+    [TIMChatDelegate showToast:@"正在连接..."];
     if ([roomnameUrl length] > 0) {
         NSString *url = [roomnameUrl stringByReplacingOccurrencesOfString:@"<GROUP_ID>" withString:[conversationId stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 
