@@ -18,44 +18,44 @@
         <resource-file src="../conference@3x.png" target="app/src/main/res/drawable-xxhdpi/conference.png" />
         <resource-file src="../conference-strings.xml" target="app/src/main/res/values/conference-strings.xml" />
         <config-file mode="merge" parent="/manifest" target="AndroidManifest.xml">
-				    <permission android:name="io.hankers.tim01.permission.PROCESS_PUSH_MSG" android:protectionLevel="signatureOrSystem"/>
-				    <uses-permission android:name="io.hankers.tim01.permission.PROCESS_PUSH_MSG" />
-				    <permission android:name="io.hankers.tim01.permission.MIPUSH_RECEIVE" android:protectionLevel="signature" />
-				    <uses-permission android:name="io.hankers.tim01.permission.MIPUSH_RECEIVE" />
-						<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+			<permission android:name="io.hankers.tim01.permission.PROCESS_PUSH_MSG" android:protectionLevel="signatureOrSystem"/>
+			<uses-permission android:name="io.hankers.tim01.permission.PROCESS_PUSH_MSG" />
+			<permission android:name="io.hankers.tim01.permission.MIPUSH_RECEIVE" android:protectionLevel="signature" />
+			<uses-permission android:name="io.hankers.tim01.permission.MIPUSH_RECEIVE" />
+			<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
         </config-file>
         <config-file mode="merge" parent="/manifest/application" target="AndroidManifest.xml">
-	        	<meta-data android:name="com.huawei.hms.client.appid" android:value="appid=101330759" />
-	        	<activity android:name="cordova.plugin.qnrtc.activity.RoomActivity" />
-	        	<activity android:name="io.hankers.cordova.TIMWebViewActivity" android:launchMode="singleTop" />
+			<meta-data android:name="com.huawei.hms.client.appid" android:value="appid=101330759" />
+			<activity android:name="cordova.plugin.qnrtc.activity.RoomActivity" />
+			<activity android:name="io.hankers.cordova.TIMWebViewActivity" android:launchMode="singleTop" />
         </config-file>
-		    <edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
-		    		<application android:usesCleartextTraffic="true" android:name=".MyApplication" />
-		    </edit-config>
-        <preference name="android-minSdkVersion" value="21" />
+		<edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
+			<application android:usesCleartextTraffic="true" android:name=".MyApplication" />
+		</edit-config>
+        <preference name="android-minSdkVersion" value="22" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
-		    <config-file parent="NSCameraUsageDescription" target="*-Info.plist">
-		        <string>需要使用相机</string>
-		    </config-file>
-		    <config-file parent="NSMicrophoneUsageDescription" target="*-Info.plist">
-		        <string>需要录音</string>
-		    </config-file>
-		    <config-file parent="NSPhotoLibraryUsageDescription" target="*-Info.plist">
-		        <string>需要上传照片</string>
-		    </config-file>
+		<config-file parent="NSCameraUsageDescription" target="*-Info.plist">
+			<string>需要使用相机</string>
+		</config-file>
+		<config-file parent="NSMicrophoneUsageDescription" target="*-Info.plist">
+			<string>需要录音</string>
+		</config-file>
+		<config-file parent="NSPhotoLibraryUsageDescription" target="*-Info.plist">
+			<string>需要上传照片</string>
+		</config-file>
 
-				<resource-file src="../conference.png" />
-				<resource-file src="../conference@2x.png" />
-				<resource-file src="../conference@3x.png" />
-				<resource-file src="../conference.wav" />
-				
-				<preference name="WKWebViewOnly" value="true" />
-		    <feature name="CDVWKWebViewEngine">
-		        <param name="ios-package" value="CDVWKWebViewEngine" />
-		    </feature>
-		    <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
+		<resource-file src="../conference.png" />
+		<resource-file src="../conference@2x.png" />
+		<resource-file src="../conference@3x.png" />
+		<resource-file src="../conference.wav" />
+		
+		<preference name="WKWebViewOnly" value="true" />
+		<feature name="CDVWKWebViewEngine">
+			<param name="ios-package" value="CDVWKWebViewEngine" />
+		</feature>
+		<preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
     </platform>
 </widget>

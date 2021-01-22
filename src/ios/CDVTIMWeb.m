@@ -6,11 +6,14 @@
 //
 
 #import "CDVTIMWeb.h"
+#ifndef __CORDOVA_6_0_0
 #import <Cordova/CDVUserAgentUtil.h>
+#endif
 #import <objc/runtime.h>
 #import <Webkit/Webkit.h>
 #import <timc/TIMChatDelegate.h>
 
+#ifndef __CORDOVA_6_0_0
 @interface CDVUserAgentUtil (Swizzle)
 + (void)acquireLockDummy:(void (^)(NSInteger lockToken))block;
 @end
@@ -24,6 +27,7 @@
 }
 
 @end
+#endif
 
 @interface CDVTIMWeb ()
 
@@ -32,11 +36,15 @@
 @implementation CDVTIMWeb
 
 - (void)viewDidLoad {
+#ifndef __CORDOVA_6_0_0
     SwizzleClassMethod([CDVUserAgentUtil class], @selector(acquireLock:), @selector(acquireLockDummy:));
+#endif
     
     [super viewDidLoad];
 
+#ifndef __CORDOVA_6_0_0
     SwizzleClassMethod([CDVUserAgentUtil class], @selector(acquireLock:), @selector(acquireLockDummy:));
+#endif
 }
 
 //---------------------------------------------------------

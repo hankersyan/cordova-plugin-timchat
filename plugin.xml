@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         id="cordova-plugin-timchat"
-        version="4.5.5">
+        version="4.5.6">
 
     <name>cordova-plugin-timchat</name>
     <description>腾讯IM</description>
@@ -33,20 +33,20 @@
     <platform name="android">
         <source-file src="src/android/TIMChat.java" target-dir="src/io/hankers/cordova"/>
         <source-file src="src/android/TIMWebViewActivity.java" target-dir="src/io/hankers/cordova"/>
-				<config-file target="AndroidManifest.xml" parent="/manifest/application">
-				    <activity android:name="io.hankers.cordova.TIMWebViewActivity" />
-				</config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity android:name="io.hankers.cordova.TIMWebViewActivity" />
+        </config-file>
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="TIMChat">
                 <param name="android-package" value="io.hankers.cordova.TIMChat"/>
-								<param name="onload" value="true" />
+                <param name="onload" value="true" />
             </feature>
-				    <preference name="SDKAPPID" value="@$SDKAPPID" />
-				    <preference name="XMPUSH_BUSIID" value="@$XMPUSH_BUSIID" />
-				    <preference name="XMPUSH_APPID" value="@$XMPUSH_APPID" />
-				    <preference name="XMPUSH_APPKEY" value="@$XMPUSH_APPKEY" />
-				    <preference name="HWPUSH_BUSIID" value="@$HWPUSH_BUSIID" />
-				    <preference name="HWPUSH_APPID" value="@$HWPUSH_APPID" />
+            <preference name="SDKAPPID" value="@$SDKAPPID" />
+            <preference name="XMPUSH_BUSIID" value="@$XMPUSH_BUSIID" />
+            <preference name="XMPUSH_APPID" value="@$XMPUSH_APPID" />
+            <preference name="XMPUSH_APPKEY" value="@$XMPUSH_APPKEY" />
+            <preference name="HWPUSH_BUSIID" value="@$HWPUSH_BUSIID" />
+            <preference name="HWPUSH_APPID" value="@$HWPUSH_APPID" />
         </config-file>
         <resource-file src="./src/android/timc-release.aar" target="libs/timc-release.aar" />
         <resource-file src="./src/android/tuikit-release.aar" target="libs/tuikit-release.aar" />
@@ -78,18 +78,18 @@
         <header-file src="src/ios/CDVTIMWeb.h" />
         <source-file src="src/ios/CDVTIMWeb.m" />
 
-    		<resource-file src="src/ios/libs/timc.framework/TUIKitFace.bundle"/>
-    		<resource-file src="src/ios/libs/timc.framework/TUIKitResource.bundle"/>
+        <resource-file src="src/ios/libs/timc.framework/TUIKitFace.bundle"/>
+        <resource-file src="src/ios/libs/timc.framework/TUIKitResource.bundle"/>
 
-		    <config-file target="*-Debug.plist" parent="aps-environment">
-		      <string>development</string>
-		    </config-file>
-		    <config-file target="*-Release.plist" parent="aps-environment">
-		      <string>production</string>
-		    </config-file>
+        <config-file target="*-Debug.plist" parent="aps-environment">
+            <string>development</string>
+        </config-file>
+        <config-file target="*-Release.plist" parent="aps-environment">
+            <string>production</string>
+        </config-file>
 
         <framework src="src/ios/libs/timc.framework" embed="true" custom="true"/>
-				<source-file src="src/ios/libs/timc.framework" target-dir="../.." framework="true" />
+        <source-file src="src/ios/libs/timc.framework" target-dir="../.." framework="true" />
         <podspec>
             <config>
                 <source url="https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git"/>
